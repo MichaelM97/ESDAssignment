@@ -1,10 +1,2 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-.DS_Store
-*~*
-=======
-*DS_Store
->>>>>>> 571acfa450a4ecb530bac274587ea7d477e15631
-=======
 *.DS_Store
->>>>>>> b02ea6f43e46d79fb75f414ca82fa07f1195aa67
+*~*
