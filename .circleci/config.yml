@@ -10,7 +10,7 @@ jobs:
       - image: circleci/openjdk:8-jdk
 
     # Directory where the below steps are run
-    working_directory: ~/ESDAssignment/XYZDriverAssociation
+    working_directory: ../XYZDriverAssociation
 
     environment:
       # JVM maximum heap limit
