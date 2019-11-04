@@ -10,24 +10,24 @@ jobs:
       - image: circleci/openjdk:8-jdk
 
     # Directory where the below steps are run
-    working_directory: ~/ESDAssignment/XYZDriverAssociation
+    working_directory: ~/ESDAssignment
 
     environment:
       # JVM maximum heap limit
       MAVEN_OPTS: -Xmx3200m
 
     steps:
-      # Checkout the branch currently being tested
+      # Checkout the branch to the working_directory
       - checkout
 
       # Download and cache maven dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
+            # Fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mvn -f pom.xml dependency:go-offline
+      - run: mvn -f /XYZDriverAssociationpath/pom.xml dependency:go-offline
 
       - save_cache:
           paths:
@@ -35,4 +35,4 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # Run unit tests
-      - run: mvn -f pom.xml test
+      - run: mvn -f /XYZDriverAssociationpath/pom.xml test
