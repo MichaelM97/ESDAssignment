@@ -17,11 +17,11 @@ jobs:
       MAVEN_OPTS: -Xmx3200m
 
     steps:
-      # Checkout the branch to the working_directory
+      # Checkout the branch into the working_directory
       - checkout
 
       # CD into the Java project
-      - run: cd XYZDriverAssociation
+      - run: cd XYZDriverAssociation/
 
       # Download and cache maven dependencies
       - restore_cache:
@@ -30,7 +30,7 @@ jobs:
             # Fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mvn dependency:go-offline
+      - run: mvn -e dependency:go-offline
 
       - save_cache:
           paths:
