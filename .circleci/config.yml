@@ -20,6 +20,9 @@ jobs:
       # Checkout the branch to the working_directory
       - checkout
 
+      # CD into the Java project
+      - run: cd XYZDriverAssociation
+
       # Download and cache maven dependencies
       - restore_cache:
           keys:
@@ -27,7 +30,7 @@ jobs:
             # Fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mvn -f ../XYZDriverAssociationpath/pom.xml dependency:go-offline
+      - run: mvn dependency:go-offline
 
       - save_cache:
           paths:
@@ -35,4 +38,4 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # Run unit tests
-      - run: mvn -f ../XYZDriverAssociationpath/pom.xml test
+      - run: mvn test
