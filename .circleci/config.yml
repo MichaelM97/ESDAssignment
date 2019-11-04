@@ -10,18 +10,16 @@ jobs:
       - image: circleci/openjdk:8-jdk
 
     # Directory where the below steps are run
-    working_directory: ~/ESDAssignment
+    working_directory: ~/ESDAssignment/XYZDriverAssociation
 
     environment:
       # JVM maximum heap limit
       MAVEN_OPTS: -Xmx3200m
 
     steps:
-      # Checkout the branch into the working_directory
-      - checkout
-
-      # CD into the Java project
-      - run: cd XYZDriverAssociation/
+      # Checkout the branch into the working_directory root
+      - checkout:
+          path: ~/ESDAssignment
 
       # Download and cache maven dependencies
       - restore_cache:
@@ -30,7 +28,7 @@ jobs:
             # Fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mvn -e dependency:go-offline
+      - run: mvn dependency:go-offline
 
       - save_cache:
           paths:
