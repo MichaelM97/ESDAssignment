@@ -21,15 +21,17 @@ jobs:
       - checkout:
           path: ~/ESDAssignment
 
-      # Download and cache maven dependencies
+      # Restore previously cached dependencies if a cache exists
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
             # Fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      # Download latest dependencies
       - run: mvn dependency:go-offline
 
+      # Cache the dependencies
       - save_cache:
           paths:
             - ~/.m2
