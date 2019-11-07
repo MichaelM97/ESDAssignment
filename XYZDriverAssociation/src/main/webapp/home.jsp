@@ -15,7 +15,7 @@
     <body>
         <h1>Welcome to XYZ Driver Association</h1>
         <h2>Please select your user type:</h2>
-        <form method='get' action ='ClientLogin'>
+        <form action ='ClientLogin' method='get'>
             <input name='clientLoginButton' type='submit' value='Client'/>
         </form>
         <form method='get' action ='AdminLogin'>
