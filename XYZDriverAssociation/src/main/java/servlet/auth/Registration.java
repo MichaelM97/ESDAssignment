@@ -42,7 +42,7 @@ public class Registration extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        // TODO: Await DB setup in order to authenticate the user using the above parameters
+        // TODO: Await DB setup in order to create a new user using the above parameters
     }
 
     /**
