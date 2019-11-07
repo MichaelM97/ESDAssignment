@@ -4,9 +4,17 @@
         <servlet-name>ClientLogin</servlet-name>
         <servlet-class>servlet.auth.ClientLogin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminLogin</servlet-name>
+        <servlet-class>servlet.auth.AdminLogin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ClientLogin</servlet-name>
         <url-pattern>/ClientLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminLogin</servlet-name>
+        <url-pattern>/AdminLogin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
