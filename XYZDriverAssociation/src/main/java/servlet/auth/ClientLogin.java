@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Servlet for the Client login flow.
  * @author michaelmccormick
  */
 public class ClientLogin extends HttpServlet {

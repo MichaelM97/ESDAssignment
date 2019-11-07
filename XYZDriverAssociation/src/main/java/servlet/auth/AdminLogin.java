@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Servlet for the Administrator login flow.
  * @author michaelmccormick
  */
 public class AdminLogin extends HttpServlet {
