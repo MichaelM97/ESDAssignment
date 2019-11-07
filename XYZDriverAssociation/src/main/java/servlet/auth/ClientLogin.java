@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ClientLogin extends HttpServlet {
 
     /**
-     * Handles the HTTP <code>GET</code> method.
-     * Displays the client_login.jsp
+     * Displays the client_login JSP.
      *
      * @param request servlet request
      * @param response servlet response
@@ -30,7 +29,6 @@ public class ClientLogin extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
      * Submits the users entered information to the DB and authenticates login.
      *
      * @param request servlet request
