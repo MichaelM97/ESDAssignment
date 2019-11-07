@@ -1,0 +1,41 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # JDK version
+      - image: circleci/openjdk:8-jdk
+
+    # Directory where the below steps are run
+    working_directory: ~/ESDAssignment/XYZDriverAssociation
+
+    environment:
+      # JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+
+    steps:
+      # Checkout the branch into the working_directory root
+      - checkout:
+          path: ~/ESDAssignment
+
+      # Restore previously cached dependencies if a cache exists
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # Fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      # Download latest dependencies
+      - run: mvn dependency:go-offline
+
+      # Cache the dependencies
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+
+      # Run unit tests
+      - run: mvn test
