@@ -8,6 +8,10 @@
         <servlet-name>AdminLogin</servlet-name>
         <servlet-class>servlet.auth.AdminLogin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Registration</servlet-name>
+        <servlet-class>servlet.auth.Registration</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ClientLogin</servlet-name>
         <url-pattern>/ClientLogin</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>AdminLogin</servlet-name>
         <url-pattern>/AdminLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Registration</servlet-name>
+        <url-pattern>/Registration</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
