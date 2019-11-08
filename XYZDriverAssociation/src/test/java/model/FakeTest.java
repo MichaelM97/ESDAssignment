@@ -19,6 +19,6 @@ public class FakeTest {
 
      @Test
      public void dummyTest() {
-         assertEquals(2+2, 4);
+         assertTrue(true);
      }
 }
