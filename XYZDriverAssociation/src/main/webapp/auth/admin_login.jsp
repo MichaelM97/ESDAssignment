@@ -15,10 +15,10 @@
         <h1>Administrator login portal</h1>
         <form action='AdminLogin' method="post">
             <h4>Username:</h4>
-            <input type="text" name="username" placeholder="Enter your username"/>
+            <input type="text" name="username" placeholder="Enter your username" required/>
             <br>
             <h4>Password:</h4>
-            <input type="password" name="password" placeholder="Enter your password"/>
+            <input type="password" name="password" placeholder="Enter your password" required/>
             <br>
             <br>
             <input name='submitAdminLoginButton' type='submit' value='Log in'/>

@@ -15,10 +15,10 @@
         <h1>Registration portal</h1>
         <form action='Registration' method="post">
             <h4>Username:</h4>
-            <input type="text" name="username" placeholder="Choose a username"/>
+            <input type="text" name="username" placeholder="Choose a username" required/>
             <br>
             <h4>Password:</h4>
-            <input type="password" name="password" placeholder="Choose a password"/>
+            <input type="password" name="password" placeholder="Choose a password" required/>
             <br>
             <br>
             <input name='submitRegistrationButton' type='submit' value='Create account'/>
