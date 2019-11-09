@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet for the Client login flow.
- *
- * @author michaelmccormick
  */
 public class Login extends HttpServlet {
 

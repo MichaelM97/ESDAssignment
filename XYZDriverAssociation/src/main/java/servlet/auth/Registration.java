@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet for the Registration flow.
- * @author michaelmccormick
  */
 public class Registration extends HttpServlet {
 
