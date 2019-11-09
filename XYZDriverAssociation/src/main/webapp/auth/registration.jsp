@@ -1,9 +1,3 @@
-<%-- 
-    Document   : registration
-    Created on : 07-Nov-2019, 20:41:18
-    Author     : michaelmccormick
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

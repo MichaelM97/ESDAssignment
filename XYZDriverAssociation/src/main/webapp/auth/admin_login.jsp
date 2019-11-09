@@ -1,9 +1,3 @@
-<%-- 
-    Document   : admin_login
-    Created on : 07-Nov-2019, 20:30:53
-    Author     : michaelmccormick
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

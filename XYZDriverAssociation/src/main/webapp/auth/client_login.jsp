@@ -1,9 +1,3 @@
-<%-- 
-    Document   : client_login
-    Created on : 07-Nov-2019, 19:48:40
-    Author     : michaelmccormick
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

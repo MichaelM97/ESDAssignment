@@ -1,9 +1,3 @@
-<%-- 
-    Document   : home
-    Created on : 07-Nov-2019, 19:34:22
-    Author     : michaelmccormick
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
