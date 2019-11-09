@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet for the Client login flow.
+ *
  * @author michaelmccormick
  */
-public class ClientLogin extends HttpServlet {
+public class Login extends HttpServlet {
 
     /**
      * Displays the client_login JSP.
@@ -24,7 +25,14 @@ public class ClientLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher("auth/client_login.jsp");
+        // Select which JSP to show based on which user type was selected
+        String jsp = "auth/client_login.jsp";
+        if (request.getParameter("adminLoginButton") != null) {
+            jsp = "auth/admin_login.jsp";
+        }
+
+        // Show the selected JSP
+        RequestDispatcher view = request.getRequestDispatcher(jsp);
         view.forward(request, response);
     }
 
