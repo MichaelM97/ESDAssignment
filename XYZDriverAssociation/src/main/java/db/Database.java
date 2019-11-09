@@ -82,7 +82,9 @@ public class Database {
             j_reader = (JSONObject) new JSONParser().parse(
                 new FileReader(DB_INIT_JSON));
         } catch(IOException | ParseException ex){
-            System.out.println(ex);
+            Logger.getLogger(
+                Database.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
         // Loop through table names
         for (Object table_name: j_reader.keySet()){
@@ -107,8 +109,8 @@ public class Database {
              execute_sql(sql);
              } catch(SQLException ex){
                  Logger.getLogger(
-                            Database.class.getName()).log(
-                                    Level.SEVERE, null, ex);
+                    Database.class.getName()).log(
+                        Level.SEVERE, null, ex);
              }
         }
     }
@@ -119,7 +121,7 @@ public class Database {
     private void execute_sql(String sql) throws SQLException{
         Logger.getLogger(
                 Database.class.getName()).log(
-                                    Level.INFO, null, sql);
+                    Level.INFO, sql);
         getConn();
         conn.createStatement().executeUpdate(sql);
     }
