@@ -63,7 +63,9 @@ public class Database {
                     conn = DriverManager.getConnection(
                             DERBY_URL, ROOT_USR, ROOT_PW);
                 } catch (SQLException ex){
-                    //log it out
+                    Logger.getLogger(
+                            Database.class.getName()).log(
+                                    Level.SEVERE, null, ex);
                 }
             }
         }
@@ -104,7 +106,9 @@ public class Database {
              try{
              execute_sql(sql);
              } catch(SQLException ex){
-                 System.out.println(ex);
+                 Logger.getLogger(
+                            Database.class.getName()).log(
+                                    Level.SEVERE, null, ex);
              }
         }
     }
@@ -113,8 +117,9 @@ public class Database {
     * generally.
     */
     private void execute_sql(String sql) throws SQLException{
-        // Log out what's being created
-        System.out.println(sql);
+        Logger.getLogger(
+                Database.class.getName()).log(
+                                    Level.INFO, null, sql);
         getConn();
         conn.createStatement().executeUpdate(sql);
     }
