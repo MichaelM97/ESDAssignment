@@ -1,11 +1,11 @@
 {
     "users":{
-        "id": "VARCHAR(50) NOT NULL",
+        "id": "VARCHAR(50) NOT NULL primary key",
         "password": "VARCHAR(50) NOT NULL",
         "status": "VARCHAR(8) NOT NULL"
     },
     "members":{
-        "id": "VARCHAR(50) NOT NULL",
+        "id": "VARCHAR(50) NOT NULL primary key",
         "name": "VARCHAR(50)",
         "address": "VARCHAR(50)",
         "dob": "DATE DEFAULT NULL",

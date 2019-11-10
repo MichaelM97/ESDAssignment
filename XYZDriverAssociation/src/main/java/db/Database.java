@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package db;
 import java.sql.*;
 
@@ -18,31 +13,36 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 /**
- * Initialises the Database
- */
+* Database representation.
+*/
 public class Database {
     private static Database instance = null;
     private static Connection conn = null;
-    private final String DERBY_URL = ("jdbc:derby://localhost:1527/"
+    private static final String DERBY_URL = ("jdbc:derby://localhost:1527/"
             + "XYZDriverAssociation;create=true");
-    private final String DB_INIT_JSON = "src/main/java/db/init_db.json";
-    private final String ROOT_USR = "root";
-    private final String ROOT_PW = "password";
+    private static final String DB_INIT_JSON = "src/main/java/db/init_db.json";
+    private static final String ROOT_USR = "root";
+    private static final String ROOT_PW = "password";
 
     private Database(){
-        //Establish Connection
         init_tables();
-        
     }
+
 
     /**
     * Singleton DB creation pattern.
-    * @return Database -
-    *   Thread Safe Singleton instance of a DB with access methods.
+    * @param init (boolean) - True to rebuild DB from scratch.
+    * @return Database
+    * Thread Safe Singleton instance of a DB with access methods.
     */
-    public static Database get_DB(){
-        // Thread Safe
+    public static Database get_DB(boolean init){
         synchronized(Database.class){
+            if(init){
+                clear_DB();
+                if (instance != null){
+                    init_tables();
+                }
+            }
             if(instance == null){
                 instance = new Database();
             }
@@ -51,32 +51,53 @@ public class Database {
     }
 
     /**
+    * Clear_DB - Deletes all tables
+    */
+    private static void clear_DB(){
+        try{
+            getConn();
+            DatabaseMetaData md = conn.getMetaData();
+            String[] types = {"TABLE"};
+            ResultSet rs = md.getTables(null, null, "%", types);
+            while (rs.next()) {
+                execute_sql("DROP TABLE " + rs.getString("TABLE_NAME"));
+            }
+        } catch(SQLException ex){
+            Logger.getLogger(
+                Database.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
     * Singleton Connection creation pattern.
     * @return Connection - 
-    *   Thread Safe Singleton instance of a connection.
+    * Thread Safe Singleton instance of a connection.
     */
-    private Connection getConn() {
-        // Thread Safe 
-        synchronized(this){
+    public static Connection getConn() {
+        synchronized(Database.class){
             if(conn == null){
                 try{
                     conn = DriverManager.getConnection(
                             DERBY_URL, ROOT_USR, ROOT_PW);
                 } catch (SQLException ex){
                     Logger.getLogger(
-                            Database.class.getName()).log(
-                                    Level.SEVERE, null, ex);
+                        Database.class.getName()).log(
+                            Level.SEVERE, null, ex);
                 }
             }
         }
         return conn;
         }
 
-    /**
+   /**
     * Initialises the Database with relevant tables read in from init_db.json
     */
-    private void init_tables(){
+    private static void init_tables(){
+        String sql;
+        boolean first;
         JSONObject j_reader = null;
+
         // Load JSON DB initialisation layout
         try{
             j_reader = (JSONObject) new JSONParser().parse(
@@ -88,8 +109,8 @@ public class Database {
         }
         // Loop through table names
         for (Object table_name: j_reader.keySet()){
-            String sql = "CREATE TABLE ";
-            boolean first = true;
+            sql = "CREATE TABLE ";
+            first = true;
             // Read columns from json by using table name
              sql += (String) table_name + "(";
              Map columns = (Map)j_reader.get(table_name);
@@ -114,21 +135,20 @@ public class Database {
              }
         }
     }
+
     /**
-    * Private method for adding SQL to database, this should not be used
-    * generally.
+    * Private method for adding SQL to database.
     */
-    private void execute_sql(String sql) throws SQLException{
+    public static void execute_sql(String sql) throws SQLException{
         Logger.getLogger(
-                Database.class.getName()).log(
-                    Level.INFO, sql);
+            Database.class.getName()).log(
+                Level.INFO, sql);
         getConn();
         conn.createStatement().executeUpdate(sql);
     }
 
 
  public static void main(String[] args){
-    new Database();
-     
+    Database db = Database.get_DB(true);
  }
  }
