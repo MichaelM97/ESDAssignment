@@ -20,9 +20,9 @@ public class Database {
     private static Connection conn = null;
     private static final String DERBY_URL = ("jdbc:derby://localhost:1527/"
             + "XYZDriverAssociation;create=true");
-    private static final String DB_INIT_JSON = "src/main/java/db/init_db.json";
     private static final String ROOT_USR = "root";
     private static final String ROOT_PW = "password";
+    private final String DB_INIT_JSON = "src/main/java/db/init_db.json";
 
     private Database(){
         init_tables();
@@ -31,18 +31,11 @@ public class Database {
 
     /**
     * Singleton DB creation pattern.
-    * @param init (boolean) - True to rebuild DB from scratch.
     * @return Database
     * Thread Safe Singleton instance of a DB with access methods.
     */
-    public static Database get_DB(boolean init){
+    public static Database get_DB(){
         synchronized(Database.class){
-            if(init){
-                clear_DB();
-                if (instance != null){
-                    init_tables();
-                }
-            }
             if(instance == null){
                 instance = new Database();
             }
@@ -53,7 +46,7 @@ public class Database {
     /**
     * Clear_DB - Deletes all tables
     */
-    private static void clear_DB(){
+    public void clear_DB(){
         try{
             getConn();
             DatabaseMetaData md = conn.getMetaData();
@@ -67,6 +60,8 @@ public class Database {
                 Database.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
+        // Rebuild DB
+        init_tables();
     }
 
     /**
@@ -93,7 +88,7 @@ public class Database {
    /**
     * Initialises the Database with relevant tables read in from init_db.json
     */
-    private static void init_tables(){
+    private void init_tables(){
         String sql;
         boolean first;
         JSONObject j_reader = null;
@@ -138,8 +133,11 @@ public class Database {
 
     /**
     * Private method for adding SQL to database.
+    * @param sql (String) - SQL Query to execute
+    * @throws SQLException - Allows caller to handle exception in relevant
+    *   fashion.
     */
-    public static void execute_sql(String sql) throws SQLException{
+    public void execute_sql(String sql) throws SQLException{
         Logger.getLogger(
             Database.class.getName()).log(
                 Level.INFO, sql);

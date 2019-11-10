@@ -27,7 +27,9 @@ public class DatabaseTest {
     */
     @Test
     public void init_DB(){
-       Assert.assertNotNull(Database.get_DB(true));
+        Database db = Database.get_DB();
+        db.clear_DB();
+        Assert.assertNotNull(db);
     }
     
     /**
@@ -36,7 +38,13 @@ public class DatabaseTest {
     */
     @Test
     public void db_singleton(){
-        Assert.assertSame(Database.get_DB(true), Database.get_DB(true));
+        Database db1 = Database.get_DB();
+        db1.clear_DB();
+
+        Database db2 = Database.get_DB();
+        db2.clear_DB();
+
+        Assert.assertSame(db1.get_DB(), db2.get_DB());
     }
     
     /**
@@ -50,7 +58,8 @@ public class DatabaseTest {
                     + "VALUES(?,?,?,?,?)";
         final String[] mem_id = {"me-aydin", "me-aydin", "e-simons"};
         final String[] desc = {"change mirror", "repair scratch", "polishing tyers"};
-        Database db = Database.get_DB(true);
+        Database db = Database.get_DB();
+        db.clear_DB();
         Connection connection = db.getConn();
         
         // Populate DB
