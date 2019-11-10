@@ -146,9 +146,4 @@ public class Database {
         getConn();
         conn.createStatement().executeUpdate(sql);
     }
-
-
- public static void main(String[] args){
-    Database db = Database.get_DB(true);
- }
  }
