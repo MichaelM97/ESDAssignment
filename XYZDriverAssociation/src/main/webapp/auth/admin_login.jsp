@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>Administrator login portal</h1>
-        <form action='AdminLogin' method="post">
+        <form action='Login' method="post">
             <h4>Username:</h4>
             <input type="text" name="username" placeholder="Enter your username" required/>
             <br>
