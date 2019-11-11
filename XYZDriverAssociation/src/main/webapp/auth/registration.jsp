@@ -1,3 +1,4 @@
+<%@page import="servlet.auth.Registration"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,8 +21,8 @@
         <br>
         <font color="red">
         <%
-            if (request.getAttribute("errorMessage") != null) {
-                out.println(request.getAttribute("errorMessage"));
+            if (request.getAttribute(Registration.ERROR_MESSAGE) != null) {
+                out.println(request.getAttribute(Registration.ERROR_MESSAGE));
             }
         %>
         </font>

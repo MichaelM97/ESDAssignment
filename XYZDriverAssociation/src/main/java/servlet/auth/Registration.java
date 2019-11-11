@@ -15,8 +15,8 @@ import utils.HashHelper;
  */
 public class Registration extends HttpServlet {
 
+    public static final String ERROR_MESSAGE = "errorMessage";
     private static final String JSP = "auth/registration.jsp";
-    private static final String ERROR_MESSAGE = "errorMessage";
 
     /**
      * Displays the registration JSP.
@@ -60,7 +60,7 @@ public class Registration extends HttpServlet {
             boolean insertSuccessful = dbf.insert("users", user);
 
             if (insertSuccessful) {
-                // TODO: Navigate to the client dashboard?
+                // TODO: Navigate to the client dashboard
                 request.setAttribute(ERROR_MESSAGE, "Account created!");
             } else {
                 request.setAttribute(ERROR_MESSAGE, "Failed to create account");
