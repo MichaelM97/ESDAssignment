@@ -31,7 +31,8 @@ public class Database {
     private static final String ROOT_USR = "root";
     private static final String ROOT_PW = "password";
     private final String DB_JSON = "src/main/java/db/init_db.json";
-    private final String JSON_PATH = (Paths.get(".").toAbsolutePath().toString() + DB_JSON);
+    private final String JSON_PATH = (
+            Paths.get(".").toAbsolutePath().toString() + DB_JSON);
 
     private Database() {
         getConn();
@@ -107,7 +108,7 @@ public class Database {
         // Load JSON DB initialisation layout
         try {
             j_reader = (JSONObject) new JSONParser().parse(
-                    new FileReader(DB_JSON));
+                    new FileReader(JSON_PATH));
         } catch (IOException | ParseException ex) {
             Logger.getLogger(
                     Database.class.getName()).log(
