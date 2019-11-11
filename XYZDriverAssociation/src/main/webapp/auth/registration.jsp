@@ -17,5 +17,13 @@
             <br>
             <input name='submitRegistrationButton' type='submit' value='Create account'/>
         </form>
+        <br>
+        <font color="red">
+        <%
+            if (request.getAttribute("errorMessage") != null) {
+                out.println(request.getAttribute("errorMessage"));
+            }
+        %>
+        </font>
     </body>
 </html>

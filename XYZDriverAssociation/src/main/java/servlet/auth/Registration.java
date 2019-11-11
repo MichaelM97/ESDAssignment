@@ -1,16 +1,22 @@
 package servlet.auth;
 
+import db.DatabaseFactory;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.User;
+import utils.HashHelper;
 
 /**
  * Servlet for the Registration flow.
  */
 public class Registration extends HttpServlet {
+
+    private static String jsp = "auth/registration.jsp";
+    private static String errorMessageAtt = "errorMessage";
 
     /**
      * Displays the registration JSP.
@@ -23,7 +29,7 @@ public class Registration extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher("auth/registration.jsp");
+        RequestDispatcher view = request.getRequestDispatcher(jsp);
         view.forward(request, response);
     }
 
@@ -39,9 +45,32 @@ public class Registration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Get users entry
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        // TODO: Await DB setup in order to create a new user using the above parameters
+
+        // Hash the password
+        String hashedPassword = HashHelper.hashString(password);
+        if (hashedPassword != null) {
+            // Create user object
+            User user = new User(username, hashedPassword, "APPROVED");
+
+            // Save the user in the DB
+            DatabaseFactory dbf = new DatabaseFactory();
+            boolean insertSuccessful = dbf.insert("users", user);
+
+            if (insertSuccessful) {
+                // TODO: Navigate to the client dashboard?
+                request.setAttribute(errorMessageAtt, "Account created!");
+            } else {
+                request.setAttribute(errorMessageAtt, "Failed to create account");
+            }
+        } else {
+            request.setAttribute(errorMessageAtt, "There was an issue with your password");
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(jsp);
+        dispatcher.forward(request, response);
     }
 
     /**
