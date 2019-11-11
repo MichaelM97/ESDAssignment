@@ -1,19 +1,29 @@
 package servlet.auth;
 
+import db.DatabaseFactory;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.HashHelper;
 
 /**
  * Servlet for the Client login flow.
  */
 public class Login extends HttpServlet {
 
+    public static final String ERROR_MESSAGE = "errorMessage";
+
+    String jsp = "auth/client_login.jsp";
+
     /**
-     * Displays the client_login JSP.
+     * Displays the login JSP relevant to the selected user type.
      *
      * @param request servlet request
      * @param response servlet response
@@ -23,8 +33,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Select which JSP to show based on which user type was selected
-        String jsp = "auth/client_login.jsp";
+        // If the admin user type was selected, switch the JSP
         if (request.getParameter("adminLoginButton") != null) {
             jsp = "auth/admin_login.jsp";
         }
@@ -45,9 +54,49 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Get users entry
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        // TODO: Await DB setup in order to authenticate the user using the above parameters
+
+        // Query the DB for users
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet userResult = dbf.get_from_table("users", "*");
+        boolean userFound = false;
+
+        // Hash the entered password
+        String hashedPassword = HashHelper.hashString(password);
+        if (hashedPassword == null) {
+            request.setAttribute(ERROR_MESSAGE, "Error with your password");
+        } else {
+            // Search for the user in the query results
+            if (userResult != null) {
+                try {
+                    do {
+                        try {
+                            if (userResult.getString("id").equals(username)) {
+                                userFound = true;
+                                // Check if the password hashes match
+                                if (userResult.getString("password").equals(hashedPassword)) {
+                                    // TODO: Navigate to the relevant dashboard
+                                    request.setAttribute(ERROR_MESSAGE, "User found!");
+                                } else {
+                                    request.setAttribute(ERROR_MESSAGE, "Incorrect password");
+                                }
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } while (userResult.next());
+                } catch (SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (userResult == null || userFound == false) {
+                request.setAttribute(ERROR_MESSAGE, "No user found with that username");
+            }
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher(jsp);
+        dispatcher.forward(request, response);
     }
 
     /**
