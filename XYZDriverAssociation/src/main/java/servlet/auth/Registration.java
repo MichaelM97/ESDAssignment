@@ -15,8 +15,8 @@ import utils.HashHelper;
  */
 public class Registration extends HttpServlet {
 
-    private static String jsp = "auth/registration.jsp";
-    private static String errorMessageAtt = "errorMessage";
+    private static final String JSP = "auth/registration.jsp";
+    private static final String ERROR_MESSAGE = "errorMessage";
 
     /**
      * Displays the registration JSP.
@@ -29,7 +29,7 @@ public class Registration extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher(jsp);
+        RequestDispatcher view = request.getRequestDispatcher(JSP);
         view.forward(request, response);
     }
 
@@ -61,15 +61,15 @@ public class Registration extends HttpServlet {
 
             if (insertSuccessful) {
                 // TODO: Navigate to the client dashboard?
-                request.setAttribute(errorMessageAtt, "Account created!");
+                request.setAttribute(ERROR_MESSAGE, "Account created!");
             } else {
-                request.setAttribute(errorMessageAtt, "Failed to create account");
+                request.setAttribute(ERROR_MESSAGE, "Failed to create account");
             }
         } else {
-            request.setAttribute(errorMessageAtt, "There was an issue with your password");
+            request.setAttribute(ERROR_MESSAGE, "There was an issue with your password");
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(jsp);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
         dispatcher.forward(request, response);
     }
 
