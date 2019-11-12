@@ -7,8 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.User;
 import utils.HashHelper;
+import utils.SessionHelper;
 
 /**
  * Servlet for the Registration flow.
@@ -60,6 +62,9 @@ public class Registration extends HttpServlet {
             boolean insertSuccessful = dbf.insert("users", user);
 
             if (insertSuccessful) {
+                // Save the user in the current session
+                SessionHelper.setUser(request, user);
+
                 // TODO: Navigate to the client dashboard
                 request.setAttribute(ERROR_MESSAGE, "Account created!");
             } else {

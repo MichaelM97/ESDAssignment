@@ -11,7 +11,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.User;
 import utils.HashHelper;
+import utils.SessionHelper;
 
 /**
  * Servlet for the Client login flow.
@@ -77,6 +80,10 @@ public class Login extends HttpServlet {
                                 userFound = true;
                                 // Check if the password hashes match
                                 if (userResult.getString("password").equals(hashedPassword)) {
+                                    // Save the user in the current session
+                                    User user = new User(username, password, userResult.getString("status"));
+                                    SessionHelper.setUser(request, user);
+
                                     // TODO: Navigate to the relevant dashboard
                                     request.setAttribute(ERROR_MESSAGE, "User found!");
                                 } else {
@@ -95,6 +102,7 @@ public class Login extends HttpServlet {
                 request.setAttribute(ERROR_MESSAGE, "No user found with that username");
             }
         }
+
         RequestDispatcher dispatcher = request.getRequestDispatcher(jsp);
         dispatcher.forward(request, response);
     }
