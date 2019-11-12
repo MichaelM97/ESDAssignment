@@ -42,7 +42,7 @@ public class HashHelperTest {
     }
 
     @Test
-    public void hashedStringsShouldMatched() {
+    public void hashedStringsShouldMatch() {
         // Given
         String textToHash = "password£@!$%^&*()_+-={}[]:;\"'|\\<,>.?/~`'";
 
