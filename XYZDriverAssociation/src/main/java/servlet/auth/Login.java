@@ -106,15 +106,4 @@ public class Login extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher(jsp);
         dispatcher.forward(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Handles a client login.";
-    }
-
 }

@@ -77,14 +77,4 @@ public class Registration extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
         dispatcher.forward(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Registers a new users account.";
-    }
 }
