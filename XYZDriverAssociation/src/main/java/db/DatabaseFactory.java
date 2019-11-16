@@ -81,11 +81,10 @@ public class DatabaseFactory {
     /**
      * Interface for carrying out an insert.
      *
-     * @param table_name (String) - Name of a table.
      * @param entry (Object) - Either of type Claim, Member, Payment, User.
      * @return True if successful, False if not
      */
-    public boolean insert(String table_name, Object entry) {
+    public boolean insert(Object entry) {
         if (entry instanceof Claim) {
             return db.insert_claim((Claim) entry);
         } else if (entry instanceof Member) {
