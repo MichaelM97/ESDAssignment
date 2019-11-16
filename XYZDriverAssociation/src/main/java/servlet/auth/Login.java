@@ -22,7 +22,7 @@ public class Login extends HttpServlet {
 
     public static final String ERROR_MESSAGE = "errorMessage";
 
-    String jsp = "auth/client_login.jsp";
+    private String jsp = "auth/client_login.jsp";
 
     /**
      * Displays the login JSP relevant to the selected user type.
