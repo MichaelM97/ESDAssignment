@@ -58,7 +58,7 @@ public class Registration extends HttpServlet {
 
             // Save the user in the DB
             DatabaseFactory dbf = new DatabaseFactory();
-            boolean insertSuccessful = dbf.insert("users", user);
+            boolean insertSuccessful = dbf.insert(user);
 
             if (insertSuccessful) {
                 // Save the user in the current session
