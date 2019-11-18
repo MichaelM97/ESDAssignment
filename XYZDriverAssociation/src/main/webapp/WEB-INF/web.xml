@@ -17,8 +17,9 @@
         <url-pattern>/Registration</url-pattern>
     </servlet-mapping>
     <session-config>
+        <!--This is the timeout for each given session in minutes-->
         <session-timeout>
-            30
+            20
         </session-timeout>
     </session-config>
     <welcome-file-list>

@@ -1,3 +1,4 @@
+<%@page import="servlet.auth.Login"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -7,7 +8,7 @@
     </head>
     <body>
         <h1>Client login portal</h1>
-        <form action='ClientLogin' method="post">
+        <form action='Login' method="post">
             <h4>Username:</h4>
             <input type="text" name="username" placeholder="Enter your username" required/>
             <br>
@@ -17,5 +18,13 @@
             <br>
             <input name='submitClientLoginButton' type='submit' value='Log in'/>
         </form>
+        <br>
+        <font color="red">
+        <%
+            if (request.getAttribute(Login.ERROR_MESSAGE) != null) {
+                out.println(request.getAttribute(Login.ERROR_MESSAGE));
+            }
+        %>
+        </font>
     </body>
 </html>

@@ -1,3 +1,4 @@
+<%@page import="servlet.auth.Registration"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,5 +18,13 @@
             <br>
             <input name='submitRegistrationButton' type='submit' value='Create account'/>
         </form>
+        <br>
+        <font color="red">
+        <%
+            if (request.getAttribute(Registration.ERROR_MESSAGE) != null) {
+                out.println(request.getAttribute(Registration.ERROR_MESSAGE));
+            }
+        %>
+        </font>
     </body>
 </html>
