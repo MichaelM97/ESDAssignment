@@ -55,7 +55,7 @@ public class Database {
 
     private Database() {
         get_conn();
-        if (get_table_names() == null || get_table_names().size() != 4){
+        if (get_table_names() == null || get_table_names().size() != SQL_TABLES.length){
             initialise(false);
         }
     }
