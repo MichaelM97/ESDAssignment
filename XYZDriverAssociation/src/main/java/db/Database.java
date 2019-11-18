@@ -4,20 +4,11 @@ import model.*;
 
 import java.sql.*;
 
-import java.io.FileReader;
-
-import java.io.IOException;
-
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import java.util.Map;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
 
 /**
  * Database representation.
@@ -30,12 +21,43 @@ public class Database {
             + "XYZDriverAssociation;create=true");
     private static final String ROOT_USR = "root";
     private static final String ROOT_PW = "password";
-    private final String DB_JSON = "src/main/java/db/init_db.json";
-    private final String JSON_PATH = (
-            Paths.get(".").toAbsolutePath().toString() + DB_JSON);
+    private final String[] SQL_TABLES = {
+        "CREATE TABLE users(\n"
+        + "id VARCHAR(50) NOT NULL PRIMARY KEY,\n"
+        + "password VARCHAR(50) NOT NULL,\n"
+        + "status VARCHAR(8) NOT NULL )",
+
+        "CREATE TABLE members(\n"
+        + "id VARCHAR(50) NOT NULL primary key,\n"
+        + "name VARCHAR(50),\n"
+        + "address VARCHAR(50),\n"
+        + "dob DATE DEFAULT NULL,\n"
+        + "dor DATE DEFAULT NULL,\n"
+        + "status VARCHAR(25) NOT NULL,\n"
+        + "balance DECIMAL(8,2) NOT NULL )",
+
+        "CREATE TABLE payments(\n"
+        + "id INTEGER NOT NULL primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
+        + "mem_id VARCHAR(50) NOT NULL,\n"
+        + "type VARCHAR(25) NOT NULL,\n"
+        + "amount DECIMAL(8,2) NOT NULL,\n"
+        + "date TIME NOT NULL )",
+
+        "CREATE TABLE claims(\n"
+        + "id INTEGER NOT NULL primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
+        + "mem_id VARCHAR(50) NOT NULL,\n"
+        + "date DATE NOT NULL,\n"
+        + "description VARCHAR(50) NOT NULL,\n"
+        + "status VARCHAR(25) NOT NULL,\n"
+        + "amount DECIMAL(8,2) NOT NULL )"
+        };
+
 
     private Database() {
-        getConn();
+        get_conn();
+        if (get_table_names() == null || get_table_names().size() != 4){
+            initialise(false);
+        }
     }
 
     /**
@@ -76,7 +98,7 @@ public class Database {
      *
      * @return Connection - Thread Safe Singleton instance of a connection.
      */
-    public static Connection getConn() {
+    public static Connection get_conn() {
         synchronized (Database.class) {
             if (conn == null) {
                 try {
@@ -93,7 +115,7 @@ public class Database {
     }
 
     /**
-     * Initialises the Database with relevant tables read in from init_db.json
+     * Initialises the Database with relevant tables.
      *
      * @param clear (boolean) - Resets the DB to original state.
      */
@@ -101,47 +123,16 @@ public class Database {
         if (clear) {
             clear_db();
         }
-        String sql;
-        boolean first;
-        JSONObject j_reader = null;
-
-        // Load JSON DB initialisation layout
-        try {
-            j_reader = (JSONObject) new JSONParser().parse(
-                    new FileReader(JSON_PATH));
-        } catch (IOException | ParseException ex) {
-            Logger.getLogger(
-                    Database.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        }
-        // Loop through table names
-        for (Object table_name : j_reader.keySet()) {
-            sql = "CREATE TABLE ";
-            first = true;
-            // Read columns from json by using table name
-            sql += (String) table_name + "(";
-            Map columns = (Map) j_reader.get(table_name);
-            // Generate iterator which contains k,v pairs for sets of table
-            // fields.
-            Iterator<Map.Entry> cols = columns.entrySet().iterator();
-            while (cols.hasNext()) {
-                if (first == false) {
-                    sql += ',';
-                }
-                first = false;
-                Map.Entry pair = cols.next();
-                sql += ("\n " + pair.getKey() + " " + pair.getValue());
-            }
-            sql += ")";
+        for (String table: SQL_TABLES){
             try {
-                execute_sql(sql);
+                execute_sql(table);
             } catch (SQLException ex) {
                 Logger.getLogger(
                         Database.class.getName()).log(
                         Level.SEVERE, null, ex);
             }
         }
-    }
+        }
 
     /**
      * Private method for adding SQL to database.
@@ -246,7 +237,7 @@ public class Database {
      */
     protected ArrayList<String> get_table_names() {
         ArrayList<String> t_names = new ArrayList<>();
-        String[] types = {"TABLE"};
+            String[] types = {"TABLE"};
         try {
             DatabaseMetaData dbm = conn.getMetaData();
             ResultSet tables = dbm.getTables(null, null, "%", types);
@@ -257,6 +248,11 @@ public class Database {
             Logger.getLogger(
                     Database.class.getName()).log(
                     Level.SEVERE, null, ex);
+        } catch (NullPointerException ex){
+            Logger.getLogger(
+                    Database.class.getName()).log(
+                    Level.SEVERE, null, ex);
+            return null;
         }
         return t_names;
     }
