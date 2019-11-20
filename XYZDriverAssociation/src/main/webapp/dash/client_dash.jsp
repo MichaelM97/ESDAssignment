@@ -20,7 +20,6 @@
             claims after 6 months of membership
             Maximum 2 claims per year,
         -->
-        
         <div id="user-info">
             <fieldset>
                 <legend>client-info</legend>          
@@ -28,9 +27,11 @@
                     if (request.getAttribute(Dashboard.USERS_NAME) != null) {
                         out.println(request.getAttribute(Dashboard.USERS_NAME));
                     }
+                    
+                    if (request.getAttribute(Dashboard.USERS_STATUS) != null) {
+                        out.println(request.getAttribute(Dashboard.USERS_STATUS));
+                    }
                 %>
-<!--                <label> members.status </label><br/>
-                <label> members.balance </label><br/>-->
              </fieldset>
         </div>
         <br/>

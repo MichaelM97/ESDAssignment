@@ -28,9 +28,11 @@
                     if (request.getAttribute(Dashboard.USERS_NAME) != null) {
                         out.println(request.getAttribute(Dashboard.USERS_NAME));
                     }
+
+                    if (request.getAttribute(Dashboard.USERS_STATUS) != null) {
+                        out.println(request.getAttribute(Dashboard.USERS_STATUS));
+                    }
                 %>
-<!--                <label> members.status </label><br/>
-                <label> members.balance </label><br/>-->
              </fieldset>
         </div>
         <div id="user-options">

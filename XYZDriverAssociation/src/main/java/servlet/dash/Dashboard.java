@@ -19,6 +19,7 @@ public class Dashboard extends HttpServlet {
 
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String USERS_NAME = "usersName";
+    public static final String USERS_STATUS = "usersStatus";
     private static String JSP = "dash/client_dash.jsp";
                        
     @Override
@@ -37,6 +38,7 @@ public class Dashboard extends HttpServlet {
                 JSP = "dash/admin_dash.jsp";
             }
             request.setAttribute(USERS_NAME, uid); 
+            request.setAttribute(USERS_STATUS, uStat); 
             RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
             dispatcher.forward(request, response);     
         }    
