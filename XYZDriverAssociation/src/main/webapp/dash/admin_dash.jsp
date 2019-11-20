@@ -1,3 +1,4 @@
+<%@page import="servlet.dash.Dashboard"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,5 +21,28 @@
             Suspend resume membership
             Report annual turnover
         -->
+        <div id="user-info">
+            <fieldset>
+                <legend>admin-info</legend>          
+                <%
+                    if (request.getAttribute(Dashboard.USERS_NAME) != null) {
+                        out.println(request.getAttribute(Dashboard.USERS_NAME));
+                    }
+                %>
+<!--                <label> members.status </label><br/>
+                <label> members.balance </label><br/>-->
+             </fieldset>
+        </div>
+        <div id="user-options">
+            <form action ='' method=''>
+                <input name='membership' type='submit' value='membership'/>
+            </form>
+            <form action ='' method=''>
+                <input name='claims' type='submit' value='claims'/>
+            </form>
+            <form action ='' method=''>
+                <input name='turnover' type='submit' value='turnover'/>
+            </form>
+        </div>
     </body>
 </html>

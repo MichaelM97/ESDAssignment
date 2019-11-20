@@ -23,9 +23,7 @@
         <%
             if (request.getAttribute(Login.ERROR_MESSAGE) != null) {
                 out.println(request.getAttribute(Login.ERROR_MESSAGE));
-            }
-            System.out.print(request);
-            // redirect here to admin_dash.jsp?            
+            }        
         %>
         </font>
     </body>

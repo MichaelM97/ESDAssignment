@@ -18,6 +18,7 @@ import utils.SessionHelper;
 public class Dashboard extends HttpServlet {
 
     public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String USERS_NAME = "usersName";
     private static String JSP = "dash/client_dash.jsp";
                        
     @Override
@@ -27,17 +28,16 @@ public class Dashboard extends HttpServlet {
         // Get user session information
         User user = SessionHelper.getUser(request);
         if (user == null) {
-            // error in home jsp, no user found.
-            response.sendRedirect("./home.jsp");  
-           
+//            // set error in home jsp = no user found.
+//            response.setAttribute("showRedirectError", true);
+//            response.sendRedirect("./home.jsp");  
         } else {
-            
             String uid = user.getId();
             String ustat = user.getStatus();
-            if (ustat == "ADMIN") {
+            if (ustat.equals("ADMIN")) {
                 JSP = "dash/admin_dash.jsp";
             }
-            request.setAttribute("usersName", uid); 
+            request.setAttribute(USERS_NAME, uid); 
             RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
             dispatcher.forward(request, response);     
         }    

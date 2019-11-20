@@ -23,26 +23,18 @@
         
         <div id="user-info">
             <fieldset>
-                <legend>client-info</legend>
-                <!-- some call to get this information from db -->
-                <!--<label action ='Testme' method='get'>-->
-                <!--<font color="red">-->
-                
+                <legend>client-info</legend>          
                 <%
-                    if (request.getAttribute("usersName") != null) {
-                        out.println(request.getAttribute("usersName"));
+                    if (request.getAttribute(Dashboard.USERS_NAME) != null) {
+                        out.println(request.getAttribute(Dashboard.USERS_NAME));
                     }
                 %>
-                <!--<font>-->
-                <!--</label>-->
-<!--                 <label> members.name </label><br/>
-                    <label> members.status </label><br/>
-                    <label> members.balance </label><br/>-->
+<!--                <label> members.status </label><br/>
+                <label> members.balance </label><br/>-->
              </fieldset>
         </div>
         <br/>
         <div id="user-options">
-            
             <form action ='' method=''>
                 <input name='payments' type='submit' value='payments'/>
             </form>
