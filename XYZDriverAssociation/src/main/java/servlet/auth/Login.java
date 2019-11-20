@@ -64,6 +64,7 @@ public class Login extends HttpServlet {
         DatabaseFactory dbf = new DatabaseFactory();
         ResultSet userResult = dbf.get_from_table("users", "*");
         boolean userFound = false;
+        boolean userLoggedIn = false;
 
         // Hash the entered password
         String hashedPassword = HashHelper.hashString(password);
@@ -83,8 +84,10 @@ public class Login extends HttpServlet {
                                     User user = new User(username, password, userResult.getString("status"));
                                     SessionHelper.setUser(request, user);
 
-                                    // TODO: Navigate to the relevant dashboard
-                                    request.setAttribute(ERROR_MESSAGE, "User found!");
+                                    // Navigate to dashboard
+                                    response.sendRedirect("Dashboard");  
+                                    userLoggedIn = true;
+                                    
                                 } else {
                                     request.setAttribute(ERROR_MESSAGE, "Incorrect password");
                                 }
@@ -101,8 +104,9 @@ public class Login extends HttpServlet {
                 request.setAttribute(ERROR_MESSAGE, "No user found with that username");
             }
         }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher(jsp);
-        dispatcher.forward(request, response);
+        if (userLoggedIn == false) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(jsp);
+            dispatcher.forward(request, response);
+        }
     }
 }
