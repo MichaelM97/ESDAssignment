@@ -28,13 +28,12 @@ public class Dashboard extends HttpServlet {
         // Get user session information
         User user = SessionHelper.getUser(request);
         if (user == null) {
-//            // set error in home jsp = no user found.
-//            response.setAttribute("showRedirectError", true);
-//            response.sendRedirect("./home.jsp");  
+            // TODO: Home servlet to appropriately handle error message/log.  
+            response.sendRedirect("./home.jsp");  
         } else {
             String uid = user.getId();
-            String ustat = user.getStatus();
-            if (ustat.equals("ADMIN")) {
+            String uStat = user.getStatus();
+            if (uStat.equals("ADMIN")) {
                 JSP = "dash/admin_dash.jsp";
             }
             request.setAttribute(USERS_NAME, uid); 
