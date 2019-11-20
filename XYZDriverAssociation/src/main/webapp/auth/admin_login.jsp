@@ -23,7 +23,7 @@
         <%
             if (request.getAttribute(Login.ERROR_MESSAGE) != null) {
                 out.println(request.getAttribute(Login.ERROR_MESSAGE));
-            }
+            }        
         %>
         </font>
     </body>

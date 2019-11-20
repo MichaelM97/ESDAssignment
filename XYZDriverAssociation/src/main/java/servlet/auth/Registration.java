@@ -46,6 +46,8 @@ public class Registration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        boolean userWasCreated = false;
+
         // Get users entry
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -64,8 +66,9 @@ public class Registration extends HttpServlet {
                 // Save the user in the current session
                 SessionHelper.setUser(request, user);
 
-                // TODO: Navigate to the client dashboard
-                request.setAttribute(ERROR_MESSAGE, "Account created!");
+                // Navigate to the client dashboard
+                response.sendRedirect("Dashboard");
+                userWasCreated = true;
             } else {
                 request.setAttribute(ERROR_MESSAGE, "Failed to create account");
             }
@@ -73,7 +76,9 @@ public class Registration extends HttpServlet {
             request.setAttribute(ERROR_MESSAGE, "There was an issue with your password");
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
-        dispatcher.forward(request, response);
+        if (userWasCreated == false) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
+            dispatcher.forward(request, response);
+        }
     }
 }
