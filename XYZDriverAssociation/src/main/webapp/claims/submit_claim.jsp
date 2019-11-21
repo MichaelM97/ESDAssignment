@@ -30,26 +30,24 @@
         %>
         </font>
 
-        <div id="users-claim">
-            <h3>
-                <%
-                    if (request.getAttribute(SubmitClaim.CREATED_CLAIM) != null) {
-                        out.println("Your claim");
-                    }
-                %>
-            </h3>
-
+        <h3>
             <%
                 if (request.getAttribute(SubmitClaim.CREATED_CLAIM) != null) {
-                    Claim claim = (Claim) request.getAttribute(SubmitClaim.CREATED_CLAIM);
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    out.println("Date created: " + formatter.format(claim.getDate()));
-                    out.println("<br>Status: " + claim.getStatus());
-                    out.println("<br>Amount: £" + String.valueOf(claim.getAmount()));
-                    out.println("<br>Description: " + claim.getDescription());
+                    out.println("Your claim");
                 }
             %>
-        </div>
+        </h3>
+
+        <%
+            if (request.getAttribute(SubmitClaim.CREATED_CLAIM) != null) {
+                Claim claim = (Claim) request.getAttribute(SubmitClaim.CREATED_CLAIM);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                out.println("Date created: " + formatter.format(claim.getDate()));
+                out.println("<br>Status: " + claim.getStatus());
+                out.println("<br>Amount: £" + String.valueOf(claim.getAmount()));
+                out.println("<br>Description: " + claim.getDescription());
+            }
+        %>
 
         <font color="red">
         <%

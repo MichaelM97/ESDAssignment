@@ -39,7 +39,7 @@
             <form action ='' method=''>
                 <input name='membership' type='submit' value='membership'/>
             </form>
-            <form action ='' method=''>
+            <form action ='ListClaims' method='get'>
                 <input name='claims' type='submit' value='List all Claims'/>
             </form>
             <form action ='' method=''>
