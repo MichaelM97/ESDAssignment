@@ -25,25 +25,17 @@ jobs:
       - setup_remote_docker
 
       - run:
-          name: update
-          command: ssh remote-docker \
-            sudo apt-get update
-      - run:
-          name: upgrade
-          command: ssh remote-docker \
-            sudo apt-get upgrade
-      - run:
           name: Download
           command: ssh remote-docker \
-            sudo wget http://download.oracle.com/glassfish/5.0/release/glassfish-5.0.zip -P /bin/
+            sudo wget http://download.oracle.com/glassfish/4.1.1/release/glassfish-4.1.1.zip -P /bin/
       - run:
           name: Unzip and Delete
           command: ssh remote-docker \
-            sudo unzip /bin/glassfish-5.0.zip -d /bin/ && sudo rm -rf /bin/glassfish-5.0.zip
+            sudo unzip /bin/glassfish-4.1.1.zip -d /bin/ && sudo rm -rf /bin/glassfish-4.1.1.zip
       - run:
           name: Start
           command: ssh remote-docker \
-            sudo /bin/glassfish5/bin/asadmin start-domain
+            sudo /bin/glassfish4/bin/asadmin start-domain
 
       # Restore previously cached dependencies if a cache exists
       - restore_cache:
