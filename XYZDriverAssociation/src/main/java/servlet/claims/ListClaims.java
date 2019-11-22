@@ -48,32 +48,35 @@ public class ListClaims extends HttpServlet {
             DatabaseFactory dbf = new DatabaseFactory();
             ResultSet claimsResult = dbf.get_from_table("claims", "*");
 
-            // Loop through and filter out the users claims
-            List<Claim> claimList = new ArrayList<>();
-            try {
-                do {
-                    // Build the claim object
-                    Claim claim = new Claim(
-                            claimsResult.getInt("id"),
-                            claimsResult.getString("mem_id"),
-                            claimsResult.getDate("date"),
-                            claimsResult.getString("description"),
-                            claimsResult.getString("status"),
-                            claimsResult.getFloat("amount")
-                    );
-                    // Add the claim to the list
-                    claimList.add(claim);
-                } while (claimsResult.next());
-            } catch (SQLException ex) {
-                request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the claims");
-                Logger.getLogger(ListClaims.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            // Check if any claims were found
-            if (claimList.isEmpty()) {
+            // Check if table has results
+            if (claimsResult == null) {
                 request.setAttribute(ERROR_MESSAGE, "No claims have been filed yet");
             } else {
+
+                // Loop through and filter out the users claims
+                List<Claim> claimList = new ArrayList<>();
+                try {
+                    do {
+                        // Build the claim object
+                        Claim claim = new Claim(
+                                claimsResult.getInt("id"),
+                                claimsResult.getString("mem_id"),
+                                claimsResult.getDate("date"),
+                                claimsResult.getString("description"),
+                                claimsResult.getString("status"),
+                                claimsResult.getFloat("amount")
+                        );
+                        // Add the claim to the list
+                        claimList.add(claim);
+                    } while (claimsResult.next());
+                } catch (SQLException ex) {
+                    request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the claims");
+                    Logger.getLogger(ListClaims.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                // Save the list of claims in the request
                 request.setAttribute(CLAIMS_LIST, claimList);
+
             }
 
             // Show the JSP
