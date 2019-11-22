@@ -25,21 +25,25 @@ jobs:
       - setup_remote_docker
 
       - run:
-          name: ifconfig
-          command: ssh remote-docker \
-            ifconfig
-      - run:
-          name: apt update
+          name: update
           command: ssh remote-docker \
             sudo apt-get update
       - run:
-          name: apt list
+          name: upgrade
           command: ssh remote-docker \
-            sudo apt-cache search glassfish
+            sudo apt-get upgrade
       - run:
-          name: Install glassfish.
+          name: Download
           command: ssh remote-docker \
-            sudo apt-get install glassfish-javaee
+            sudo wget http://download.oracle.com/glassfish/5.0/release/glassfish-5.0.zip -P /bin/
+      - run:
+          name: Unzip and Delete
+          command: ssh remote-docker \
+            sudo unzip /bin/glassfish-5.0.zip -d /bin/ && sudo rm -rf /bin/glassfish-5.0.zip
+      - run:
+          name: Start
+          command: ssh remote-docker \
+            sudo bin/glassfish5/bin/asadmin start-domain
 
       # Restore previously cached dependencies if a cache exists
       - restore_cache:
