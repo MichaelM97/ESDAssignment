@@ -64,6 +64,7 @@ public class Login extends HttpServlet {
         ResultSet userResult = dbf.get_from_table("users", "*");
         boolean userFound = false;
         boolean userLoggedIn = false;
+
         // Hash the entered password
         String hashedPassword = HashHelper.hashString(password);
         if (hashedPassword == null) {
@@ -78,12 +79,17 @@ public class Login extends HttpServlet {
                                 userFound = true;
                                 // Check if the password hashes match
                                 if (userResult.getString("password").equals(hashedPassword)) {
-                                    // Save the user in the current session
-                                    User user = new User(username, password, userResult.getString("status"));
-                                    SessionHelper.setUser(request, user);
-                                    // Navigate to dashboard
-                                    response.sendRedirect("Dashboard");  
-                                    userLoggedIn = true;
+                                    // Check if the users membership has been approved
+                                    if (userResult.getString("status").equals(User.STATUS_PENDING)) {
+                                        request.setAttribute(ERROR_MESSAGE, "Your membership status has not yet been approved.");
+                                    } else {
+                                        // Save the user in the current session
+                                        User user = new User(username, password, userResult.getString("status"));
+                                        SessionHelper.setUser(request, user);
+                                        // Navigate to dashboard
+                                        response.sendRedirect("Dashboard");
+                                        userLoggedIn = true;
+                                    }
                                 } else {
                                     request.setAttribute(ERROR_MESSAGE, "Incorrect password");
                                 }

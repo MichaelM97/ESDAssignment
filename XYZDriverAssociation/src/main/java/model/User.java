@@ -1,9 +1,12 @@
 package model;
 
 /**
-* Model for DB User
-*/
+ * Model for DB User
+ */
 public class User {
+
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_APPROVED = "APPROVED";
 
     private String id;
     private String password;
