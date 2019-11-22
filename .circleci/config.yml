@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Start
           command: ssh remote-docker \
-            sudo /bin/glassfish4/bin/asadmin start-domain
+            sudo /bin/glassfish4/bin/asadmin start-domain domain1
 
       # Restore previously cached dependencies if a cache exists
       - restore_cache:
