@@ -6,6 +6,8 @@ import java.util.Date;
 * Model for DB Member.
 */
 public class Member {
+    
+    public static final String STATUS_PENDING = "PENDING";
 
     private String id;
     private String name;
