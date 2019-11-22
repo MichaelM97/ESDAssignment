@@ -19,15 +19,6 @@
             <input name='submitRegistrationButton' type='submit' value='Create account'/>
         </form>
         <br>
-
-        <font color="green">
-        <%
-            if (request.getAttribute(Registration.CONFIRMATION_MESSAGE) != null) {
-                out.println(request.getAttribute(Registration.CONFIRMATION_MESSAGE));
-            }
-        %>
-        </font>
-
         <font color="red">
         <%
             if (request.getAttribute(Registration.ERROR_MESSAGE) != null) {

@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.User;
 import utils.HashHelper;
+import utils.SessionHelper;
 
 /**
  * Servlet for the Registration flow.
  */
 public class Registration extends HttpServlet {
 
-    public static final String CONFIRMATION_MESSAGE = "confirmationMessage";
     public static final String ERROR_MESSAGE = "errorMessage";
     private static final String JSP = "auth/registration.jsp";
 
@@ -46,6 +46,8 @@ public class Registration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        boolean userWasCreated = false;
+
         // Get users entry
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -61,7 +63,12 @@ public class Registration extends HttpServlet {
             boolean insertSuccessful = dbf.insert(user);
 
             if (insertSuccessful) {
-                request.setAttribute(CONFIRMATION_MESSAGE, "Account successfully created!<br>You must now wait for your membership to be processed.");
+                // Save the user in the current session
+                SessionHelper.setUser(request, user);
+
+                // Navigate to the client dashboard
+                response.sendRedirect("Dashboard");
+                userWasCreated = true;
             } else {
                 request.setAttribute(ERROR_MESSAGE, "Failed to create account");
             }
@@ -69,7 +76,9 @@ public class Registration extends HttpServlet {
             request.setAttribute(ERROR_MESSAGE, "There was an issue with your password");
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
-        dispatcher.forward(request, response);
+        if (!userWasCreated) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
+            dispatcher.forward(request, response);
+        }
     }
 }

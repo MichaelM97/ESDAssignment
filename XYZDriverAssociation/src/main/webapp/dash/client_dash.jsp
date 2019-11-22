@@ -9,32 +9,34 @@
     <body>
         <h1>Client Dashboard</h1>
         <br/>
-        <!--
-        The user can:
-            Check outstanding balances
-            Make a payments
-            Submit a claim
-            List claims and payments
-        
-        extra:
-            claims after 6 months of membership
-            Maximum 2 claims per year,
-        -->
         <div id="user-info">
-            <fieldset>
-                <legend>client-info</legend>          
+            <fieldset> 
+                <h4>Username:</h4>
                 <%
                     if (request.getAttribute(Dashboard.USERS_NAME) != null) {
                         out.println(request.getAttribute(Dashboard.USERS_NAME));
                     }
-                    
+                %>
+                <br>
+                <h4>Membership status:</h4>
+                <%
                     if (request.getAttribute(Dashboard.USERS_STATUS) != null) {
                         out.println(request.getAttribute(Dashboard.USERS_STATUS));
                     }
                 %>
-             </fieldset>
+
+                <font color="blue">
+                <%
+                    if (request.getAttribute(Dashboard.INFO_MESSAGE) != null) {
+                        out.println("<br>");
+                        out.println(request.getAttribute(Dashboard.INFO_MESSAGE));
+                    }
+                %>
+                </font>
+            </fieldset>
         </div>
         <br/>
+        <h4>Options:</h4>
         <div id="user-options">
             <form action ='' method=''>
                 <input name='payments' type='submit' value='payments'/>
@@ -46,6 +48,6 @@
                 <input name='history' type='submit' value='history'/>
             </form>
         </div>
-        
+
     </body>
 </html>

@@ -7,6 +7,7 @@ public class User {
 
     public static final String STATUS_PENDING = "PENDING";
     public static final String STATUS_APPROVED = "APPROVED";
+    public static final String ADMIN = "ADMIN";
 
     private String id;
     private String password;
