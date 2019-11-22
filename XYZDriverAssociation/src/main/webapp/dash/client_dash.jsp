@@ -39,11 +39,11 @@
             <form action ='' method=''>
                 <input name='payments' type='submit' value='payments'/>
             </form>
-            <form action ='' method=''>
-                <input name='claims' type='submit' value='claims'/>
+            <form action ='SubmitClaim' method='get'>
+                <input name='claims' type='submit' value='Submit a Claim'/>
             </form>
             <form action ='' method=''>
-                <input name='history' type='submit' value='history'/>
+                <input name='history' type='submit' value='Payment & Claim History'/>
             </form>
         </div>
         
