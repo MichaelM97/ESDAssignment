@@ -36,8 +36,8 @@
              </fieldset>
         </div>
         <div id="user-options">
-            <form action ='' method=''>
-                <input name='membership' type='submit' value='membership'/>
+            <form action ='ListAllMembers' method='get'>
+                <input name='membership' type='submit' value='List all members'/>
             </form>
             <form action ='ListClaims' method='get'>
                 <input name='claims' type='submit' value='List all Claims'/>

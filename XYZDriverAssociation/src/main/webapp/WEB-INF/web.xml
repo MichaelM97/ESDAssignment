@@ -13,6 +13,14 @@
         <servlet-class>servlet.dash.Dashboard</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>MakePayment</servlet-name>
+        <servlet-class>servlet.Payment.MakePayment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListAllMembers</servlet-name>
+        <servlet-class>servlet.Members.ListAllMembers</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SubmitClaim</servlet-name>
         <servlet-class>servlet.claims.SubmitClaim</servlet-class>
     </servlet>
@@ -31,6 +39,14 @@
     <servlet-mapping>
         <servlet-name>Dashboard</servlet-name>
         <url-pattern>/Dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MakePayment</servlet-name>
+        <url-pattern>/MakePayment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListAllMembers</servlet-name>
+        <url-pattern>/ListAllMembers</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SubmitClaim</servlet-name>

@@ -41,7 +41,7 @@ public class Database {
         + "mem_id VARCHAR(50) NOT NULL,\n"
         + "type VARCHAR(25) NOT NULL,\n"
         + "amount DECIMAL(8,2) NOT NULL,\n"
-        + "date TIME NOT NULL )",
+        + "date DATE NOT NULL )",
 
         "CREATE TABLE claims(\n"
         + "id INTEGER NOT NULL primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
