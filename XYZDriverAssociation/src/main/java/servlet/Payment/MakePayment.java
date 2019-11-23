@@ -1,4 +1,3 @@
-
 package servlet.Payment;
 
 import db.DatabaseFactory;
@@ -42,16 +41,14 @@ public class MakePayment extends HttpServlet {
 
         User user = SessionHelper.getUser(request);
         float amount = Float.parseFloat(request.getParameter("amount"));
-        String uid = user.getId();
         Payment payment = new Payment(
-                uid,
+                user.getId(),
                 "FEE",
                 amount,
                 new Date()
         );
 
-        DatabaseFactory dbf = new DatabaseFactory();
-        boolean insertSuccessful = dbf.insert(payment);
+        boolean insertSuccessful = new DatabaseFactory().insert(payment);
 
         if (insertSuccessful) {
             request.setAttribute(CREATED_PAYMENT, payment);

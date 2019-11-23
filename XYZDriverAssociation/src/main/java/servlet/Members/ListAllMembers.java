@@ -38,14 +38,11 @@ public class ListAllMembers extends HttpServlet {
         if (currentUser == null || !currentUser.getStatus().equals("ADMIN")) {
             response.sendRedirect("./home.jsp");
         } else {
-
-            DatabaseFactory dbf = new DatabaseFactory();
-            ResultSet usersResult = dbf.get_from_table("users", "*");
+            ResultSet usersResult = new DatabaseFactory().get_from_table("users", "*");
 
             if (usersResult == null) {
-                request.setAttribute(ERROR_MESSAGE, "No users have been filed yet");
+                request.setAttribute(ERROR_MESSAGE, "No users have been registered yet");
             } else {
-
                 // Collect all users
                 List<User> userList = new ArrayList<>();
                 try {
@@ -71,7 +68,7 @@ public class ListAllMembers extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -107,7 +104,7 @@ public class ListAllMembers extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        return "Servlet for allowing admins to list all members";
+    }
 
 }
