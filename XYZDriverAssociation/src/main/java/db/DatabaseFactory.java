@@ -1,9 +1,8 @@
 package db;
 
-import model.*;
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import model.*;
 
 /**
  * Class which interfaces with the DB. Public facing DB methods should be added
@@ -87,8 +86,6 @@ public class DatabaseFactory {
     public boolean insert(Object entry) {
         if (entry instanceof Claim) {
             return db.insert_claim((Claim) entry);
-        } else if (entry instanceof Member) {
-            return db.insert_member((Member) entry);
         } else if (entry instanceof Payment) {
             return db.insert_payment((Payment) entry);
         } else if (entry instanceof User) {
