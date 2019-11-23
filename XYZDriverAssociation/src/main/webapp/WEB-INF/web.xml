@@ -12,6 +12,14 @@
         <servlet-name>Dashboard</servlet-name>
         <servlet-class>servlet.dash.Dashboard</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SubmitClaim</servlet-name>
+        <servlet-class>servlet.claims.SubmitClaim</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListClaims</servlet-name>
+        <servlet-class>servlet.claims.ListClaims</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -23,6 +31,14 @@
     <servlet-mapping>
         <servlet-name>Dashboard</servlet-name>
         <url-pattern>/Dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitClaim</servlet-name>
+        <url-pattern>/SubmitClaim</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListClaims</servlet-name>
+        <url-pattern>/ListClaims</url-pattern>
     </servlet-mapping>
     <session-config>
         <!--This is the timeout for each given session in minutes-->

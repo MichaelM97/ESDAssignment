@@ -38,4 +38,4 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # Run unit tests
-      - run: mvn test
+      - run: mvn '-Dtest=utils.*Test' test
