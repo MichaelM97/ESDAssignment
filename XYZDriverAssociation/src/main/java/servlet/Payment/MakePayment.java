@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package servlet.Payment;
 
 import db.DatabaseFactory;
@@ -17,10 +13,7 @@ import model.Payment;
 import model.User;
 import utils.SessionHelper;
 
-/**
- *
- * @author jaked
- */
+
 public class MakePayment extends HttpServlet {
 
     private static String JSP = "dash/client_make_payment.jsp";

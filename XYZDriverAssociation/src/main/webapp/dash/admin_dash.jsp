@@ -39,8 +39,8 @@
             <form action ='' method=''>
                 <input name='membership' type='submit' value='membership'/>
             </form>
-            <form action ='' method=''>
-                <input name='claims' type='submit' value='claims'/>
+            <form action ='ListClaims' method='get'>
+                <input name='claims' type='submit' value='List all Claims'/>
             </form>
             <form action ='' method=''>
                 <input name='turnover' type='submit' value='turnover'/>

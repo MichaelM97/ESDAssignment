@@ -1,7 +1,3 @@
-<%-- 
-    Document   : client_make_payment
-    Created on : Nov 22, 2019, 1:48:16 PM
---%>
 
 <%@page import="servlet.Payment.MakePayment"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -32,7 +28,7 @@
             }
         %>
         </font>
-                <font color="red">
+        <font color="red">
         <%
             if (request.getAttribute(MakePayment.ERROR_MESSAGE) != null) {
                 out.println(request.getAttribute(MakePayment.ERROR_MESSAGE));
