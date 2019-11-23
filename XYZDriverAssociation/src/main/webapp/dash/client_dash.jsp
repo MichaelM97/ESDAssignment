@@ -36,8 +36,8 @@
         </div>
         <br/>
         <div id="user-options">
-            <form action ='' method=''>
-                <input name='payments' type='submit' value='payments'/>
+            <form action ='MakePayment' method='get'>
+                <input name='payments' type='submit' value='Make a payment'/>
             </form>
             <form action ='SubmitClaim' method='get'>
                 <input name='claims' type='submit' value='Submit a Claim'/>
