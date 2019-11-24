@@ -25,8 +25,11 @@
             <form action ='ListMembershipApplications' method='get'>
                 <input name='list_pending_members' type='submit' value='List membership applications'/>
             </form>
-            <form action ='' method=''>
-                <input name='claims' type='submit' value='claims'/>
+            <form action ='ListAllMembers' method='get'>
+                <input name='membership' type='submit' value='List all members'/>
+            </form>
+            <form action ='ListClaims' method='get'>
+                <input name='claims' type='submit' value='List all Claims'/>
             </form>
             <form action ='' method=''>
                 <input name='turnover' type='submit' value='turnover'/>

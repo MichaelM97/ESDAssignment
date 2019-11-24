@@ -40,11 +40,11 @@
         <br/>
         <h4>Options:</h4>
         <div id="user-options">
-            <form action ='' method=''>
-                <input name='payments' type='submit' value='payments'/>
+            <form action ='MakePayment' method='get'>
+                <input name='payments' type='submit' value='Make a payment'/>
             </form>
-            <form action ='' method=''>
-                <input name='claims' type='submit' value='claims'/>
+            <form action ='SubmitClaim' method='get'>
+                <input name='claims' type='submit' value='Submit a Claim'/>
             </form>
             <form action ='' method=''>
                 <input name='history' type='submit' value='history'/>
