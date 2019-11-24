@@ -1,4 +1,4 @@
-<%@page import="model.Member"%>
+<%@page import="model.User"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="servlet.membership.ListMembershipApplications"%>
@@ -15,16 +15,16 @@
         <%
             if (request.getAttribute(ListMembershipApplications.MEMBERSHIP_APPLICATION_LIST) != null) {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                List<Member> membersList = (List<Member>) request.getAttribute(ListMembershipApplications.MEMBERSHIP_APPLICATION_LIST);
-                for (Member member : membersList) {
+                List<User> usersList = (List<User>) request.getAttribute(ListMembershipApplications.MEMBERSHIP_APPLICATION_LIST);
+                for (User user : usersList) {
                     out.println("<br>");
-                    out.println("<h4>Member ID: " + member.getId() + "</h4>");
-                    out.println("Member name: " + member.getName());
-                    out.println("<br>Member address: " + member.getAddress());
-                    out.println("<br>Member DoB: " + formatter.format(member.getDob()));
-                    out.println("<br>Member DoR: " + formatter.format(member.getDor()));
-                    out.println("<br>Membership status " + member.getStatus());
-                    out.println("<br>Member balance: £" + String.valueOf(member.getBalance()));
+                    out.println("<h4>Member ID: " + user.getId() + "</h4>");
+                    out.println("Member name: " + user.getName());
+                    out.println("<br>Member address: " + user.getAddress());
+                    out.println("<br>Member birthday: " + formatter.format(user.getDob()));
+                    out.println("<br>Member date of Registration: " + formatter.format(user.getDor()));
+                    out.println("<br>Member balance: £" + String.valueOf(user.getBalance()));
+                    out.println("<br>Membership status " + user.getStatus());
                 }
             }
         %>
