@@ -24,19 +24,21 @@ import utils.SessionHelper;
 public class ListPayments extends HttpServlet {
 
     public static final String PAYMENT_LIST = "paymentList";
+    public static final String PENDING_USERS_LIST = "pendingUsersList";
+    public static final String APPROVED_USER_ID = "approvedUserID";
     public static final String ERROR_MESSAGE = "errorMessage";
     private static final String JSP = "payments/list_all_payments.jsp";
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Get the current user from the session
         User currentUser = SessionHelper.getUser(request);
@@ -73,27 +75,16 @@ public class ListPayments extends HttpServlet {
                 }
 
                 request.setAttribute(PAYMENT_LIST, paymentList);
+                List<String> pendingUserIDs = getListOfPendingUsersIDs(dbf);
+                if (pendingUserIDs != null && !pendingUserIDs.isEmpty()) {
+                    request.setAttribute(PENDING_USERS_LIST, pendingUserIDs);
+                }
             }
 
             // Show the JSP
             RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
             dispatcher.forward(request, response);
         }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
@@ -107,17 +98,66 @@ public class ListPayments extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Get the approved users ID
+        String userID = request.getParameter(APPROVED_USER_ID);
+
+        // Update the users status in the DB
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet userResult = dbf.get_from_table("users", "*");
+        try {
+            do {
+                if (userResult.getString("id").equals(userID)) {
+                    User user = new User(
+                            userResult.getString("id"),
+                            userResult.getString("password"),
+                            userResult.getString("name"),
+                            userResult.getString("address"),
+                            userResult.getDate("dob"),
+                            userResult.getDate("dor"),
+                            userResult.getFloat("balance"),
+                            User.STATUS_APPROVED
+                    );
+                    boolean updateSucessful = dbf.update(user);
+                    if (!updateSucessful) {
+                        request.setAttribute(ERROR_MESSAGE, "There was an issue approving the users membership");
+                    }
+                    break;
+                }
+            } while (userResult.next());
+        } catch (SQLException ex) {
+            request.setAttribute(ERROR_MESSAGE, "There was an issue approving the users membership");
+            Logger.getLogger(ListPayments.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Re-show the JSP (and re-fetch the updated data)
+        doGet(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    List<String> getListOfPendingUsersIDs(DatabaseFactory dbf) {
+        List<String> userIDList = new ArrayList<>();
 
+        // Get all users from the DB
+        ResultSet usersResult = dbf.get_from_table("users", "*");
+
+        // Check if table has results
+        if (usersResult == null) {
+            return null;
+        } else {
+            // Loop through the results and pull out any PENDING users
+            try {
+                do {
+                    // Check if the members status is PENDING
+                    if (usersResult.getString("status").equals(User.STATUS_PENDING)) {
+                        // Add the users ID to the list
+                        userIDList.add(usersResult.getString("id"));
+                    }
+                } while (usersResult.next());
+            } catch (SQLException ex) {
+                Logger.getLogger(ListPayments.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+
+            return userIDList;
+        }
+    }
 }

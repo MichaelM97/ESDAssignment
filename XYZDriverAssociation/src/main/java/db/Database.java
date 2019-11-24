@@ -27,14 +27,12 @@ public class Database {
         + "dor DATE DEFAULT NULL,\n"
         + "balance DECIMAL(8,2) NOT NULL,\n"
         + "status VARCHAR(8) NOT NULL )",
-        
         "CREATE TABLE payments(\n"
         + "id INTEGER NOT NULL primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
         + "mem_id VARCHAR(50) NOT NULL,\n"
         + "type VARCHAR(25) NOT NULL,\n"
         + "amount DECIMAL(8,2) NOT NULL,\n"
         + "date DATE NOT NULL )",
-
         "CREATE TABLE claims(\n"
         + "id INTEGER NOT NULL primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
         + "mem_id VARCHAR(50) NOT NULL,\n"
@@ -320,6 +318,36 @@ public class Database {
             ps.setString(3, claim.getDescription());
             ps.setString(4, claim.getStatus());
             ps.setFloat(5, claim.getAmount());
+            if (ps.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(
+                    Database.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
+     * Updates a user
+     *
+     * @param user (user)
+     * @return boolean - True if successful, False if not
+     */
+    protected boolean update_user(User user) {
+        String sql = "UPDATE users SET password = ?, name = ?, address = ?, dob = ?, dor = ?, balance = ?, status = ? "
+                + "WHERE id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, user.getPassword());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getAddress());
+            ps.setDate(4, user.getDobSql());
+            ps.setDate(5, user.getDorSql());
+            ps.setFloat(6, user.getBalance());
+            ps.setString(7, user.getStatus());
+            ps.setString(8, user.getId());
             if (ps.executeUpdate() == 1) {
                 return true;
             }
