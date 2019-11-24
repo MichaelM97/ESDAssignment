@@ -21,8 +21,7 @@ import utils.SessionHelper;
 public class Login extends HttpServlet {
 
     public static final String ERROR_MESSAGE = "errorMessage";
-
-    private String jsp = "auth/client_login.jsp";
+    private static final String JSP = "auth/login.jsp";
 
     /**
      * Displays the login JSP relevant to the selected user type.
@@ -35,12 +34,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // If the admin user type was selected, switch the JSP
-        if (request.getParameter("adminLoginButton") != null) {
-            jsp = "auth/admin_login.jsp";
-        }
-        // Show the selected JSP
-        RequestDispatcher view = request.getRequestDispatcher(jsp);
+        RequestDispatcher view = request.getRequestDispatcher(JSP);
         view.forward(request, response);
     }
 
@@ -110,7 +104,7 @@ public class Login extends HttpServlet {
             }
         }
         if (userLoggedIn == false) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(jsp);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
             dispatcher.forward(request, response);
         }
     }
