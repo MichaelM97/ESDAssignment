@@ -9,6 +9,10 @@
         <servlet-class>servlet.auth.Registration</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>servlet.auth.ChangePassword</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Dashboard</servlet-name>
         <servlet-class>servlet.dash.Dashboard</servlet-class>
     </servlet>
@@ -27,6 +31,10 @@
     <servlet-mapping>
         <servlet-name>Registration</servlet-name>
         <url-pattern>/Registration</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/ChangePassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Dashboard</servlet-name>
