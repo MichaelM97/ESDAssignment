@@ -35,7 +35,7 @@
                 <input name='payments' type='submit' value='List all Payments'/>
             </form>
             <form action ='' method=''>
-                <input name='turnover' type='submit' value='turnover'/>
+                <input name='turnover' type='submit' value='Turnover'/>
             </form>
         </div>
     </body>
