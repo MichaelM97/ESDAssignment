@@ -18,7 +18,7 @@
     </servlet>
     <servlet>
         <servlet-name>MakePayment</servlet-name>
-        <servlet-class>servlet.Payment.MakePayment</servlet-class>
+        <servlet-class>servlet.payments.MakePayment</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListAllMembers</servlet-name>

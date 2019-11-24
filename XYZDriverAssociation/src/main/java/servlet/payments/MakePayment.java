@@ -1,4 +1,4 @@
-package servlet.Payment;
+package servlet.payments;
 
 import db.DatabaseFactory;
 import java.io.IOException;
