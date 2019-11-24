@@ -1,14 +1,10 @@
 package db;
 
-import model.*;
-
 import java.sql.*;
-
 import java.util.ArrayList;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import model.*;
 
 /**
  * Database representation.
@@ -25,24 +21,18 @@ public class Database {
         "CREATE TABLE users(\n"
         + "id VARCHAR(50) NOT NULL PRIMARY KEY,\n"
         + "password VARCHAR(50) NOT NULL,\n"
-        + "status VARCHAR(8) NOT NULL )",
-
-        "CREATE TABLE members(\n"
-        + "id VARCHAR(50) NOT NULL primary key,\n"
         + "name VARCHAR(50),\n"
         + "address VARCHAR(50),\n"
         + "dob DATE DEFAULT NULL,\n"
         + "dor DATE DEFAULT NULL,\n"
-        + "status VARCHAR(25) NOT NULL,\n"
-        + "balance DECIMAL(8,2) NOT NULL )",
-
+        + "balance DECIMAL(8,2) NOT NULL,\n"
+        + "status VARCHAR(8) NOT NULL )",
         "CREATE TABLE payments(\n"
         + "id INTEGER NOT NULL primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
         + "mem_id VARCHAR(50) NOT NULL,\n"
         + "type VARCHAR(25) NOT NULL,\n"
         + "amount DECIMAL(8,2) NOT NULL,\n"
         + "date DATE NOT NULL )",
-
         "CREATE TABLE claims(\n"
         + "id INTEGER NOT NULL primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
         + "mem_id VARCHAR(50) NOT NULL,\n"
@@ -50,12 +40,11 @@ public class Database {
         + "description VARCHAR(50) NOT NULL,\n"
         + "status VARCHAR(25) NOT NULL,\n"
         + "amount DECIMAL(8,2) NOT NULL )"
-        };
-
+    };
 
     private Database() {
         get_conn();
-        if (get_table_names() == null || get_table_names().size() != SQL_TABLES.length){
+        if (get_table_names() == null || get_table_names().size() != SQL_TABLES.length) {
             initialise(false);
         }
     }
@@ -123,7 +112,7 @@ public class Database {
         if (clear) {
             clear_db();
         }
-        for (String table: SQL_TABLES){
+        for (String table : SQL_TABLES) {
             try {
                 execute_sql(table);
             } catch (SQLException ex) {
@@ -132,7 +121,7 @@ public class Database {
                         Level.SEVERE, null, ex);
             }
         }
-        }
+    }
 
     /**
      * Private method for adding SQL to database.
@@ -237,7 +226,7 @@ public class Database {
      */
     protected ArrayList<String> get_table_names() {
         ArrayList<String> t_names = new ArrayList<>();
-            String[] types = {"TABLE"};
+        String[] types = {"TABLE"};
         try {
             DatabaseMetaData dbm = conn.getMetaData();
             ResultSet tables = dbm.getTables(null, null, "%", types);
@@ -248,7 +237,7 @@ public class Database {
             Logger.getLogger(
                     Database.class.getName()).log(
                     Level.SEVERE, null, ex);
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             Logger.getLogger(
                     Database.class.getName()).log(
                     Level.SEVERE, null, ex);
@@ -264,42 +253,18 @@ public class Database {
      * @return boolean - True if successful, False if not
      */
     protected boolean insert_user(User user) {
-        String sql = "Insert INTO users(id, password, status) "
-                + "VALUES(?,?,?)";
+        String sql = "Insert INTO users(id, password, name, address, dob, dor, balance, status) "
+                + "VALUES(?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, user.getId());
             ps.setString(2, user.getPassword());
-            ps.setString(3, user.getStatus());
-            if (ps.executeUpdate() == 1) {
-                return true;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(
-                    Database.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    /**
-     * Add a member
-     *
-     * @param member (Member)
-     * @return boolean - True if successful, False if not
-     */
-    protected boolean insert_member(Member member) {
-        String sql = "Insert INTO members(id ,name, address, dob, dor, status, balance) "
-                + "VALUES(?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, member.getId());
-            ps.setString(2, member.getName());
-            ps.setString(3, member.getAddress());
-            ps.setDate(4, member.get_dob_sql());
-            ps.setDate(5, member.get_dor_sql());
-            ps.setString(6, member.getStatus());
-            ps.setFloat(7, member.getBalance());
+            ps.setString(3, user.getName());
+            ps.setString(4, user.getAddress());
+            ps.setDate(5, user.getDobSql());
+            ps.setDate(6, user.getDorSql());
+            ps.setFloat(7, user.getBalance());
+            ps.setString(8, user.getStatus());
             if (ps.executeUpdate() == 1) {
                 return true;
             }
@@ -353,6 +318,36 @@ public class Database {
             ps.setString(3, claim.getDescription());
             ps.setString(4, claim.getStatus());
             ps.setFloat(5, claim.getAmount());
+            if (ps.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(
+                    Database.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
+     * Updates a user
+     *
+     * @param user (user)
+     * @return boolean - True if successful, False if not
+     */
+    protected boolean update_user(User user) {
+        String sql = "UPDATE users SET password = ?, name = ?, address = ?, dob = ?, dor = ?, balance = ?, status = ? "
+                + "WHERE id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, user.getPassword());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getAddress());
+            ps.setDate(4, user.getDobSql());
+            ps.setDate(5, user.getDorSql());
+            ps.setFloat(6, user.getBalance());
+            ps.setString(7, user.getStatus());
+            ps.setString(8, user.getId());
             if (ps.executeUpdate() == 1) {
                 return true;
             }

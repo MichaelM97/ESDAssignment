@@ -1,5 +1,6 @@
 package servlet.claims;
 
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +37,16 @@ public class SubmitClaimTest extends Mockito {
         HttpServletResponse response = mock(HttpServletResponse.class);
         HttpSession session = mock(HttpSession.class);
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
-        User user = new User("Michael", "password", "APPROVED");
+        User user = new User(
+                "MichaelM12",
+                "password",
+                "Michael McCormick",
+                "50 The Meadows",
+                new Date(),
+                new Date(),
+                0.0f,
+                User.STATUS_APPROVED
+        );
         when(session.getAttribute("user")).thenReturn(user);
         when(request.getSession(false)).thenReturn(session);
         when(request.getRequestDispatcher("claims/submit_claim.jsp")).thenReturn(dispatcher);

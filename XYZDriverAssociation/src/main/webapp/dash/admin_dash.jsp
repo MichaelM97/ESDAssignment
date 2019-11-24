@@ -8,7 +8,6 @@
     </head>
     <body>
         <h1>Admin Dashboard</h1>
-        <br/>
         <!--
         The admin can:
             Handle members claims
@@ -21,26 +20,19 @@
             Suspend resume membership
             Report annual turnover
         -->
-        <div id="user-info">
-            <fieldset>
-                <legend>admin-info</legend>          
-                <%
-                    if (request.getAttribute(Dashboard.USERS_NAME) != null) {
-                        out.println(request.getAttribute(Dashboard.USERS_NAME));
-                    }
-
-                    if (request.getAttribute(Dashboard.USERS_STATUS) != null) {
-                        out.println(request.getAttribute(Dashboard.USERS_STATUS));
-                    }
-                %>
-             </fieldset>
-        </div>
+        <h4>Options:</h4>
         <div id="user-options">
+            <form action ='ListMembershipApplications' method='get'>
+                <input name='list_pending_members' type='submit' value='List all Membership Applications'/>
+            </form>
             <form action ='ListAllMembers' method='get'>
-                <input name='membership' type='submit' value='List all members'/>
+                <input name='membership' type='submit' value='List all Members'/>
             </form>
             <form action ='ListClaims' method='get'>
                 <input name='claims' type='submit' value='List all Claims'/>
+            </form>
+            <form action ='ListPayments' method='get'>
+                <input name='payments' type='submit' value='List all Payments'/>
             </form>
             <form action ='' method=''>
                 <input name='turnover' type='submit' value='turnover'/>

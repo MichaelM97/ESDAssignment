@@ -2,6 +2,11 @@ package servlet.auth;
 
 import db.DatabaseFactory;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,35 +53,50 @@ public class Registration extends HttpServlet {
             throws ServletException, IOException {
         boolean userWasCreated = false;
 
-        // Get users entry
+        // Get users entry from JSP
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
-        // Hash the password
-        String hashedPassword = HashHelper.hashString(password);
-        if (hashedPassword != null) {
-            // Create user object
-            User user = new User(username, hashedPassword, "APPROVED");
-
-            // Save the user in the DB
-            DatabaseFactory dbf = new DatabaseFactory();
-            boolean insertSuccessful = dbf.insert(user);
-
-            if (insertSuccessful) {
-                // Save the user in the current session
-                SessionHelper.setUser(request, user);
-
-                // Navigate to the client dashboard
-                response.sendRedirect("Dashboard");
-                userWasCreated = true;
-            } else {
-                request.setAttribute(ERROR_MESSAGE, "Failed to create account");
-            }
+        String name = request.getParameter("name");
+        String address = request.getParameter("address");
+        Date dob = null;
+        try {
+            dob = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dob"));
+        } catch (ParseException ex) {
+            Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (dob == null) {
+            request.setAttribute(ERROR_MESSAGE, "There was an issue with your date of birth");
         } else {
-            request.setAttribute(ERROR_MESSAGE, "There was an issue with your password");
+            String hashedPassword = HashHelper.hashString(password);
+            if (hashedPassword == null) {
+                request.setAttribute(ERROR_MESSAGE, "There was an issue with your password");
+            } else {
+                User user = new User(
+                        username,
+                        hashedPassword,
+                        name,
+                        address,
+                        dob,
+                        new Date(),
+                        0.0f,
+                        User.STATUS_PENDING
+                );
+
+                // Save the user in the DB
+                if (new DatabaseFactory().insert(user)) {
+                    // Save the user in the current session
+                    SessionHelper.setUser(request, user);
+
+                    // Navigate to the client dashboard
+                    response.sendRedirect("Dashboard");
+                    userWasCreated = true;
+                } else {
+                    request.setAttribute(ERROR_MESSAGE, "Failed to create account");
+                }
+            }
         }
 
-        if (userWasCreated == false) {
+        if (!userWasCreated) {
             RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
             dispatcher.forward(request, response);
         }

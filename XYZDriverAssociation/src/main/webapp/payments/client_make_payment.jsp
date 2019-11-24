@@ -1,5 +1,4 @@
-
-<%@page import="servlet.Payment.MakePayment"%>
+<%@page import="servlet.payments.MakePayment"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
