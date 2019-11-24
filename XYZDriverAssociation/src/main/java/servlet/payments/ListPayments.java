@@ -135,7 +135,7 @@ public class ListPayments extends HttpServlet {
 
     /**
      * Fetches a list of all Users in the DB that have a status of PENDING.
-     * 
+     *
      * @param dbf Instance of DatabaseFactory
      * @return The list of users, empty if no users were found/an error occurred
      */
@@ -145,11 +145,8 @@ public class ListPayments extends HttpServlet {
         // Get all users from the DB
         ResultSet usersResult = dbf.get_from_table("users", "*");
 
-        // Check if table has results
-        if (usersResult == null) {
-            return userIDList;
-        } else {
-            // Loop through the results and pull out any PENDING users
+        // Loop through the results and pull out any PENDING users
+        if (usersResult != null) {
             try {
                 do {
                     // Check if the members status is PENDING
@@ -162,8 +159,8 @@ public class ListPayments extends HttpServlet {
                 Logger.getLogger(ListPayments.class.getName()).log(Level.SEVERE, null, ex);
                 return new ArrayList<>();
             }
-
-            return userIDList;
         }
+
+        return userIDList;
     }
 }
