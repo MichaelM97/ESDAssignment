@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="model.User"%>
 <%@page import="servlet.dash.Dashboard"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,43 +11,45 @@
     <body>
         <h1>Client Dashboard</h1>
         <br/>
-        <!--
-        The user can:
-            Check outstanding balances
-            Make a payments
-            Submit a claim
-            List claims and payments
-        
-        extra:
-            claims after 6 months of membership
-            Maximum 2 claims per year,
-        -->
         <div id="user-info">
-            <fieldset>
-                <legend>client-info</legend>          
+            <fieldset> 
+                <legend>Your information</legend>
                 <%
-                    if (request.getAttribute(Dashboard.USERS_NAME) != null) {
-                        out.println(request.getAttribute(Dashboard.USERS_NAME));
-                    }
-                    
-                    if (request.getAttribute(Dashboard.USERS_STATUS) != null) {
-                        out.println(request.getAttribute(Dashboard.USERS_STATUS));
+                    if (request.getAttribute(Dashboard.USER_OBJECT_ATT) != null) {
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        User user = (User) request.getAttribute(Dashboard.USER_OBJECT_ATT);
+                        out.println("<b>Username/ID: </b>" + user.getId() + "<br>");
+                        out.println("<b>Name: </b>" + user.getName() + "<br>");
+                        out.println("<b>Address: </b>" + user.getAddress() + "<br>");
+                        out.println("<b>Birthday: </b>" + formatter.format(user.getDob()) + "<br>");
+                        out.println("<b>Registration date: </b>" + formatter.format(user.getDor()) + "<br>");
+                        out.println("<b>Current balance: </b>£" + String.valueOf(user.getBalance()) + "<br>");
+                        out.println("<b>Membership status: </b>" + user.getStatus() + "<br>");
                     }
                 %>
-             </fieldset>
+                <font color="blue">
+                <%
+                    if (request.getAttribute(Dashboard.INFO_MESSAGE) != null) {
+                        out.println("<br>");
+                        out.println(request.getAttribute(Dashboard.INFO_MESSAGE));
+                    }
+                %>
+                </font>
+            </fieldset>
         </div>
         <br/>
+        <h4>Options:</h4>
         <div id="user-options">
-            <form action ='' method=''>
-                <input name='payments' type='submit' value='payments'/>
+            <form action ='MakePayment' method='get'>
+                <input name='payments' type='submit' value='Make a payment'/>
             </form>
             <form action ='SubmitClaim' method='get'>
                 <input name='claims' type='submit' value='Submit a Claim'/>
             </form>
             <form action ='' method=''>
-                <input name='history' type='submit' value='Payment & Claim History'/>
+                <input name='history' type='submit' value='history'/>
             </form>
         </div>
-        
+
     </body>
 </html>

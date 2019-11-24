@@ -21,8 +21,7 @@ import utils.SessionHelper;
 public class Login extends HttpServlet {
 
     public static final String ERROR_MESSAGE = "errorMessage";
-
-    private String jsp = "auth/client_login.jsp";
+    private static final String JSP = "auth/login.jsp";
 
     /**
      * Displays the login JSP relevant to the selected user type.
@@ -35,12 +34,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // If the admin user type was selected, switch the JSP
-        if (request.getParameter("adminLoginButton") != null) {
-            jsp = "auth/admin_login.jsp";
-        }
-        // Show the selected JSP
-        RequestDispatcher view = request.getRequestDispatcher(jsp);
+        RequestDispatcher view = request.getRequestDispatcher(JSP);
         view.forward(request, response);
     }
 
@@ -64,6 +58,7 @@ public class Login extends HttpServlet {
         ResultSet userResult = dbf.get_from_table("users", "*");
         boolean userFound = false;
         boolean userLoggedIn = false;
+
         // Hash the entered password
         String hashedPassword = HashHelper.hashString(password);
         if (hashedPassword == null) {
@@ -79,10 +74,18 @@ public class Login extends HttpServlet {
                                 // Check if the password hashes match
                                 if (userResult.getString("password").equals(hashedPassword)) {
                                     // Save the user in the current session
-                                    User user = new User(username, password, userResult.getString("status"));
+                                    User user = new User(
+                                            username,
+                                            userResult.getString("name"),
+                                            userResult.getString("address"),
+                                            userResult.getDate("dob"),
+                                            userResult.getDate("dor"),
+                                            userResult.getFloat("balance"),
+                                            userResult.getString("status")
+                                    );
                                     SessionHelper.setUser(request, user);
                                     // Navigate to dashboard
-                                    response.sendRedirect("Dashboard");  
+                                    response.sendRedirect("Dashboard");
                                     userLoggedIn = true;
                                 } else {
                                     request.setAttribute(ERROR_MESSAGE, "Incorrect password");
@@ -101,7 +104,7 @@ public class Login extends HttpServlet {
             }
         }
         if (userLoggedIn == false) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(jsp);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
             dispatcher.forward(request, response);
         }
     }

@@ -17,12 +17,28 @@
         <servlet-class>servlet.dash.Dashboard</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ListMembershipApplications</servlet-name>
+        <servlet-class>servlet.membership.ListMembershipApplications</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MakePayment</servlet-name>
+        <servlet-class>servlet.payments.MakePayment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListAllMembers</servlet-name>
+        <servlet-class>servlet.membership.ListAllMembers</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SubmitClaim</servlet-name>
         <servlet-class>servlet.claims.SubmitClaim</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListClaims</servlet-name>
         <servlet-class>servlet.claims.ListClaims</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListPayments</servlet-name>
+        <servlet-class>servlet.payments.ListPayments</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -41,12 +57,28 @@
         <url-pattern>/Dashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ListMembershipApplications</servlet-name>
+        <url-pattern>/ListMembershipApplications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MakePayment</servlet-name>
+        <url-pattern>/MakePayment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListAllMembers</servlet-name>
+        <url-pattern>/ListAllMembers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SubmitClaim</servlet-name>
         <url-pattern>/SubmitClaim</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListClaims</servlet-name>
         <url-pattern>/ListClaims</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListPayments</servlet-name>
+        <url-pattern>/ListPayments</url-pattern>
     </servlet-mapping>
     <session-config>
         <!--This is the timeout for each given session in minutes-->

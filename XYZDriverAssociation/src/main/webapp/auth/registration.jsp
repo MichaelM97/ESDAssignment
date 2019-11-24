@@ -9,11 +9,23 @@
     <body>
         <h1>Registration portal</h1>
         <form action='Registration' method="post">
+            <h3>Login details</h3>
             <h4>Username:</h4>
             <input type="text" name="username" placeholder="Choose a username" required/>
             <br>
             <h4>Password:</h4>
             <input type="password" name="password" placeholder="Choose a password" required/>
+            <br>
+            <br>
+            <h3>Your details</h3>
+            <h4>Name:</h4>
+            <input type="text" name="name" placeholder="Enter your name" required/>
+            <br>
+            <h4>Address:</h4>
+            <textarea cols="40" rows="5" name="address" placeholder="Enter your address" required></textarea>
+            <br>
+            <h4>Birthday:</h4>
+            <input type="date" name="dob" required/>
             <br>
             <br>
             <input name='submitRegistrationButton' type='submit' value='Create account'/>

@@ -8,12 +8,8 @@
 
     <body>
         <h1>Welcome to XYZ Driver Association</h1>
-        <h2>Please select your user type:</h2>
         <form action ='Login' method='get'>
-            <input name='clientLoginButton' type='submit' value='Client'/>
-        </form>
-        <form action ='Login' method='get'>
-            <input name='adminLoginButton' type='submit' value='Admin'/>
+            <input name='loginButton' type='submit' value='Login'/>
         </form>
         <form action ='Registration' method='get'>
             <input name='registrationButton' type='submit' value='New user'/>

@@ -46,7 +46,16 @@ public class ListClaimsTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         HttpSession session = mock(HttpSession.class);
-        User user = new User("Michael", "password", "APPROVED");
+        User user = new User(
+                "MichaelM12",
+                "password",
+                "Michael McCormick",
+                "50 The Meadows",
+                new Date(),
+                new Date(),
+                0.0f,
+                User.STATUS_PENDING
+        );
         when(session.getAttribute("user")).thenReturn(user);
         when(request.getSession(false)).thenReturn(session);
 
@@ -68,7 +77,16 @@ public class ListClaimsTest {
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
         DatabaseFactory dbf = new DatabaseFactory();
         dbf.reset_db();
-        User user = new User("admin", "password", "ADMIN");
+        User user = new User(
+                "admin",
+                "password",
+                "",
+                "",
+                new Date(),
+                new Date(),
+                0.0f,
+                User.ADMIN
+        );
         when(session.getAttribute("user")).thenReturn(user);
         when(request.getSession(false)).thenReturn(session);
         when(request.getRequestDispatcher("claims/list_all_claims.jsp")).thenReturn(dispatcher);
@@ -89,7 +107,16 @@ public class ListClaimsTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         HttpSession session = mock(HttpSession.class);
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
-        User user = new User("admin", "password", "ADMIN");
+        User user = new User(
+                "admin",
+                "password",
+                "",
+                "",
+                new Date(),
+                new Date(),
+                0.0f,
+                User.ADMIN
+        );
         when(session.getAttribute("user")).thenReturn(user);
         when(request.getSession(false)).thenReturn(session);
         when(request.getRequestDispatcher("claims/list_all_claims.jsp")).thenReturn(dispatcher);
