@@ -17,13 +17,13 @@ import model.User;
 import utils.SessionHelper;
 
 /**
- * Lists all PENDING membership applications.
+ * Lists all APPROVED members.
  */
-public class ListMembershipApplications extends HttpServlet {
+public class ListAllMembers extends HttpServlet {
 
-    public static final String MEMBERSHIP_APPLICATION_LIST = "membershipApplicationList";
+    public static final String USER_LIST = "userList";
     public static final String ERROR_MESSAGE = "errorMessage";
-    private static final String JSP = "membership/list_membership_applications.jsp";
+    private static final String JSP = "membership/admin_list_members.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,14 +49,14 @@ public class ListMembershipApplications extends HttpServlet {
 
             // Check if table has results
             if (usersResult == null) {
-                request.setAttribute(ERROR_MESSAGE, "No membership applications have been filed yet");
+                request.setAttribute(ERROR_MESSAGE, "There are no APPROVED members yet");
             } else {
-                // Loop through the results and pull out any PENDING users
+                // Loop through the results and pull out any APPROVED users
                 List<User> userList = new ArrayList<>();
                 try {
                     do {
-                        // Check if the members status is PENDING
-                        if (usersResult.getString("status").equals(User.STATUS_PENDING)) {
+                        // Check if the members status is APPROVED
+                        if (usersResult.getString("status").equals(User.STATUS_APPROVED)) {
                             // Build the user object
                             User user = new User(
                                     usersResult.getString("id"),
@@ -76,12 +76,12 @@ public class ListMembershipApplications extends HttpServlet {
                     Logger.getLogger(ListMembershipApplications.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                // Check if any PENDING members were found
+                // Check if any APPROVED members were found
                 if (userList.isEmpty()) {
-                    request.setAttribute(ERROR_MESSAGE, "There are no new pending membership applications");
+                    request.setAttribute(ERROR_MESSAGE, "There are no APPROVED members");
                 } // Save the list of users in the request
                 else {
-                    request.setAttribute(MEMBERSHIP_APPLICATION_LIST, userList);
+                    request.setAttribute(USER_LIST, userList);
                 }
             }
 
@@ -91,7 +91,6 @@ public class ListMembershipApplications extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -127,7 +126,7 @@ public class ListMembershipApplications extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        return "Servlet for allowing admins to list all members";
+    }
 
 }

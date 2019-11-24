@@ -22,7 +22,7 @@
     </servlet>
     <servlet>
         <servlet-name>ListAllMembers</servlet-name>
-        <servlet-class>servlet.Members.ListAllMembers</servlet-class>
+        <servlet-class>servlet.membership.ListAllMembers</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SubmitClaim</servlet-name>

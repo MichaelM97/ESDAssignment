@@ -15,7 +15,7 @@ import utils.SessionHelper;
 
 public class MakePayment extends HttpServlet {
 
-    private static String JSP = "dash/client_make_payment.jsp";
+    private static final String JSP = "payments/client_make_payment.jsp";
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String CREATED_PAYMENT = "createdPayment";
 
