@@ -20,7 +20,16 @@ public class User {
     private float balance;
     private String status;
 
-    public User(String id, String password, String name, String address, Date dob, Date dor, float balance, String status) {
+    public User(
+            String id,
+            String password,
+            String name,
+            String address,
+            Date dob,
+            Date dor,
+            float balance,
+            String status
+    ) {
         this.id = id;
         this.password = password;
         this.name = name;
@@ -31,7 +40,15 @@ public class User {
         this.status = status;
     }
 
-    public User(String id, String name, String address, Date dob, Date dor, float balance, String status) {
+    public User(
+            String id,
+            String name,
+            String address,
+            Date dob,
+            Date dor,
+            float balance,
+            String status
+    ) {
         this.id = id;
         this.name = name;
         this.address = address;

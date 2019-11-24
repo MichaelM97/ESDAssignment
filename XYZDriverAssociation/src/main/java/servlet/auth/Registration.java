@@ -67,12 +67,10 @@ public class Registration extends HttpServlet {
         if (dob == null) {
             request.setAttribute(ERROR_MESSAGE, "There was an issue with your date of birth");
         } else {
-            // Hash the password
             String hashedPassword = HashHelper.hashString(password);
             if (hashedPassword == null) {
                 request.setAttribute(ERROR_MESSAGE, "There was an issue with your password");
             } else {
-                // Create user object
                 User user = new User(
                         username,
                         hashedPassword,
@@ -85,10 +83,7 @@ public class Registration extends HttpServlet {
                 );
 
                 // Save the user in the DB
-                DatabaseFactory dbf = new DatabaseFactory();
-                boolean insertSuccessful = dbf.insert(user);
-
-                if (insertSuccessful) {
+                if (new DatabaseFactory().insert(user)) {
                     // Save the user in the current session
                     SessionHelper.setUser(request, user);
 

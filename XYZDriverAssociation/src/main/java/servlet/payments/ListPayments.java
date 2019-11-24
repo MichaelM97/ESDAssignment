@@ -76,7 +76,7 @@ public class ListPayments extends HttpServlet {
 
                 request.setAttribute(PAYMENT_LIST, paymentList);
                 List<String> pendingUserIDs = getListOfPendingUsersIDs(dbf);
-                if (pendingUserIDs != null && !pendingUserIDs.isEmpty()) {
+                if (!pendingUserIDs.isEmpty()) {
                     request.setAttribute(PENDING_USERS_LIST, pendingUserIDs);
                 }
             }
@@ -133,6 +133,12 @@ public class ListPayments extends HttpServlet {
         doGet(request, response);
     }
 
+    /**
+     * Fetches a list of all Users in the DB that have a status of PENDING.
+     * 
+     * @param dbf Instance of DatabaseFactory
+     * @return The list of users, empty if no users were found/an error occurred
+     */
     List<String> getListOfPendingUsersIDs(DatabaseFactory dbf) {
         List<String> userIDList = new ArrayList<>();
 
@@ -141,7 +147,7 @@ public class ListPayments extends HttpServlet {
 
         // Check if table has results
         if (usersResult == null) {
-            return null;
+            return userIDList;
         } else {
             // Loop through the results and pull out any PENDING users
             try {
@@ -154,7 +160,7 @@ public class ListPayments extends HttpServlet {
                 } while (usersResult.next());
             } catch (SQLException ex) {
                 Logger.getLogger(ListPayments.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
+                return new ArrayList<>();
             }
 
             return userIDList;
