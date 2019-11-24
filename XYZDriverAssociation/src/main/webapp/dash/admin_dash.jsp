@@ -23,13 +23,16 @@
         <h4>Options:</h4>
         <div id="user-options">
             <form action ='ListMembershipApplications' method='get'>
-                <input name='list_pending_members' type='submit' value='List membership applications'/>
+                <input name='list_pending_members' type='submit' value='List all Membership Applications'/>
             </form>
             <form action ='ListAllMembers' method='get'>
-                <input name='membership' type='submit' value='List all members'/>
+                <input name='membership' type='submit' value='List all Members'/>
             </form>
             <form action ='ListClaims' method='get'>
                 <input name='claims' type='submit' value='List all Claims'/>
+            </form>
+            <form action ='ListPayments' method='get'>
+                <input name='payments' type='submit' value='List all Payments'/>
             </form>
             <form action ='' method=''>
                 <input name='turnover' type='submit' value='turnover'/>

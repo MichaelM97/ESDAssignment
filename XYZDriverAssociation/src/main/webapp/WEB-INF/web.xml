@@ -32,6 +32,10 @@
         <servlet-name>ListClaims</servlet-name>
         <servlet-class>servlet.claims.ListClaims</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListPayments</servlet-name>
+        <servlet-class>servlet.payments.ListPayments</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>ListClaims</servlet-name>
         <url-pattern>/ListClaims</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListPayments</servlet-name>
+        <url-pattern>/ListPayments</url-pattern>
     </servlet-mapping>
     <session-config>
         <!--This is the timeout for each given session in minutes-->
