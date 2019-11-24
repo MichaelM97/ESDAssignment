@@ -20,6 +20,27 @@ public class User {
     private float balance;
     private String status;
 
+    public User(String id, String password, String name, String address, Date dob, Date dor, float balance, String status) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.address = address;
+        this.dob = dob;
+        this.dor = dor;
+        this.balance = balance;
+        this.status = status;
+    }
+
+    public User(String id, String name, String address, Date dob, Date dor, float balance, String status) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.dob = dob;
+        this.dor = dor;
+        this.balance = balance;
+        this.status = status;
+    }
+
     public String getId() {
         return id;
     }
@@ -83,16 +104,16 @@ public class User {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    public java.sql.Date getDobSql(){
-        if (dob != null){
+
+    public java.sql.Date getDobSql() {
+        if (dob != null) {
             return new java.sql.Date((long) getDob().getTime());
-        } 
+        }
         return null;
     }
 
-    public java.sql.Date getDorSql(){
-        if (dob != null){
+    public java.sql.Date getDorSql() {
+        if (dob != null) {
             return new java.sql.Date((long) getDor().getTime());
         }
         return null;

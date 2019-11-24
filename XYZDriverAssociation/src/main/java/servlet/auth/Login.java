@@ -84,7 +84,15 @@ public class Login extends HttpServlet {
                                         request.setAttribute(ERROR_MESSAGE, "Your membership status has not yet been approved.");
                                     } else {
                                         // Save the user in the current session
-                                        User user = new User(username, password, userResult.getString("status"));
+                                        User user = new User(
+                                                username,
+                                                userResult.getString("name"),
+                                                userResult.getString("address"),
+                                                userResult.getDate("dob"),
+                                                userResult.getDate("dor"),
+                                                userResult.getFloat("balance"),
+                                                userResult.getString("status")
+                                        );
                                         SessionHelper.setUser(request, user);
                                         // Navigate to dashboard
                                         response.sendRedirect("Dashboard");
