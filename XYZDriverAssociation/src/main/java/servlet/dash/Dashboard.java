@@ -12,8 +12,7 @@ import utils.SessionHelper;
 public class Dashboard extends HttpServlet {
 
     public static final String INFO_MESSAGE = "infoMessage";
-    public static final String USERS_NAME = "usersName";
-    public static final String USERS_STATUS = "usersStatus";
+    public static final String USER_OBJECT_ATT = "userObject";
     private static String JSP = "dash/client_dash.jsp";
 
     /**
@@ -44,8 +43,7 @@ public class Dashboard extends HttpServlet {
             else if (userStatus.equals(User.STATUS_PENDING)) {
                 request.setAttribute(INFO_MESSAGE, "<br>Please submit your first payment so that we can approve your membership.<br>");
             }
-            request.setAttribute(USERS_NAME, uid);
-            request.setAttribute(USERS_STATUS, userStatus);
+            request.setAttribute(USER_OBJECT_ATT, user);
             RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
             dispatcher.forward(request, response);
         }

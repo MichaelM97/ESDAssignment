@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="model.User"%>
 <%@page import="servlet.dash.Dashboard"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,20 +13,20 @@
         <br/>
         <div id="user-info">
             <fieldset> 
-                <h4>Username:</h4>
+                <legend>Your information</legend>
                 <%
-                    if (request.getAttribute(Dashboard.USERS_NAME) != null) {
-                        out.println(request.getAttribute(Dashboard.USERS_NAME));
+                    if (request.getAttribute(Dashboard.USER_OBJECT_ATT) != null) {
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        User user = (User) request.getAttribute(Dashboard.USER_OBJECT_ATT);
+                        out.println("<b>Username/ID: </b>" + user.getId() + "<br>");
+                        out.println("<b>Name: </b>" + user.getName() + "<br>");
+                        out.println("<b>Address: </b>" + user.getAddress() + "<br>");
+                        out.println("<b>Birthday: </b>" + formatter.format(user.getDob()) + "<br>");
+                        out.println("<b>Registration date: </b>" + formatter.format(user.getDor()) + "<br>");
+                        out.println("<b>Current balance: </b>£" + String.valueOf(user.getBalance()) + "<br>");
+                        out.println("<b>Membership status: </b>" + user.getStatus() + "<br>");
                     }
                 %>
-                <br>
-                <h4>Membership status:</h4>
-                <%
-                    if (request.getAttribute(Dashboard.USERS_STATUS) != null) {
-                        out.println(request.getAttribute(Dashboard.USERS_STATUS));
-                    }
-                %>
-
                 <font color="blue">
                 <%
                     if (request.getAttribute(Dashboard.INFO_MESSAGE) != null) {
