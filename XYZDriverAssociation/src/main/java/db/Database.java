@@ -196,7 +196,7 @@ public class Database {
      * @return boolean - True if successful, False if not.
      */
     protected boolean delete_from_table(String table, String id) {
-        String sql = "DELETE FROM " + table + " WHERE id=" + id;
+        final String sql = "DELETE FROM " + table + " WHERE id=" + "'" + id + "'";
         int success = -1;
         try {
             Statement stmt = conn.createStatement();
