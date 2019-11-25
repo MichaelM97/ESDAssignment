@@ -75,10 +75,12 @@ public class ChangePassword extends HttpServlet {
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+                        request.setAttribute(ERROR_MESSAGE, "Username error");
                     }
                 } while (userResult.next());
             } catch (SQLException ex) {
                 Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute(ERROR_MESSAGE, "Password error");
             }
         } else {
             request.setAttribute(ERROR_MESSAGE, "Error with your password");
