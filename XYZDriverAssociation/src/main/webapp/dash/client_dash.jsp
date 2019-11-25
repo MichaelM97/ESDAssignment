@@ -44,10 +44,16 @@
                 <input name='payments' type='submit' value='Make a payment'/>
             </form>
             <form action ='SubmitClaim' method='get'>
-                <input name='claims' type='submit' value='Submit a Claim'/>
+                <input name='claims' type='submit' value='Submit a claim'/>
             </form>
             <form action ='' method=''>
-                <input name='history' type='submit' value='history'/>
+                <input name='history' type='submit' value='History'/>
+            </form>
+            <form action ='ChangePassword' method='get'>
+                <input name='password' type='submit' value='Change password'/>
+            </form>
+            <form action ='Logout' method='get'>
+                <input name='logout' type='submit' value='Logout'/>
             </form>
         </div>
 

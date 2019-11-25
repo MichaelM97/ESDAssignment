@@ -30,7 +30,7 @@ public class Dashboard extends HttpServlet {
         User user = SessionHelper.getUser(request);
         if (user == null) {
             // TODO: Home servlet to appropriately handle error message/log.  
-            response.sendRedirect("./home.jsp");
+            response.sendRedirect("home.jsp");
         } else {
             // Get user info
             String uid = user.getId();

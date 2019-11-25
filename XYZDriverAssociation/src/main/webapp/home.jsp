@@ -1,3 +1,4 @@
+<%@page import="servlet.auth.Logout"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,4 +16,12 @@
             <input name='registrationButton' type='submit' value='New user'/>
         </form>
     </body>
+    <font color="red">
+    <%
+        if (request.getAttribute(Logout.INFO_MESSAGE) != null) {
+            out.println("<br>");
+            out.println(request.getAttribute(Logout.INFO_MESSAGE));
+        }
+    %>
+    <font>
 </html>

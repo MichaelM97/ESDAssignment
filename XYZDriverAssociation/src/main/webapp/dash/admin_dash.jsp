@@ -37,6 +37,9 @@
             <form action ='' method=''>
                 <input name='turnover' type='submit' value='Turnover'/>
             </form>
+            <form action ='Logout' method='get'>
+                <input name='logout' type='submit' value='Logout'/>
+            </form>
         </div>
     </body>
 </html>
