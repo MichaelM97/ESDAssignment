@@ -47,6 +47,29 @@ public class Database {
         if (get_table_names() == null || get_table_names().size() != SQL_TABLES.length) {
             initialise(false);
         }
+
+        // Create admin user if one not found.
+        if (select_from("users", "admin") == null) {
+            try {
+                insert_user(
+                        new User(
+                                "admin",
+                                new utils.HashHelper().hashString("password"),
+                                "ADMINISTRATOR",
+                                "ADMINISTRATOR",
+                                new java.text.SimpleDateFormat(
+                                        "yyyy-MM-dd").parse("1900-01-01"),
+                                new java.text.SimpleDateFormat(
+                                        "yyyy-MM-dd").parse("1900-01-02"),
+                                0,
+                                User.ADMIN)
+                );
+            } catch (java.text.ParseException ex) {
+                Logger.getLogger(
+                        Database.class.getName()).log(
+                        Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -146,16 +169,8 @@ public class Database {
      * @return ResultSet - Results returned from the query.
      */
     protected ResultSet select_from(String table, String id) {
-        String sql = "SELECT * FROM " + table + " WHERE id=";
-        try {
-            Integer.parseInt(id);
-            sql += id;
-        } catch (NumberFormatException ex) {
-            sql += ("\"" + id + "\"");
-            Logger.getLogger(
-                    Database.class.getName()).log(
-                    Level.INFO, null, ex);
-        }
+        String sql = "SELECT * FROM " + table + " WHERE id=" + "'" + id + "'";
+
         if (id.equals("*")) {
             sql = "SELECT * FROM " + table;
         }

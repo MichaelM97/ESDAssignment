@@ -125,7 +125,7 @@ public class ListClaimsTest {
         claims.add(new Claim(5, "Dom99", new Date(), "Crashed my Clio", "PENDING", 12.99f));
         claims.add(new Claim(7, "Jake69", new Date(), "I dont even have a car", "PENDING", 10000f));
         claims.add(new Claim(8, "Alex22", new Date(), "I skrr skrrrd too hard", "PENDING", 199.99f));
-        claims.add(new Claim(9, "TinWahCaseyCheung", new Date(), "Crashed my jet", "PENDING", 100000f));
+        claims.add(new Claim(9, "TinWahCaseyCheung", new Date(), "Crashed air force tin", "PENDING", 100000f));
         DatabaseFactory dbf = new DatabaseFactory();
         dbf.reset_db();
         for (Claim claim : claims) {
