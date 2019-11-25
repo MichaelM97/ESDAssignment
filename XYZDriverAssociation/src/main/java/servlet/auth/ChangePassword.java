@@ -62,10 +62,7 @@ public class ChangePassword extends HttpServlet {
                             if (userResult.getString("password").equals(hashedPassword)) {
                                 hashedPassword = HashHelper.hashString(newPassword);
                                 user.setPassword(hashedPassword);
-                                boolean updateSucessful = dbf.update(user);
-                                if (!updateSucessful) {
-                                    request.setAttribute(ERROR_MESSAGE, "Password not updated");
-                                }
+                                dbf.update(user);
                                 SessionHelper.setUser(request, user);
                                 request.setAttribute(ERROR_MESSAGE, "Password updated");
                                 response.setHeader("Refresh", "1;url=Dashboard");
