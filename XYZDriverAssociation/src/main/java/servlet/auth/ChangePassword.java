@@ -21,7 +21,7 @@ public class ChangePassword extends HttpServlet {
     private static final String JSP = "auth/change_password.jsp";
 
     /**
-     * Displays the change password JSP.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -36,7 +36,7 @@ public class ChangePassword extends HttpServlet {
     }
 
     /**
-     * Submits the two passwords entered, evaluates and changes them. account.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -46,34 +46,29 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Get user info from session object
+
         User user = SessionHelper.getUser(request);
         String uid = user.getId();
-        String uPass = user.getPassword();
-
-        // Get users form entry
         String password = request.getParameter("password");
         String newPassword = request.getParameter("newPassword");
-
-        // <P>  Find uid in DB 
-        //      Test old password
-        //      IF match
-        //          Replace db entry with new.
-        // Query the DB for users
         DatabaseFactory dbf = new DatabaseFactory();
-        ResultSet userResult = dbf.get_from_table("users", "*"); // do i need to get all users?        
+        ResultSet userResult = dbf.get_from_table("users", "*");
         String hashedPassword = HashHelper.hashString(password);
         if (hashedPassword != null) {
             try {
                 do {
                     try {
                         if (userResult.getString("id").equals(uid)) {
-                            // Check if the password hashes match
                             if (userResult.getString("password").equals(hashedPassword)) {
-                                // Update user in DB
-                                // hashedPassword = HashHelper.hashString(newPassword);
-                                // Update user in Session
+                                hashedPassword = HashHelper.hashString(newPassword);
+                                user.setPassword(hashedPassword);
+                                boolean updateSucessful = dbf.update(user);
+                                if (!updateSucessful) {
+                                    request.setAttribute(ERROR_MESSAGE, "Password not updated");
+                                }
+                                SessionHelper.setUser(request, user);
                                 request.setAttribute(ERROR_MESSAGE, "Password updated");
+                                response.setHeader("Refresh", "1;url=Dashboard");
                             } else {
                                 request.setAttribute(ERROR_MESSAGE, "Incorrect password");
                             }
@@ -88,9 +83,7 @@ public class ChangePassword extends HttpServlet {
         } else {
             request.setAttribute(ERROR_MESSAGE, "Error with your password");
         }
-    // reload the page
-    RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
-    dispatcher.forward(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
+        dispatcher.forward(request, response);
     }
 }
-

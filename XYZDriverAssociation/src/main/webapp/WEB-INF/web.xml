@@ -5,6 +5,10 @@
         <servlet-class>servlet.auth.Login</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>servlet.auth.Logout</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Registration</servlet-name>
         <servlet-class>servlet.auth.Registration</servlet-class>
     </servlet>
@@ -43,6 +47,10 @@
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Registration</servlet-name>

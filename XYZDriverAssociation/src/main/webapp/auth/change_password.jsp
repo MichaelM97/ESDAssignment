@@ -9,11 +9,11 @@
     <body>
         <h1>Account Management</h1>
         <form action="ChangePassword" method="post">
-            <h4>Old password:</h4>
-            <input type="password" name="oldPassword" placeholder="Enter your old password" required/>
+            <h4>Password:</h4>
+            <input type="password" name="password" placeholder="Enter your password" required/>
             <h4>New password:</h4>
             <input type="password" name="newPassword" placeholder="Enter your new password" required/>
-            <br>
+            <br><br>
             <input name='submitChangePassword' type='submit' value='Enter'/>
         </form>
         <br>
@@ -21,7 +21,7 @@
         <%
             if (request.getAttribute(ChangePassword.ERROR_MESSAGE) != null) {
                 out.println(request.getAttribute(ChangePassword.ERROR_MESSAGE));
-            }        
+            }
         %>
         </font>
     </body>
