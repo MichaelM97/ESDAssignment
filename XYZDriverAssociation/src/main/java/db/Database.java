@@ -332,7 +332,7 @@ public class Database {
     /**
      * Updates a user
      *
-     * @param user (user)
+     * @param user (Payment)
      * @return boolean - True if successful, False if not
      */
     protected boolean update_user(User user) {
@@ -348,6 +348,61 @@ public class Database {
             ps.setFloat(6, user.getBalance());
             ps.setString(7, user.getStatus());
             ps.setString(8, user.getId());
+            if (ps.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(
+                    Database.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
+     * Updates a payment
+     *
+     * @param payment (Payment)
+     * @return boolean - True if successful, False if not
+     */
+    protected boolean update_payment(Payment payment) {
+        String sql = "UPDATE payments SET mem_id = ?, type = ?, amount = ?, date = ? "
+                + "WHERE id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, payment.getMem_id());
+            ps.setString(2, payment.getType());
+            ps.setFloat(3, payment.getAmount());
+            ps.setDate(4, payment.get_sql_date());
+            ps.setInt(5, payment.getId());
+            if (ps.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(
+                    Database.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
+     * Updates a claim
+     *
+     * @param claim (Claim)
+     * @return boolean - True if successful, False if not
+     */
+    protected boolean update_claim(Claim claim) {
+        String sql = "UPDATE claims SET mem_id = ?, date = ?, description = ?, status = ?, amount = ? "
+                + "WHERE id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, claim.getMem_id());
+            ps.setDate(2, claim.get_sql_date());
+            ps.setString(3, claim.getDescription());
+            ps.setString(4, claim.getStatus());
+            ps.setFloat(5, claim.getAmount());
+            ps.setInt(6, claim.getId());
             if (ps.executeUpdate() == 1) {
                 return true;
             }
