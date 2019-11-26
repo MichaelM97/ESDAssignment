@@ -13,7 +13,6 @@ public class Dashboard extends HttpServlet {
 
     public static final String INFO_MESSAGE = "infoMessage";
     public static final String USER_OBJECT_ATT = "userObject";
-    private static String JSP = "dash/client_dash.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -26,6 +25,8 @@ public class Dashboard extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String JSP = "dash/client_dash.jsp";
+
         // Get user from the current session
         User user = SessionHelper.getUser(request);
         if (user == null) {
@@ -33,7 +34,6 @@ public class Dashboard extends HttpServlet {
             response.sendRedirect("home.jsp");
         } else {
             // Get user info
-            String uid = user.getId();
             String userStatus = user.getStatus();
 
             // Check if user is admin
