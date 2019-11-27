@@ -1,5 +1,6 @@
 package servlet.claims;
 
+import db.DatabaseFactory;
 import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Claim;
 import model.User;
+import org.junit.After;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -62,5 +64,10 @@ public class SubmitClaimTest extends Mockito {
         verify(request, times(1)).getParameter("description");
         verify(request, times(1)).getParameter("amount");
         verify(request, times(1)).setAttribute(eq("createdClaim"), any(Claim.class));
+    }
+
+    @After
+    public void after() throws Exception {
+        new DatabaseFactory().reset_db();
     }
 }

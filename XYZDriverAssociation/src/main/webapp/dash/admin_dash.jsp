@@ -34,8 +34,8 @@
             <form action ='ListPayments' method='get'>
                 <input name='payments' type='submit' value='List all Payments'/>
             </form>
-            <form action ='' method=''>
-                <input name='turnover' type='submit' value='Turnover'/>
+            <form action ='Turnover' method='get'>
+                <input name='turnover' type='submit' value='Generate Turnover'/>
             </form>
             <form action ='Logout' method='get'>
                 <input name='logout' type='submit' value='Logout'/>

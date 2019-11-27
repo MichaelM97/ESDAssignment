@@ -12,6 +12,7 @@ import model.Claim;
 import model.User;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import org.junit.After;
 import org.mockito.ArgumentCaptor;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -141,5 +142,10 @@ public class ListClaimsTest {
         verify(request, times(1)).getSession(false);
         verify(request, times(1)).setAttribute(eq("claimsList"), captor.capture());
         assertTrue(new ReflectionEquals(claims).matches(captor.getValue()));
+    }
+
+    @After
+    public void after() throws Exception {
+        new DatabaseFactory().reset_db();
     }
 }
