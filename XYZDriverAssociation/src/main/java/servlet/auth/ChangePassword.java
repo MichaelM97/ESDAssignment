@@ -18,6 +18,7 @@ import utils.SessionHelper;
 public class ChangePassword extends HttpServlet {
 
     public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String INFO_MESSAGE = "infoMessage";
     private static final String JSP = "auth/change_password.jsp";
 
     /**
@@ -66,8 +67,8 @@ public class ChangePassword extends HttpServlet {
                                     request.setAttribute(ERROR_MESSAGE, "Password not updated");
                                 }
                                 SessionHelper.setUser(request, user);
-                                request.setAttribute(ERROR_MESSAGE, "Password updated");
-                                response.setHeader("Refresh", "1;url=Dashboard");
+                                request.setAttribute(INFO_MESSAGE, "Yup");
+//                                response.setHeader("Refresh", "1;url=Dashboard");
                             } else {
                                 request.setAttribute(ERROR_MESSAGE, "Incorrect password");
                             }
