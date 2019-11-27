@@ -12,7 +12,9 @@ import model.Payment;
 import model.User;
 import utils.SessionHelper;
 
-
+/**
+ * Servlet which allows user to make a payment.
+ */
 public class MakePayment extends HttpServlet {
 
     private static final String JSP = "payments/client_make_payment.jsp";
@@ -22,17 +24,8 @@ public class MakePayment extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        User user = SessionHelper.getUser(request);
-        if (user == null) {
-            // TODO: Home servlet to appropriately handle error message/log.  
-            response.sendRedirect("./home.jsp");
-        } else {
-            // Get user session information
-            RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
-            dispatcher.forward(request, response);
-        }
-
+        RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
+        dispatcher.forward(request, response);
     }
 
     @Override
@@ -52,9 +45,7 @@ public class MakePayment extends HttpServlet {
 
         if (insertSuccessful) {
             request.setAttribute(CREATED_PAYMENT, payment);
-        }
-        else
-        {
+        } else {
             request.setAttribute(ERROR_MESSAGE, "Failed to process payment. Please try again.");
         }
 

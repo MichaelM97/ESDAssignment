@@ -1,3 +1,4 @@
+<%@page import="filter.ClientFilter"%>
 <%@page import="filter.AdminFilter"%>
 <%@page import="servlet.auth.Logout"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -28,6 +29,12 @@
     <font>
 
     <font color="red">
+    <%
+        if (request.getAttribute(ClientFilter.CLIENT_FILTER_ERROR) != null) {
+            out.println("<br>");
+            out.println(request.getAttribute(ClientFilter.CLIENT_FILTER_ERROR));
+        }
+    %>
     <%
         if (request.getAttribute(AdminFilter.ADMIN_FILTER_ERROR) != null) {
             out.println("<br>");

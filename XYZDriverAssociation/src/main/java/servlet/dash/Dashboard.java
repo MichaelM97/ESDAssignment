@@ -31,6 +31,7 @@ public class Dashboard extends HttpServlet {
         User user = SessionHelper.getUser(request);
         if (user == null) {
             // TODO: Home servlet to appropriately handle error message/log.  
+            // FIXME
             response.sendRedirect("home.jsp");
         } else {
             // Get user info
