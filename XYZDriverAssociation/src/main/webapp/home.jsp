@@ -1,3 +1,4 @@
+<%@page import="filter.AdminFilter"%>
 <%@page import="servlet.auth.Logout"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,11 +17,21 @@
             <input name='registrationButton' type='submit' value='New user'/>
         </form>
     </body>
+
+    <font color="green">
+    <%
+        if (request.getAttribute(Logout.LOGOUT_MESSAGE) != null) {
+            out.println("<br>");
+            out.println(request.getAttribute(Logout.LOGOUT_MESSAGE));
+        }
+    %>
+    <font>
+
     <font color="red">
     <%
-        if (request.getAttribute(Logout.INFO_MESSAGE) != null) {
+        if (request.getAttribute(AdminFilter.ADMIN_FILTER_ERROR) != null) {
             out.println("<br>");
-            out.println(request.getAttribute(Logout.INFO_MESSAGE));
+            out.println(request.getAttribute(AdminFilter.ADMIN_FILTER_ERROR));
         }
     %>
     <font>
