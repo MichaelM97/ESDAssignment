@@ -69,10 +69,10 @@ public class Turnover extends HttpServlet {
                             Level.SEVERE, null, ex);
                 }
             }
+            request.setAttribute(TURNOVER, turnover);
+            RequestDispatcher view = request.getRequestDispatcher(JSP);
+            view.forward(request, response);
         }
-        request.setAttribute(TURNOVER, turnover);
-        RequestDispatcher view = request.getRequestDispatcher(JSP);
-        view.forward(request, response);
     }
 
     /**
