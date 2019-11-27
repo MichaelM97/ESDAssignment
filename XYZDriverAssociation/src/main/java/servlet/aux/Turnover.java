@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 import model.User;
-import utils.SessionHelper;
 import db.DatabaseFactory;
 import java.sql.SQLException;
 import java.time.Instant;
@@ -35,44 +34,38 @@ public class Turnover extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User currentUser = SessionHelper.getUser(request);
         float turnover = 0;
-        // Check for invalid user scenarios.
-        if (currentUser == null || !currentUser.getStatus().equals(model.User.ADMIN)) {
-            response.sendRedirect("./home.jsp");
-        } else {
-            DatabaseFactory dbf = new DatabaseFactory();
-            ResultSet payments = dbf.get_from_table("payments", "*");
-            if (payments != null) {
-                try {
-                    do {
-                        //Check user is approved
-                        ResultSet user = dbf.get_from_table("users", payments.getString("mem_id"));
-                        if (user != null) {
-                            if (user.getString("status").equals(User.STATUS_APPROVED)) {
-                                LocalDate paymentDate = LocalDateTime.ofInstant(
-                                        Instant.ofEpochMilli(payments.getDate("date").getTime()),
-                                        ZoneId.systemDefault()
-                                ).toLocalDate();
-                                // Ensure it's for this year.
-                                if (paymentDate.getYear() == LocalDate.now().getYear()) {
-                                    turnover += payments.getFloat("amount");
-                                }
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet payments = dbf.get_from_table("payments", "*");
+        if (payments != null) {
+            try {
+                do {
+                    //Check user is approved
+                    ResultSet user = dbf.get_from_table("users", payments.getString("mem_id"));
+                    if (user != null) {
+                        if (user.getString("status").equals(User.STATUS_APPROVED)) {
+                            LocalDate paymentDate = LocalDateTime.ofInstant(
+                                    Instant.ofEpochMilli(payments.getDate("date").getTime()),
+                                    ZoneId.systemDefault()
+                            ).toLocalDate();
+                            // Ensure it's for this year.
+                            if (paymentDate.getYear() == LocalDate.now().getYear()) {
+                                turnover += payments.getFloat("amount");
                             }
                         }
-                    } while (payments.next());
-                } catch (SQLException ex) {
-                    request.setAttribute(ERROR_MESSAGE,
-                            "Error retrieving payments.");
-                    Logger.getLogger(
-                            Turnover.class.getName()).log(
-                            Level.SEVERE, null, ex);
-                }
+                    }
+                } while (payments.next());
+            } catch (SQLException ex) {
+                request.setAttribute(ERROR_MESSAGE,
+                        "Error retrieving payments.");
+                Logger.getLogger(
+                        Turnover.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
-            request.setAttribute(TURNOVER, turnover);
-            RequestDispatcher view = request.getRequestDispatcher(JSP);
-            view.forward(request, response);
         }
+        request.setAttribute(TURNOVER, turnover);
+        RequestDispatcher view = request.getRequestDispatcher(JSP);
+        view.forward(request, response);
     }
 
     /**
@@ -102,15 +95,4 @@ public class Turnover extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Turnover servlet";
-    }
-
 }
