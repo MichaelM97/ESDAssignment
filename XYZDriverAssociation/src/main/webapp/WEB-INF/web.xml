@@ -46,7 +46,7 @@
     </servlet>
     <servlet>
         <servlet-name>Turnover</servlet-name>
-        <servlet-class>servlet.aux.Turnover</servlet-class>
+        <servlet-class>servlet.other.Turnover</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
