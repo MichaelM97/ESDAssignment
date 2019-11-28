@@ -6,9 +6,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
         <title>Home</title>
     </head>
-
     <body>
         <h1>Welcome to XYZ Driver Association</h1>
         <form action ='Login' method='get'>
@@ -19,27 +19,27 @@
         </form>
     </body>
 
-    <font color="green">
-    <%
-        if (request.getAttribute(Logout.LOGOUT_MESSAGE) != null) {
-            out.println("<br>");
-            out.println(request.getAttribute(Logout.LOGOUT_MESSAGE));
-        }
-    %>
-    <font>
+    <p class="success">
+        <%
+            if (request.getAttribute(Logout.LOGOUT_MESSAGE) != null) {
+                out.println("<br>");
+                out.println(request.getAttribute(Logout.LOGOUT_MESSAGE));
+            }
+        %>
+    <p/>
 
-    <font color="red">
-    <%
-        if (request.getAttribute(ClientFilter.CLIENT_FILTER_ERROR) != null) {
-            out.println("<br>");
-            out.println(request.getAttribute(ClientFilter.CLIENT_FILTER_ERROR));
-        }
-    %>
-    <%
-        if (request.getAttribute(AdminFilter.ADMIN_FILTER_ERROR) != null) {
-            out.println("<br>");
-            out.println(request.getAttribute(AdminFilter.ADMIN_FILTER_ERROR));
-        }
-    %>
-    <font>
+    <p class="failure">
+        <%
+            if (request.getAttribute(ClientFilter.CLIENT_FILTER_ERROR) != null) {
+                out.println("<br>");
+                out.println(request.getAttribute(ClientFilter.CLIENT_FILTER_ERROR));
+            }
+        %>
+        <%
+            if (request.getAttribute(AdminFilter.ADMIN_FILTER_ERROR) != null) {
+                out.println("<br>");
+                out.println(request.getAttribute(AdminFilter.ADMIN_FILTER_ERROR));
+            }
+        %>
+    <p/>
 </html>
