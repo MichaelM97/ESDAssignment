@@ -30,8 +30,8 @@
         <br>
         <p class="success">
         <%
-            if (request.getAttribute(ChangePassword.INFO_MESSAGE) != null) {
-                out.println("Password changed");
+             if (request.getAttribute(ChangePassword.INFO_MESSAGE) != null) {
+                out.println(request.getAttribute(ChangePassword.INFO_MESSAGE));
             }
         %>
         </p>

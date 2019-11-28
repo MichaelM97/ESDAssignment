@@ -67,8 +67,7 @@ public class ChangePassword extends HttpServlet {
                                     request.setAttribute(ERROR_MESSAGE, "Password not updated");
                                 }
                                 SessionHelper.setUser(request, user);
-                                request.setAttribute(INFO_MESSAGE, "Yup");
-//                                response.setHeader("Refresh", "1;url=Dashboard");
+                                request.setAttribute(INFO_MESSAGE, "Password changed");
                             } else {
                                 request.setAttribute(ERROR_MESSAGE, "Incorrect password");
                             }
