@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>filter.AdminFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>ClientFilter</filter-name>
+        <filter-class>filter.ClientFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ClientFilter</filter-name>
+        <servlet-name>ClientDashboard</servlet-name>
+        <servlet-name>SubmitClaim</servlet-name>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-name>MakePayment</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <servlet-name>AdminDashboard</servlet-name>
+        <servlet-name>ListMembershipApplications</servlet-name>
+        <servlet-name>ListAllMembers</servlet-name>
+        <servlet-name>ListClaims</servlet-name>
+        <servlet-name>ListPayments</servlet-name>
+        <servlet-name>Turnover</servlet-name>
+    </filter-mapping>
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>servlet.auth.Login</servlet-class>
@@ -17,8 +41,8 @@
         <servlet-class>servlet.auth.ChangePassword</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Dashboard</servlet-name>
-        <servlet-class>servlet.dash.Dashboard</servlet-class>
+        <servlet-name>ClientDashboard</servlet-name>
+        <servlet-class>servlet.dash.ClientDashboard</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListMembershipApplications</servlet-name>
@@ -48,6 +72,10 @@
         <servlet-name>Turnover</servlet-name>
         <servlet-class>servlet.other.Turnover</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminDashboard</servlet-name>
+        <servlet-class>servlet.dash.AdminDashboard</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -65,8 +93,8 @@
         <url-pattern>/ChangePassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Dashboard</servlet-name>
-        <url-pattern>/Dashboard</url-pattern>
+        <servlet-name>ClientDashboard</servlet-name>
+        <url-pattern>/ClientDashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListMembershipApplications</servlet-name>
@@ -95,6 +123,10 @@
     <servlet-mapping>
         <servlet-name>Turnover</servlet-name>
         <url-pattern>/Turnover</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashboard</servlet-name>
+        <url-pattern>/AdminDashboard</url-pattern>
     </servlet-mapping>
     <session-config>
         <!--This is the timeout for each given session in minutes-->

@@ -13,12 +13,12 @@
     <body>
         <div id="navbar">
             <ul>
-                <li><a href='Dashboard' type="submit" method='get'>Home</a></li>
+                <li><a href='AdminDashboard' type="submit" method='get'>Home</a></li>
                 <li><a class="active" href='ListMembershipApplications' type="submit" method='get' value='List all Membership Applications'>Applications</a></li>
                 <li><a href='ListAllMembers' type="submit" method='get' value='List all Members'>Members</a></li>
                 <li><a href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
                 <li><a href='ListPayments' type="submit" method='get' value='List all Payments'>Payments</a></li>
-                <li><a href="">Turnover</a></li>
+                <li><a href="Turnover" type="submit" method='get' value='Generate Turnover'>Turnover</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
         </div>
@@ -41,11 +41,11 @@
         %>
         <br>
         <p class="failure">
-        <%
-            if (request.getAttribute(ListMembershipApplications.ERROR_MESSAGE) != null) {
-                out.println(request.getAttribute(ListMembershipApplications.ERROR_MESSAGE));
-            }
-        %>
+            <%
+                if (request.getAttribute(ListMembershipApplications.ERROR_MESSAGE) != null) {
+                    out.println(request.getAttribute(ListMembershipApplications.ERROR_MESSAGE));
+                }
+            %>
         <p/>
     </body>
 </html>

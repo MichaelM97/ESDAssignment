@@ -10,7 +10,7 @@
     <body>       
         <div id="navbar">
             <ul>
-                <li><a href='Dashboard' type="submit" method='get'>Home</a></li>
+                <li><a href='ClientDashboard' type="submit" method='get'>Home</a></li>
                 <li><a class="active" href='MakePayment' type="submit" method='get'>Payments</a></li>
                 <li><a href='SubmitClaim' type="submit" method='get'>Claims</a></li>
                 <li><a href="">History</a></li>
@@ -31,18 +31,18 @@
             <input name='submitPaymentButton' type='submit' value='Submit payment'/>
         </form>
         <p class="success">
-        <%
-            if (request.getAttribute(MakePayment.CREATED_PAYMENT) != null) {
-                out.println("Payment successfully made");
-            }
-        %>
+            <%
+                if (request.getAttribute(MakePayment.CREATED_PAYMENT) != null) {
+                    out.println("Payment successfully made");
+                }
+            %>
         </p>
         <p color="failure">
-        <%
-            if (request.getAttribute(MakePayment.ERROR_MESSAGE) != null) {
-                out.println(request.getAttribute(MakePayment.ERROR_MESSAGE));
-            }
-        %>
+            <%
+                if (request.getAttribute(MakePayment.ERROR_MESSAGE) != null) {
+                    out.println(request.getAttribute(MakePayment.ERROR_MESSAGE));
+                }
+            %>
         </p>
     </body>
 </html>

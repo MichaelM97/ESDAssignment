@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Payment;
 import model.User;
-import utils.SessionHelper;
 
 /**
  * Lists all membership payments, and allows the ADMIN to approve membership
@@ -40,51 +39,43 @@ public class ListPayments extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Get the current user from the session
-        User currentUser = SessionHelper.getUser(request);
-        if (currentUser == null || !currentUser.getStatus().equals("ADMIN")) {
-            // There is no current user or the user is not an admin
-            // TODO: Display an error on the home screen explaining the redirect
-            response.sendRedirect("./home.jsp");
+        // Get all payments from the DB
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet paymentsResult = dbf.get_from_table("payments", "*");
+
+        // Check if table has results
+        if (paymentsResult == null) {
+            request.setAttribute(ERROR_MESSAGE, "No payments have been made yet");
         } else {
-            // Get all payments from the DB
-            DatabaseFactory dbf = new DatabaseFactory();
-            ResultSet paymentsResult = dbf.get_from_table("payments", "*");
-
-            // Check if table has results
-            if (paymentsResult == null) {
-                request.setAttribute(ERROR_MESSAGE, "No payments have been made yet");
-            } else {
-                List<Payment> paymentList = new ArrayList<>();
-                try {
-                    do {
-                        // Build the user object
-                        Payment payment = new Payment(
-                                paymentsResult.getInt("id"),
-                                paymentsResult.getString("mem_id"),
-                                paymentsResult.getString("type"),
-                                paymentsResult.getFloat("amount"),
-                                paymentsResult.getDate("date")
-                        );
-                        // Add the user to the list
-                        paymentList.add(payment);
-                    } while (paymentsResult.next());
-                } catch (SQLException ex) {
-                    request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the payments");
-                    Logger.getLogger(ListPayments.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                request.setAttribute(PAYMENT_LIST, paymentList);
-                List<String> pendingUserIDs = getListOfPendingUsersIDs(dbf);
-                if (!pendingUserIDs.isEmpty()) {
-                    request.setAttribute(PENDING_USERS_LIST, pendingUserIDs);
-                }
+            List<Payment> paymentList = new ArrayList<>();
+            try {
+                do {
+                    // Build the user object
+                    Payment payment = new Payment(
+                            paymentsResult.getInt("id"),
+                            paymentsResult.getString("mem_id"),
+                            paymentsResult.getString("type"),
+                            paymentsResult.getFloat("amount"),
+                            paymentsResult.getDate("date")
+                    );
+                    // Add the user to the list
+                    paymentList.add(payment);
+                } while (paymentsResult.next());
+            } catch (SQLException ex) {
+                request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the payments");
+                Logger.getLogger(ListPayments.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            // Show the JSP
-            RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
-            dispatcher.forward(request, response);
+            request.setAttribute(PAYMENT_LIST, paymentList);
+            List<String> pendingUserIDs = getListOfPendingUsersIDs(dbf);
+            if (!pendingUserIDs.isEmpty()) {
+                request.setAttribute(PENDING_USERS_LIST, pendingUserIDs);
+            }
         }
+
+        // Show the JSP
+        RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
+        dispatcher.forward(request, response);
     }
 
     /**
