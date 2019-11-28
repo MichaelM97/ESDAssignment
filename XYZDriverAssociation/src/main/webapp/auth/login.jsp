@@ -4,6 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
         <title>Login</title>
     </head>
     <body>
@@ -19,12 +20,12 @@
             <input name='submitClientLoginButton' type='submit' value='Log in'/>
         </form>
         <br>
-        <font color="red">
+        <p class="failure">
         <%
             if (request.getAttribute(Login.ERROR_MESSAGE) != null) {
                 out.println(request.getAttribute(Login.ERROR_MESSAGE));
             }
         %>
-        </font>
+        </p>
     </body>
 </html>

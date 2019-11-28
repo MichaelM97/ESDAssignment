@@ -3,12 +3,26 @@
 <%@page import="servlet.dash.Dashboard"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
     <head>
+        <!DOCTYPE html>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
         <title>Client Dashboard</title>
     </head>
-    <body>
+    <body>         
+        <div id="navbar">
+            <ul>
+                <li><a class="active" href='Home' type="submit" method='get'>Home</a></li>
+                <li><a href='MakePayment' type="submit" method='get'>Payments</a></li>
+                <li><a href='SubmitClaim' type="submit" method='get'>Claims</a></li>
+                <li><a href="">History</a></li>
+                <li><a href="ChangePassword" type="submit" method='get'>Account</a></li>
+                <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
+            </ul>
+        </div>
+        
         <h1>Client Dashboard</h1>
         <br/>
         <div id="user-info">
@@ -27,35 +41,15 @@
                         out.println("<b>Membership status: </b>" + user.getStatus() + "<br>");
                     }
                 %>
-                <font color="blue">
+                <p class="info">
                 <%
                     if (request.getAttribute(Dashboard.INFO_MESSAGE) != null) {
                         out.println("<br>");
                         out.println(request.getAttribute(Dashboard.INFO_MESSAGE));
                     }
                 %>
-                </font>
+                </p>
             </fieldset>
         </div>
-        <br/>
-        <h4>Options:</h4>
-        <div id="user-options">
-            <form action ='MakePayment' method='get'>
-                <input name='payments' type='submit' value='Make a payment'/>
-            </form>
-            <form action ='SubmitClaim' method='get'>
-                <input name='claims' type='submit' value='Submit a claim'/>
-            </form>
-            <form action ='' method=''>
-                <input name='history' type='submit' value='History'/>
-            </form>
-            <form action ='ChangePassword' method='get'>
-                <input name='password' type='submit' value='Change password'/>
-            </form>
-            <form action ='Logout' method='get'>
-                <input name='logout' type='submit' value='Logout'/>
-            </form>
-        </div>
-
     </body>
 </html>

@@ -6,9 +6,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
         <title>Submit a claim</title>
     </head>
     <body>
+        <div id="navbar">
+            <ul>
+                <li><a href='Dashboard' type="submit" method='get'>Home</a></li>
+                <li><a href='MakePayment' type="submit" method='get'>Payments</a></li>
+                <li><a class="active" href='SubmitClaim' type="submit" method='get'>Claims</a></li>
+                <li><a href="">History</a></li>
+                <li><a href="ChangePassword" type="submit" method='get'>Account</a></li>
+                <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
+            </ul>
+        </div>
         <h1>Submit a claim</h1>
         <form action='SubmitClaim' method="post">
             <h4>Amount (£):</h4>
@@ -20,16 +31,14 @@
             <br>
             <input name='submitClaimButton' type='submit' value='Submit claim'/>
         </form>
-
         <br>
-        <font color="green">
+        <p class="success">
         <%
             if (request.getAttribute(SubmitClaim.CREATED_CLAIM) != null) {
                 out.println("Claim successfully created!");
             }
         %>
-        </font>
-
+        </p>
         <h3>
             <%
                 if (request.getAttribute(SubmitClaim.CREATED_CLAIM) != null) {
@@ -37,7 +46,6 @@
                 }
             %>
         </h3>
-
         <%
             if (request.getAttribute(SubmitClaim.CREATED_CLAIM) != null) {
                 Claim claim = (Claim) request.getAttribute(SubmitClaim.CREATED_CLAIM);
@@ -48,13 +56,12 @@
                 out.println("<br>Description: " + claim.getDescription());
             }
         %>
-
-        <font color="red">
+        <p class="failure">
         <%
             if (request.getAttribute(SubmitClaim.ERROR_MESSAGE) != null) {
                 out.println(request.getAttribute(SubmitClaim.ERROR_MESSAGE));
             }
         %>
-        </font>
+        </p>
     </body>
 </html>

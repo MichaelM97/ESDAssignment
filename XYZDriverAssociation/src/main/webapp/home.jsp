@@ -4,9 +4,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
         <title>Home</title>
     </head>
-
     <body>
         <h1>Welcome to XYZ Driver Association</h1>
         <form action ='Login' method='get'>
@@ -16,12 +16,12 @@
             <input name='registrationButton' type='submit' value='New user'/>
         </form>
     </body>
-    <font color="red">
+    <p class="success">
     <%
         if (request.getAttribute(Logout.INFO_MESSAGE) != null) {
             out.println("<br>");
             out.println(request.getAttribute(Logout.INFO_MESSAGE));
         }
     %>
-    <font>
+    <p/>
 </html>
