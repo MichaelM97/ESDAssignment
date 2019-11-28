@@ -1,4 +1,4 @@
-package servlet.aux;
+package servlet.other;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -21,7 +21,7 @@ public class Turnover extends HttpServlet {
 
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String TURNOVER = "turnover";
-    public static final String JSP = "aux/turnover.jsp";
+    public static final String JSP = "other/turnover.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
