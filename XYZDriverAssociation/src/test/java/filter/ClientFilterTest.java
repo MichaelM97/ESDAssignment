@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 
 public class ClientFilterTest {
 
-    private static final String CLIENT_JSP = "payments/client_make_payment.jsp";
+    private static final String CLIENT_JSP = "dash/client_dash.jsp";
 
     private static HttpServletRequest request;
     private static HttpServletResponse response;

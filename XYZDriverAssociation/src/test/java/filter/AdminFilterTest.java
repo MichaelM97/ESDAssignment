@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 
 public class AdminFilterTest {
 
-    private static final String ADMIN_JSP = "payments/list_all_payments.jsp";
+    private static final String ADMIN_JSP = "dash/admin_dash.jsp";
 
     private static HttpServletRequest request;
     private static HttpServletResponse response;

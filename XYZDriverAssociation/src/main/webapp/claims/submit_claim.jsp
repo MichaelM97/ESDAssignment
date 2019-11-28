@@ -12,7 +12,7 @@
     <body>
         <div id="navbar">
             <ul>
-                <li><a href='Dashboard' type="submit" method='get'>Home</a></li>
+                <li><a href='ClientDashboard' type="submit" method='get'>Home</a></li>
                 <li><a href='MakePayment' type="submit" method='get'>Payments</a></li>
                 <li><a class="active" href='SubmitClaim' type="submit" method='get'>Claims</a></li>
                 <li><a href="">History</a></li>
@@ -33,11 +33,11 @@
         </form>
         <br>
         <p class="success">
-        <%
-            if (request.getAttribute(SubmitClaim.CREATED_CLAIM) != null) {
-                out.println("Claim successfully created!");
-            }
-        %>
+            <%
+                if (request.getAttribute(SubmitClaim.CREATED_CLAIM) != null) {
+                    out.println("Claim successfully created!");
+                }
+            %>
         </p>
         <h3>
             <%
@@ -57,11 +57,11 @@
             }
         %>
         <p class="failure">
-        <%
-            if (request.getAttribute(SubmitClaim.ERROR_MESSAGE) != null) {
-                out.println(request.getAttribute(SubmitClaim.ERROR_MESSAGE));
-            }
-        %>
+            <%
+                if (request.getAttribute(SubmitClaim.ERROR_MESSAGE) != null) {
+                    out.println(request.getAttribute(SubmitClaim.ERROR_MESSAGE));
+                }
+            %>
         </p>
     </body>
 </html>

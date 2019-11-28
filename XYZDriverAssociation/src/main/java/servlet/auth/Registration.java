@@ -88,7 +88,7 @@ public class Registration extends HttpServlet {
                     SessionHelper.setUser(request, user);
 
                     // Navigate to the client dashboard
-                    response.sendRedirect("Dashboard");
+                    response.sendRedirect("ClientDashboard");
                     userWasCreated = true;
                 } else {
                     request.setAttribute(ERROR_MESSAGE, "Failed to create account");

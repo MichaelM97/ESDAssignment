@@ -10,7 +10,7 @@
     <body>
         <div id="navbar">
             <ul>
-                <li><a href='Dashboard' type="submit" method='get'>Home</a></li>
+                <li><a href='AdminDashboard' type="submit" method='get'>Home</a></li>
                 <li><a href='ListMembershipApplications' type="submit" method='get' value='List all Membership Applications'>Applications</a></li>
                 <li><a href='ListAllMembers' type="submit" method='get' value='List all Members'>Members</a></li>
                 <li><a href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
@@ -21,17 +21,17 @@
         </div>
         <h1>Turnover</h1>           
         <%
-           if (request.getAttribute(Turnover.TURNOVER) != null){
-               out.println("£"+ request.getAttribute(Turnover.TURNOVER));
-           } 
+            if (request.getAttribute(Turnover.TURNOVER) != null) {
+                out.println("£" + request.getAttribute(Turnover.TURNOVER));
+            }
         %>
         <br>
         <p class="failure">
-        <%
-            if (request.getAttribute(Turnover.ERROR_MESSAGE) != null) {
-                out.println(request.getAttribute(Turnover.ERROR_MESSAGE));
-            }
-        %>
+            <%
+                if (request.getAttribute(Turnover.ERROR_MESSAGE) != null) {
+                    out.println(request.getAttribute(Turnover.ERROR_MESSAGE));
+                }
+            %>
         </p>
     </body>
 </html>
