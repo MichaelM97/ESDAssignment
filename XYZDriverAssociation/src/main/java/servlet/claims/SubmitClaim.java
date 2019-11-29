@@ -25,6 +25,7 @@ public class SubmitClaim extends HttpServlet {
 
     public static final String CREATED_CLAIM = "createdClaim";
     public static final String ERROR_MESSAGE = "errorMessage";
+
     private static final String JSP = "claims/submit_claim.jsp";
     private static final String CLIENT_DASH_JSP = "dash/client_dash.jsp";
 
@@ -68,16 +69,15 @@ public class SubmitClaim extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Fetch all required fields for the claim
-        User user = SessionHelper.getUser(request);
-        String userID = user.getId();
-        Date date = new Date();
-        String enteredDescription = (String) request.getParameter("description");
-        String status = "PENDING";
-        float enteredAmount = Float.parseFloat(request.getParameter("amount"));
-
-        // Build the Claim object            
-        Claim claim = new Claim(userID, date, enteredDescription, status, enteredAmount);
+        // Build the claim
+        User currentUser = SessionHelper.getUser(request);
+        Claim claim = new Claim(
+                currentUser.getId(),
+                new Date(),
+                request.getParameter("description"),
+                Claim.STATUS_PENDING,
+                Float.parseFloat(request.getParameter("amount"))
+        );
 
         // Add the claim to the DB
         DatabaseFactory dbf = new DatabaseFactory();
