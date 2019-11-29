@@ -41,7 +41,7 @@ public class ListClaimsTest {
         when(request.getRequestDispatcher(JSP)).thenReturn(requestDispatcher);
 
         // When
-        new ListClaims().processRequest(request, response);
+        new ListClaims().doGet(request, response);
 
         // Then
         verify(request).setAttribute("errorMessage", "No claims have been filed yet");
@@ -59,7 +59,7 @@ public class ListClaimsTest {
 
         // When
         ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
-        new ListClaims().processRequest(request, response);
+        new ListClaims().doGet(request, response);
 
         // Then
         verify(request).setAttribute(eq("claimsList"), captor.capture());
