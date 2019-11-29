@@ -8,7 +8,7 @@ Follow these steps in order.
 To generate a web service client in the IDE from a web service or WSDL file you need to modify the IDE configuration file (netbeans.conf) to add the following switch to netbeans_default_options.
 
 `-J-Djavax.xml.accessExternalSchema=all`
-For more about locating and modifying the netbeans.conf configuration file, see Netbeans Conf FAQ.
+For more about locating and modifying the netbeans.conf configuration file, see [Netbeans Conf FAQ](http://wiki.netbeans.org/FaqNetbeansConf).
 
 ### Netbeans Steps
 1. Open PasswordGeneratorService Netbeans project.
