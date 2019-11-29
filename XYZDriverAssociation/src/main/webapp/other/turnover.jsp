@@ -19,10 +19,18 @@
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
         </div>
-        <h1>Turnover</h1>           
+        <h1>Turnover</h1>    
+        <h4>Turnover:</h4>  
         <%
             if (request.getAttribute(Turnover.TURNOVER) != null) {
                 out.println("£" + request.getAttribute(Turnover.TURNOVER));
+            }
+        %>
+        <br>
+        <h4>Outgoing Claims:</h4>
+        <%
+            if (request.getAttribute(Turnover.OUTGOING) != null) {
+                out.println("£" + request.getAttribute(Turnover.OUTGOING));
             }
         %>
         <br>

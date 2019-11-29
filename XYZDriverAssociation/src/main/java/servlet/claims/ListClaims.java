@@ -41,7 +41,6 @@ public class ListClaims extends HttpServlet {
         // Get the claims from the DB
         DatabaseFactory dbf = new DatabaseFactory();
         ResultSet claimsResult = dbf.get_from_table("claims", "*");
-
         // Check if table has results
         if (claimsResult == null) {
             request.setAttribute(ERROR_MESSAGE, "No claims have been filed yet");

@@ -26,7 +26,7 @@ public class ListPayments extends HttpServlet {
     public static final String PENDING_USERS_LIST = "pendingUsersList";
     public static final String APPROVED_USER_ID = "approvedUserID";
     public static final String ERROR_MESSAGE = "errorMessage";
-    
+    private static final int MEMBERSHIP_FEE = 50;
     private static final String JSP = "payments/list_all_payments.jsp";
 
     /**
@@ -106,7 +106,7 @@ public class ListPayments extends HttpServlet {
                             userResult.getString("address"),
                             userResult.getDate("dob"),
                             userResult.getDate("dor"),
-                            userResult.getFloat("balance"),
+                            userResult.getFloat("balance") - MEMBERSHIP_FEE,
                             User.STATUS_APPROVED
                     );
                     boolean updateSucessful = dbf.update(user);

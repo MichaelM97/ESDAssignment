@@ -102,26 +102,31 @@ public class SubmitClaim extends HttpServlet {
     private boolean userHasMadeMaxClaims(User user) {
         // Get the claims from the DB
         DatabaseFactory dbf = new DatabaseFactory();
-        ResultSet claimsResult = dbf.get_from_table("claims", user.getId());
-
+        ResultSet claimsResult = dbf.get_from_table("claims", "*");
+        int claimCount = 0;
         if (claimsResult == null) {
             return false;
         } else {
             Calendar date1YearAgo = Calendar.getInstance();
             date1YearAgo.add(Calendar.YEAR, -1);
-            int claimCount = 0;
             try {
                 do {
-                    // Check if claim is from the past year
-                    Date claimDate = claimsResult.getDate("date");
-                    if (claimDate.after(date1YearAgo.getTime())) {
-                        claimCount++;
+                    try {
+                        if (claimsResult.getString("mem_id").equals(user.getId())) {
+                            // Check if claim is from the past year
+                            Date claimDate = claimsResult.getDate("date");
+                            if (claimDate.after(date1YearAgo.getTime())) {
+                                claimCount++;
+                            }
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(SubmitClaim.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } while (claimsResult.next());
             } catch (SQLException ex) {
                 Logger.getLogger(SubmitClaim.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return claimCount >= 2;
         }
+        return claimCount >= 2;
     }
 }

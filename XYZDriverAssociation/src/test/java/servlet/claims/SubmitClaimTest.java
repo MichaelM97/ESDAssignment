@@ -88,7 +88,7 @@ public class SubmitClaimTest extends Mockito {
         verify(request).setAttribute(eq(ClientDashboard.ERROR_MESSAGE), anyString());
         verify(request).getRequestDispatcher(CLIENT_DASH_JSP);
     }
-    
+
     @Test
     public void shouldBlockUserWhenMembershipPending() throws Exception {
         // Given

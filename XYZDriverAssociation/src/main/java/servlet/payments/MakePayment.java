@@ -53,23 +53,27 @@ public class MakePayment extends HttpServlet {
         }
 
         ResultSet userResult = dbf.get_from_table("users", user.getId());
-        try {
-            user = new User(
-                userResult.getString("id"),
-                userResult.getString("password"),
-                userResult.getString("name"),
-                userResult.getString("address"),
-                userResult.getDate("dob"),
-                userResult.getDate("dor"),
-                userResult.getFloat("balance") + amount,
-                userResult.getString("status")
-            );
-            if (!dbf.update(user)) {
-                request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
+        if (userResult != null) {
+            try {
+                user = new User(
+                        userResult.getString("id"),
+                        userResult.getString("password"),
+                        userResult.getString("name"),
+                        userResult.getString("address"),
+                        userResult.getDate("dob"),
+                        userResult.getDate("dor"),
+                        userResult.getFloat("balance") + amount,
+                        userResult.getString("status")
+                );
+                if (!dbf.update(user)) {
+                    request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
+                }
+            } catch (SQLException ex) {
+                request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
+                Logger.getLogger(MakePayment.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
-            Logger.getLogger(MakePayment.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            request.setAttribute(ERROR_MESSAGE, "User not registered");
         }
         SessionHelper.setUser(request, user);
         RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);

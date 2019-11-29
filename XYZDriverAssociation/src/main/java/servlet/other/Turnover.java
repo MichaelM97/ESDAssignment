@@ -21,6 +21,7 @@ public class Turnover extends HttpServlet {
 
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String TURNOVER = "turnover";
+    public static final String OUTGOING = "outgoing";
     public static final String JSP = "other/turnover.jsp";
 
     /**
@@ -63,7 +64,38 @@ public class Turnover extends HttpServlet {
                         Level.SEVERE, null, ex);
             }
         }
+
+        float outgoing = 0;
+        ResultSet claims = dbf.get_from_table("claims", "*");
+        if (claims != null) {
+            try {
+                do {
+                    //Check user is approved
+                    ResultSet user = dbf.get_from_table("users", claims.getString("mem_id"));
+                    if (user != null) {
+                        if (user.getString("status").equals(User.STATUS_APPROVED)) {
+                            LocalDate claimDate = LocalDateTime.ofInstant(
+                                    Instant.ofEpochMilli(claims.getDate("date").getTime()),
+                                    ZoneId.systemDefault()
+                            ).toLocalDate();
+                            // Ensure it's for this year.
+                            if (claimDate.getYear() == LocalDate.now().getYear()) {
+                                outgoing += claims.getFloat("amount");
+                            }
+                        }
+                    }
+                } while (claims.next());
+            } catch (SQLException ex) {
+                request.setAttribute(ERROR_MESSAGE,
+                        "Error retrieving claims.");
+                Logger.getLogger(
+                        Turnover.class.getName()).log(
+                        Level.SEVERE, null, ex);
+            }
+        }
+
         request.setAttribute(TURNOVER, turnover);
+        request.setAttribute(OUTGOING, outgoing);
         RequestDispatcher view = request.getRequestDispatcher(JSP);
         view.forward(request, response);
     }
