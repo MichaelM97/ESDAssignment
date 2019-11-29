@@ -22,7 +22,7 @@ public class Database {
         + "id VARCHAR(50) NOT NULL PRIMARY KEY,\n"
         + "password VARCHAR(50) NOT NULL,\n"
         + "name VARCHAR(50),\n"
-        + "address VARCHAR(50),\n"
+        + "address VARCHAR(100),\n"
         + "dob DATE DEFAULT NULL,\n"
         + "dor DATE DEFAULT NULL,\n"
         + "balance DECIMAL(8,2) NOT NULL,\n"
@@ -169,21 +169,43 @@ public class Database {
      * @return ResultSet - Results returned from the query.
      */
     protected ResultSet select_from(String table, String id) {
-        String sql = "SELECT * FROM " + table + " WHERE id=" + "'" + id + "'";
-
         if (id.equals("*")) {
-            sql = "SELECT * FROM " + table;
-        }
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                return rs;
+            try {
+                String sql = "SELECT * FROM " + table;
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                if (rs.next()) {
+                    return rs;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(
-                    Database.class.getName()).log(
-                    Level.SEVERE, null, ex);
+        } else {
+            // Check if the ID is an int
+            int integerID = -1;
+            try {
+                integerID = Integer.parseInt(id);
+            } catch (NumberFormatException e) {
+                // ignore
+            }
+            // Build the SQL statement
+            try {
+                String sql = "SELECT * FROM " + table + " WHERE id = ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                if (integerID == -1) {
+                    ps.setString(1, id);
+                } else {
+                    ps.setInt(1, integerID);
+                }
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(
+                        Database.class.getName()).log(
+                        Level.SEVERE, null, ex);
+            }
         }
         return null;
     }

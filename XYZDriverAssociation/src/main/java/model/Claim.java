@@ -8,6 +8,9 @@ import java.util.Date;
 * within the DB.
 */
 public class Claim {
+    
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_APPROVED = "APPROVED";
 
     private int id;
     private String mem_id;

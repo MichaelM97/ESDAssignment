@@ -13,12 +13,12 @@
     <body>
         <div id="navbar">
             <ul>
-                <li><a href='Dashboard' type="submit" method='get'>Home</a></li>
+                <li><a href='AdminDashboard' type="submit" method='get'>Home</a></li>
                 <li><a href='ListMembershipApplications' type="submit" method='get' value='List all Membership Applications'>Applications</a></li>
                 <li><a href='ListAllMembers' type="submit" method='get' value='List all Members'>Members</a></li>
                 <li><a class="active" href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
                 <li><a href='ListPayments' type="submit" method='get' value='List all Payments'>Payments</a></li>
-                <li><a href="">Turnover</a></li>
+                <li><a href="Turnover" type="submit" method='get' value='Generate Turnover'>Turnover</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
         </div>
@@ -34,16 +34,20 @@
                     out.println("<br>Status: " + claim.getStatus());
                     out.println("<br>Amount: £" + String.valueOf(claim.getAmount()));
                     out.println("<br>Description: " + claim.getDescription());
+                    if (claim.getStatus().equals(Claim.STATUS_PENDING)) {
+                        out.println("<br><b>This claim has yet to be approved, would you like to approve it?</b>");
+                        out.println("<form action ='ListClaims' method='post'> <input type='hidden' name='" + ListClaims.APPROVED_CLAIM_ID + "' value='" + claim.getId() + "'> <input name='claims' type='submit' value='Approve claim'/> </form>");
+                    }
                 }
             }
         %>
         <br>
         <p class="failure">
-        <%
-            if (request.getAttribute(ListClaims.ERROR_MESSAGE) != null) {
-                out.println(request.getAttribute(ListClaims.ERROR_MESSAGE));
-            }
-        %>
+            <%
+                if (request.getAttribute(ListClaims.ERROR_MESSAGE) != null) {
+                    out.println(request.getAttribute(ListClaims.ERROR_MESSAGE));
+                }
+            %>
         </p>
     </body>
 </html>

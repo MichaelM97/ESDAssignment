@@ -2,6 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <script src="https://cdn.jsdelivr.net/npm/places.js@1.17.1"></script>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="./css/style.css">
@@ -31,11 +32,18 @@
             <h4>Name:</h4>
             <input type="text" name="name" placeholder="Enter your name" required/>
             <br>
-            <h4>Address:</h4>
-            <textarea cols="40" rows="5" name="address" placeholder="Enter your address" required></textarea>
-            <br>
             <h4>Birthday:</h4>
             <input type="date" name="dob" required/>
+            <br>
+            <h4>Your address</h4>
+            <input type="text" name="address" id="address-input" placeholder="Enter your address" maxlength="100" required/>
+            <script>
+                var placesAutocomplete = places({
+                    appId: 'plZ2WUAD6E6X',
+                    apiKey: 'ff2559081223d2f36887f4a981192c27',
+                    container: document.querySelector('#address-input')
+                });
+            </script>
             <br>
             <br>
             <input name='submitRegistrationButton' type='submit' value='Create account'/>
