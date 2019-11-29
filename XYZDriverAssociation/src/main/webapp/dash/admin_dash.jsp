@@ -37,6 +37,9 @@
             <form action ='Turnover' method='get'>
                 <input name='turnover' type='submit' value='Generate Turnover'/>
             </form>
+            <form action ='SuspendResumeMembership' method='get'>
+                <input name='suspend_resume_membership' type='submit' value='Suspend/Resume Membership'/>
+            </form>
             <form action ='Logout' method='get'>
                 <input name='logout' type='submit' value='Logout'/>
             </form>
