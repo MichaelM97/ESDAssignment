@@ -38,7 +38,6 @@ public class ListClaimsTest {
     public void shouldSetErrorWhenNoClaims() throws Exception {
         // Given
         DatabaseFactory dbf = new DatabaseFactory();
-        dbf.reset_db();
         when(request.getRequestDispatcher(JSP)).thenReturn(requestDispatcher);
 
         // When
@@ -54,7 +53,6 @@ public class ListClaimsTest {
         when(request.getRequestDispatcher(JSP)).thenReturn(requestDispatcher);
         List<Claim> claims = getListOfClaims();
         DatabaseFactory dbf = new DatabaseFactory();
-        dbf.reset_db();
         for (Claim claim : claims) {
             dbf.insert(claim);
         }
@@ -75,7 +73,7 @@ public class ListClaimsTest {
 
     private List<Claim> getListOfClaims() {
         List<Claim> claims = new ArrayList<>();
-        claims.add(new Claim(1, "Michael12", new Date(), "My car exploded", "Approved", 250.55f));
+        claims.add(new Claim(1, "Michael12", new Date(), "My car exploded", "APPROVED", 250.55f));
         claims.add(new Claim(5, "Dom99", new Date(), "Crashed my Clio", "PENDING", 12.99f));
         claims.add(new Claim(7, "Jake69", new Date(), "I dont even have a car", "PENDING", 10000f));
         claims.add(new Claim(8, "Alex22", new Date(), "I skrr skrrrd too hard", "PENDING", 199.99f));

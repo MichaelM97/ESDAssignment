@@ -47,6 +47,14 @@
                         }
                     %>
                 </p>
+                <p class="failure">
+                    <%
+                        if (request.getAttribute(ClientDashboard.ERROR_MESSAGE) != null) {
+                            out.println("<br>");
+                            out.println(request.getAttribute(ClientDashboard.ERROR_MESSAGE));
+                        }
+                    %>
+                </p>
             </fieldset>
         </div>
     </body>
