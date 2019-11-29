@@ -69,7 +69,6 @@ public class ListClaims extends HttpServlet {
 
             // Save the list of claims in the request
             request.setAttribute(CLAIMS_LIST, claimList);
-
         }
 
         // Show the JSP
