@@ -65,7 +65,7 @@ public class SuspendResumeMembership extends HttpServlet {
             Logger.getLogger(ListMembershipApplications.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Check if any APPROVED members were found
+        // Check if any appropriate members were found
         if (userList.isEmpty()) {
             request.setAttribute(ERROR_MESSAGE, "There are no members");
         } // Save the list of users in the request
@@ -92,8 +92,7 @@ public class SuspendResumeMembership extends HttpServlet {
         String userID = request.getParameter(USER_ID);
 
         // Update the users status in the DB
-        DatabaseFactory dbf = new DatabaseFactory();
-        ResultSet userResult = dbf.get_from_table("users", "*");
+        ResultSet userResult = new DatabaseFactory().get_from_table("users", "*");
         try {
             do {
                 if (userResult.getString("id").equals(userID)) {
@@ -109,7 +108,7 @@ public class SuspendResumeMembership extends HttpServlet {
                                 User.STATUS_SUSPENDED
                         );
 
-                        boolean updateSucessful = dbf.update(user);
+                        boolean updateSucessful = new DatabaseFactory().update(user);
                         if (!updateSucessful) {
                             request.setAttribute(ERROR_MESSAGE, "There was an issue suspending this user");
                         }
@@ -125,8 +124,7 @@ public class SuspendResumeMembership extends HttpServlet {
                                 userResult.getFloat("balance"),
                                 User.STATUS_APPROVED
                         );
-
-                        boolean updateSucessful = dbf.update(user);
+                        boolean updateSucessful = new DatabaseFactory().update(user);
                         if (!updateSucessful) {
                             request.setAttribute(ERROR_MESSAGE, "There was an issue approving this user");
                         }

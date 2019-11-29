@@ -14,11 +14,12 @@
         <div id="navbar">
             <ul>
                 <li><a href='AdminDashboard' type="submit" method='get'>Home</a></li>
-                <li><a class="active" href='ListMembershipApplications' type="submit" method='get' value='List all Membership Applications'>Applications</a></li>
+                <li><a href='ListMembershipApplications' type="submit" method='get' value='List all Membership Applications'>Applications</a></li>
                 <li><a href='ListAllMembers' type="submit" method='get' value='List all Members'>Members</a></li>
                 <li><a href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
                 <li><a href='ListPayments' type="submit" method='get' value='List all Payments'>Payments</a></li>
                 <li><a href="Turnover" type="submit" method='get' value='Generate Turnover'>Turnover</a></li>
+                <li><a class="active" href="SuspendResumeMembership" type="submit" method='get' value='Suspend/Resume Membership'>Suspend/Resume Membership</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
         </div>
@@ -40,11 +41,9 @@
                     } else if (user.getStatus().equals(User.STATUS_SUSPENDED)) {
                         out.println("<form action ='SuspendResumeMembership' method='post'> <input type='hidden' name='" + SuspendResumeMembership.USER_ID + "' value='" + user.getId() + "'> <input name='resume' type='submit' value='Resume'/> </form>");
                     }
-
                 }
             }
         %>
-
 
         <br>
         <font color="red">

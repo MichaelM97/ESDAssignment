@@ -1,6 +1,12 @@
 package servlet.dash;
 
+import db.DatabaseFactory;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,6 +61,37 @@ public class ClientDashboard extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
+        User user = SessionHelper.getUser(request);
+        String userID = user.getId();
+        String userStatus = user.getStatus();
+        boolean paymentFound = false;
+        ResultSet paymentsResult = new DatabaseFactory().get_from_table("payments", "*");
+
+        if (userStatus.equals(User.STATUS_APPROVED)) {
+            try {
+                do {
+                    if (paymentsResult.getString("mem_id").equals(userID)) {
+                    // This is a payment for the user
+
+                        Calendar date12MonthsAgo = Calendar.getInstance();
+                        date12MonthsAgo.add(Calendar.MONTH, -12);
+                        if (paymentsResult.getDate("date").after(date12MonthsAgo.getTime())) {
+                            paymentFound = true;
+                            break;
+                        }
+                    }
+                } while (paymentsResult.next());
+            } catch (SQLException ex) {
+                Logger.getLogger(ClientDashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if (!paymentFound)
+            {
+                user.setStatus(User.STATUS_SUSPENDED);
+            }
+
+        }
     }
 
     /**
