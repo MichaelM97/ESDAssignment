@@ -2,7 +2,11 @@ package servlet.payments;
 
 import db.DatabaseFactory;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,15 +44,34 @@ public class MakePayment extends HttpServlet {
                 amount,
                 new Date()
         );
-
-        boolean insertSuccessful = new DatabaseFactory().insert(payment);
-
+        DatabaseFactory dbf = new DatabaseFactory();
+        boolean insertSuccessful = dbf.insert(payment);
         if (insertSuccessful) {
             request.setAttribute(CREATED_PAYMENT, payment);
         } else {
             request.setAttribute(ERROR_MESSAGE, "Failed to process payment. Please try again.");
         }
 
+        ResultSet userResult = dbf.get_from_table("users", user.getId());
+        try {
+            user = new User(
+                userResult.getString("id"),
+                userResult.getString("password"),
+                userResult.getString("name"),
+                userResult.getString("address"),
+                userResult.getDate("dob"),
+                userResult.getDate("dor"),
+                userResult.getFloat("balance") + amount,
+                userResult.getString("status")
+            );
+            if (!dbf.update(user)) {
+                request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
+            }
+        } catch (SQLException ex) {
+            request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
+            Logger.getLogger(MakePayment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        SessionHelper.setUser(request, user);
         RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
         dispatcher.forward(request, response);
     }

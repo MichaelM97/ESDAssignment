@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Claim;
+import model.User;
 
 /**
  * Lists all claims that the current user has filed.
@@ -106,11 +107,30 @@ public class ListClaims extends HttpServlet {
             if (!updateSucessful) {
                 request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
             }
+            ResultSet userResult = dbf.get_from_table("users", claim.getMem_id());
+            try {
+                User user = new User(
+                        userResult.getString("id"),
+                        userResult.getString("password"),
+                        userResult.getString("name"),
+                        userResult.getString("address"),
+                        userResult.getDate("dob"),
+                        userResult.getDate("dor"),
+                        userResult.getFloat("balance") + claim.getAmount(),
+                        userResult.getString("status")
+                );
+                if (!dbf.update(user)) {
+                    request.setAttribute(ERROR_MESSAGE, "Funds not allocated to user");
+                }
+            } catch (SQLException ex) {
+                request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
+                Logger.getLogger(ListClaims.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         } catch (SQLException ex) {
             request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
             Logger.getLogger(ListClaims.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         // Re-show the JSP (and re-fetch the updated data)
         doGet(request, response);
     }
