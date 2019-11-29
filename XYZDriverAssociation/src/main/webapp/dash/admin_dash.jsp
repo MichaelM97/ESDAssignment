@@ -17,7 +17,8 @@
                 <li><a href="Turnover" type="submit" method='get' value='Generate Turnover'>Turnover</a></li>
                 <li><a href="SuspendResumeMembership" type="submit" method='get' value='Suspend/Resume Membership'>Suspend/Resume Membership</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
-            </ul>
+             </ul>
         </div>
+        <h1>Admin Dashboard</h1>
     </body>
 </html>
