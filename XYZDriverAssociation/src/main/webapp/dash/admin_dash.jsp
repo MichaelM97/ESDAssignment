@@ -10,7 +10,7 @@
     <body>
         <div id="navbar">
             <ul>
-                <li><a class="active" href='Home' type="submit" method='get'>Home</a></li>
+                <li><a class="active" href='AdminDashboard' type="submit" method='get'>Home</a></li>
                 <li><a href='ListMembershipApplications' type="submit" method='get' value='List all Membership Applications'>Applications</a></li>
                 <li><a href='ListAllMembers' type="submit" method='get' value='List all Members'>Members</a></li>
                 <li><a href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>

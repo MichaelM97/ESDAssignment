@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
@@ -37,12 +38,10 @@ public class ListClaimsTest {
     @Test
     public void shouldSetErrorWhenNoClaims() throws Exception {
         // Given
-        DatabaseFactory dbf = new DatabaseFactory();
-        dbf.reset_db();
         when(request.getRequestDispatcher(JSP)).thenReturn(requestDispatcher);
 
         // When
-        new ListClaims().processRequest(request, response);
+        new ListClaims().doGet(request, response);
 
         // Then
         verify(request).setAttribute("errorMessage", "No claims have been filed yet");
@@ -54,18 +53,38 @@ public class ListClaimsTest {
         when(request.getRequestDispatcher(JSP)).thenReturn(requestDispatcher);
         List<Claim> claims = getListOfClaims();
         DatabaseFactory dbf = new DatabaseFactory();
-        dbf.reset_db();
         for (Claim claim : claims) {
             dbf.insert(claim);
         }
 
         // When
         ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
-        new ListClaims().processRequest(request, response);
+        new ListClaims().doGet(request, response);
 
         // Then
         verify(request).setAttribute(eq("claimsList"), captor.capture());
         assertTrue(new ReflectionEquals(claims).matches(captor.getValue()));
+    }
+
+    @Test
+    public void shouldUpdateCorrectClaim() throws Exception {
+        // Given
+        List<Claim> claims = getListOfClaims();
+        DatabaseFactory dbf = new DatabaseFactory();
+        for (Claim claim : claims) {
+            dbf.insert(claim);
+        }
+        when(request.getParameter("approvedClaimID")).thenReturn("3");
+        when(request.getRequestDispatcher(JSP)).thenReturn(requestDispatcher);
+
+        // When
+        ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
+        new ListClaims().doPost(request, response);
+
+        // Then
+        verify(request, times(1)).setAttribute(eq("claimsList"), captor.capture());
+        List<Claim> captorClaims = captor.getValue();
+        assertTrue(captorClaims.get(2).getStatus().equals(Claim.STATUS_APPROVED));
     }
 
     @After
@@ -75,11 +94,11 @@ public class ListClaimsTest {
 
     private List<Claim> getListOfClaims() {
         List<Claim> claims = new ArrayList<>();
-        claims.add(new Claim(1, "Michael12", new Date(), "My car exploded", "Approved", 250.55f));
-        claims.add(new Claim(5, "Dom99", new Date(), "Crashed my Clio", "PENDING", 12.99f));
-        claims.add(new Claim(7, "Jake69", new Date(), "I dont even have a car", "PENDING", 10000f));
-        claims.add(new Claim(8, "Alex22", new Date(), "I skrr skrrrd too hard", "PENDING", 199.99f));
-        claims.add(new Claim(9, "TinWahCaseyCheung", new Date(), "Crashed air force tin", "PENDING", 100000f));
+        claims.add(new Claim("Michael12", new Date(), "My car exploded", "APPROVED", 250.55f));
+        claims.add(new Claim("Dom99", new Date(), "Crashed my Clio", "PENDING", 12.99f));
+        claims.add(new Claim("Jake69", new Date(), "I dont even have a car", "PENDING", 10000f));
+        claims.add(new Claim("Alex22", new Date(), "I skrr skrrrd too hard", "PENDING", 199.99f));
+        claims.add(new Claim("TinWahCaseyCheung", new Date(), "Crashed air force tin", "PENDING", 100000f));
         return claims;
     }
 }

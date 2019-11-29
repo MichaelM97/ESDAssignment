@@ -21,19 +21,21 @@ import model.Claim;
 public class ListClaims extends HttpServlet {
 
     public static final String CLAIMS_LIST = "claimsList";
+    public static final String APPROVED_CLAIM_ID = "approvedClaimID";
     public static final String ERROR_MESSAGE = "errorMessage";
+
     private static final String JSP = "claims/list_all_claims.jsp";
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Get the claims from the DB
         DatabaseFactory dbf = new DatabaseFactory();
@@ -67,26 +69,11 @@ public class ListClaims extends HttpServlet {
 
             // Save the list of claims in the request
             request.setAttribute(CLAIMS_LIST, claimList);
-
         }
 
         // Show the JSP
         RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
         dispatcher.forward(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
@@ -100,6 +87,31 @@ public class ListClaims extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Get the approved claims ID
+        String claimID = request.getParameter(APPROVED_CLAIM_ID);
+
+        // Update the claims status in the DB
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet claimResult = dbf.get_from_table("claims", claimID);
+        try {
+            Claim claim = new Claim(
+                    claimResult.getInt("id"),
+                    claimResult.getString("mem_id"),
+                    claimResult.getDate("date"),
+                    claimResult.getString("description"),
+                    Claim.STATUS_APPROVED,
+                    claimResult.getFloat("amount")
+            );
+            boolean updateSucessful = dbf.update(claim);
+            if (!updateSucessful) {
+                request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
+            }
+        } catch (SQLException ex) {
+            request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
+            Logger.getLogger(ListClaims.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Re-show the JSP (and re-fetch the updated data)
+        doGet(request, response);
     }
 }

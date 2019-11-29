@@ -26,6 +26,7 @@ public class ListPayments extends HttpServlet {
     public static final String PENDING_USERS_LIST = "pendingUsersList";
     public static final String APPROVED_USER_ID = "approvedUserID";
     public static final String ERROR_MESSAGE = "errorMessage";
+    
     private static final String JSP = "payments/list_all_payments.jsp";
 
     /**
@@ -110,13 +111,13 @@ public class ListPayments extends HttpServlet {
                     );
                     boolean updateSucessful = dbf.update(user);
                     if (!updateSucessful) {
-                        request.setAttribute(ERROR_MESSAGE, "There was an issue approving the users membership");
+                        request.setAttribute(ERROR_MESSAGE, "There was an issue approving the users membership. Please try again.");
                     }
                     break;
                 }
             } while (userResult.next());
         } catch (SQLException ex) {
-            request.setAttribute(ERROR_MESSAGE, "There was an issue approving the users membership");
+            request.setAttribute(ERROR_MESSAGE, "There was an issue approving the users membership. Please try again.");
             Logger.getLogger(ListPayments.class.getName()).log(Level.SEVERE, null, ex);
         }
 

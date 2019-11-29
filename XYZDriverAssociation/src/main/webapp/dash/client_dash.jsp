@@ -12,7 +12,7 @@
     <body>         
         <div id="navbar">
             <ul>
-                <li><a class="active" href='Home' type="submit" method='get'>Home</a></li>
+                <li><a class="active" href='ClientDashboard' type="submit" method='get'>Home</a></li>
                 <li><a href='MakePayment' type="submit" method='get'>Payments</a></li>
                 <li><a href='SubmitClaim' type="submit" method='get'>Claims</a></li>
                 <li><a href="">History</a></li>
@@ -44,6 +44,14 @@
                         if (request.getAttribute(ClientDashboard.INFO_MESSAGE) != null) {
                             out.println("<br>");
                             out.println(request.getAttribute(ClientDashboard.INFO_MESSAGE));
+                        }
+                    %>
+                </p>
+                <p class="failure">
+                    <%
+                        if (request.getAttribute(ClientDashboard.ERROR_MESSAGE) != null) {
+                            out.println("<br>");
+                            out.println(request.getAttribute(ClientDashboard.ERROR_MESSAGE));
                         }
                     %>
                 </p>
