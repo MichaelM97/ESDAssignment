@@ -47,35 +47,28 @@ public class SubmitClaim extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Get the current user from the session
+        // Fetch all required fields for the claim
         User user = SessionHelper.getUser(request);
-        if (user == null) {
-            // TODO: Display an error on the home screen explaining the redirect
-            response.sendRedirect("./home.jsp");
+        String userID = user.getId();
+        Date date = new Date();
+        String enteredDescription = (String) request.getParameter("description");
+        String status = "PENDING";
+        float enteredAmount = Float.parseFloat(request.getParameter("amount"));
+
+        // Build the Claim object            
+        Claim claim = new Claim(userID, date, enteredDescription, status, enteredAmount);
+
+        // Add the claim to the DB
+        DatabaseFactory dbf = new DatabaseFactory();
+        boolean insertSuccessful = dbf.insert(claim);
+
+        if (insertSuccessful) {
+            request.setAttribute(CREATED_CLAIM, claim);
         } else {
-            // Fetch all required fields for the claim
-            String userID = user.getId();
-            Date date = new Date();
-            String enteredDescription = (String) request.getParameter("description");
-            String status = "PENDING";
-            float enteredAmount = Float.parseFloat(request.getParameter("amount"));
-
-            // Build the Claim object            
-            Claim claim = new Claim(userID, date, enteredDescription, status, enteredAmount);
-
-            // Add the claim to the DB
-            DatabaseFactory dbf = new DatabaseFactory();
-            boolean insertSuccessful = dbf.insert(claim);
-
-            if (insertSuccessful) {
-                request.setAttribute(CREATED_CLAIM, claim);
-            } else {
-                request.setAttribute(ERROR_MESSAGE, "Failed to create claim. Please try again.");
-            }
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
-            dispatcher.forward(request, response);
+            request.setAttribute(ERROR_MESSAGE, "Failed to create claim. Please try again.");
         }
-    }
 
+        RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
+        dispatcher.forward(request, response);
+    }
 }

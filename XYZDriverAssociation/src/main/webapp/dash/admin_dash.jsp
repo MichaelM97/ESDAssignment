@@ -1,48 +1,23 @@
-<%@page import="servlet.dash.Dashboard"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
         <title>Admin Dashboard</title>
     </head>
     <body>
-        <h1>Admin Dashboard</h1>
-        <!--
-        The admin can:
-            Handle members claims
-            List all members
-            List outstanding balances
-            List all claims
-            List all provisional member applications
-            Process individual claims
-            Process membership applications and upgrade if payment made.
-            Suspend resume membership
-            Report annual turnover
-        -->
-        <h4>Options:</h4>
-        <div id="user-options">
-            <form action ='ListMembershipApplications' method='get'>
-                <input name='list_pending_members' type='submit' value='List all Membership Applications'/>
-            </form>
-            <form action ='ListAllMembers' method='get'>
-                <input name='membership' type='submit' value='List all Members'/>
-            </form>
-            <form action ='ListClaims' method='get'>
-                <input name='claims' type='submit' value='List all Claims'/>
-            </form>
-            <form action ='ListPayments' method='get'>
-                <input name='payments' type='submit' value='List all Payments'/>
-            </form>
-            <form action ='Turnover' method='get'>
-                <input name='turnover' type='submit' value='Generate Turnover'/>
-            </form>
-            <form action ='SuspendResumeMembership' method='get'>
-                <input name='suspend_resume_membership' type='submit' value='Suspend/Resume Membership'/>
-            </form>
-            <form action ='Logout' method='get'>
-                <input name='logout' type='submit' value='Logout'/>
-            </form>
+        <div id="navbar">
+            <ul>
+                <li><a class="active" href='Home' type="submit" method='get'>Home</a></li>
+                <li><a href='ListMembershipApplications' type="submit" method='get' value='List all Membership Applications'>Applications</a></li>
+                <li><a href='ListAllMembers' type="submit" method='get' value='List all Members'>Members</a></li>
+                <li><a href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
+                <li><a href='ListPayments' type="submit" method='get' value='List all Payments'>Payments</a></li>
+                <li><a href="Turnover" type="submit" method='get' value='Generate Turnover'>Turnover</a></li>
+                <li><a href="SuspendResumeMembership" type="submit" method='get' value='Suspend/Resume Membership'>Suspend/Resume Membership</a></li>
+                <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
+            </ul>
         </div>
     </body>
 </html>

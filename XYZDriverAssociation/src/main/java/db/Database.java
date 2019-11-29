@@ -22,7 +22,7 @@ public class Database {
         + "id VARCHAR(50) NOT NULL PRIMARY KEY,\n"
         + "password VARCHAR(50) NOT NULL,\n"
         + "name VARCHAR(50),\n"
-        + "address VARCHAR(50),\n"
+        + "address VARCHAR(100),\n"
         + "dob DATE DEFAULT NULL,\n"
         + "dor DATE DEFAULT NULL,\n"
         + "balance DECIMAL(8,2) NOT NULL,\n"

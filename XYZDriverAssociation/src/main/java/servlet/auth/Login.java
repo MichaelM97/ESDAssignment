@@ -84,8 +84,13 @@ public class Login extends HttpServlet {
                                             userResult.getString("status")
                                     );
                                     SessionHelper.setUser(request, user);
-                                    // Navigate to dashboard
-                                    response.sendRedirect("Dashboard");
+
+                                    // Navigate to relevant dashboard
+                                    if (user.getStatus().equals(User.ADMIN)) {
+                                        response.sendRedirect("AdminDashboard");
+                                    } else {
+                                        response.sendRedirect("ClientDashboard");
+                                    }
                                     userLoggedIn = true;
                                 } else {
                                     request.setAttribute(ERROR_MESSAGE, "Incorrect password");
