@@ -6,10 +6,6 @@ import javax.jws.WebParam;
 import javax.ejb.Stateless;
 import helper.Password;
 
-/**
- *
- * @author dominiclewis
- */
 @WebService(serviceName = "Generator")
 @Stateless()
 public class Generator {
