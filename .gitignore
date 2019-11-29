@@ -3,6 +3,4 @@
 /XYZDriverAssociation/nbproject/
 /XYZDriverAssociation/target/
 /XYZDriverAssociation/nb-configuration.xml
-/PasswordGenerator/nbproject/private/
-/PasswordGenerator/build/
-/PasswordGenerator/dist/
+/PasswordGeneratorService/target/
