@@ -62,11 +62,12 @@ public class Registration extends HttpServlet {
         try {
             dob = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dob"));
         } catch (ParseException ex) {
+            request.setAttribute(ERROR_MESSAGE, "There was an issue with your date of birth");
             Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (dob == null) {
-            request.setAttribute(ERROR_MESSAGE, "There was an issue with your date of birth");
-        } else {
+
+        // Register user
+        if (dob != null) {
             String hashedPassword = HashHelper.hashString(password);
             if (hashedPassword == null) {
                 request.setAttribute(ERROR_MESSAGE, "There was an issue with your password");
