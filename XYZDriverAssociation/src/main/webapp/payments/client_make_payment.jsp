@@ -23,13 +23,11 @@
             <h4>Todays Date: </h4>
             <%= new java.util.Date()%>
             <br>
-            <!--
             <h4>Reference:</h4>
-            <select name="type" onchange="">
+            <select name="reference">
                 <option value="MEMBERSHIP">Membership Fee</option>
                 <option value="FUNDS">Add Funds</option>
             </select>
-            -->
             <br>
             <h4>Amount (£):</h4>
             <input type="number" min="0.01" step="0.01" max="100000" name="amount" placeholder="Enter the amount you are paying" required/>

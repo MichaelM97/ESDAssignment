@@ -22,7 +22,7 @@
         <h1>Turnover</h1>
         <h4>Turnover:</h4>
         <%
-            if (request.getAttribute(Turnover.TURNOVER) != null && request.getAttribute(Turnover.RECOUPED) != null){
+            if (request.getAttribute(Turnover.TURNOVER) != null && request.getAttribute(Turnover.RECOUPED) != null) {
                 Float turnover = (Float) request.getAttribute(Turnover.TURNOVER);
                 Float recouped = (Float) request.getAttribute(Turnover.RECOUPED);
                 out.println("£" + (turnover + recouped));
@@ -33,7 +33,7 @@
         <br>
         <h4>Outgoing Claims:</h4>
         <%
-            if (request.getAttribute(Turnover.OUTGOING) != null && request.getAttribute(Turnover.RECOUPED) != null){
+            if (request.getAttribute(Turnover.OUTGOING) != null && request.getAttribute(Turnover.RECOUPED) != null) {
                 Float outgoing = (Float) request.getAttribute(Turnover.OUTGOING);
                 Float recouped = (Float) request.getAttribute(Turnover.RECOUPED);
                 out.println("£" + (outgoing - recouped));

@@ -37,10 +37,11 @@ public class MakePayment extends HttpServlet {
             throws ServletException, IOException {
 
         User user = SessionHelper.getUser(request);
+        String reference = request.getParameter("reference");
         float amount = Float.parseFloat(request.getParameter("amount"));
         Payment payment = new Payment(
                 user.getId(),
-                "FEE",
+                reference,
                 amount,
                 new Date()
         );
