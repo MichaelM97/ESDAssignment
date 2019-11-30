@@ -89,10 +89,12 @@ public class ClientDashboard extends HttpServlet {
                 Logger.getLogger(ClientDashboard.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            if (!paymentFound)
-            {
+            if (!paymentFound) {
                 user.setStatus(User.STATUS_SUSPENDED);
-                new DatabaseFactory().update(user);
+                boolean updateSucessful = new DatabaseFactory().update(user);
+                if (!updateSucessful) {
+                    request.setAttribute(ERROR_MESSAGE, "There was an issue updating this users status");
+                }
             }
 
         }
