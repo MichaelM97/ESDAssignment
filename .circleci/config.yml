@@ -37,5 +37,3 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      # Run unit tests
-      - run: mvn '-Dtest=utils.*Test' test
