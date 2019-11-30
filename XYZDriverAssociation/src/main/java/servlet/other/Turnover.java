@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 import model.User;
 import db.DatabaseFactory;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +24,7 @@ public class Turnover extends HttpServlet {
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String TURNOVER = "turnover";
     public static final String OUTGOING = "outgoing";
+    public static final String RECOUPED = "recouped";
     public static final String JSP = "other/turnover.jsp";
 
     /**
@@ -70,7 +73,6 @@ public class Turnover extends HttpServlet {
         if (claims != null) {
             try {
                 do {
-                    //Check user is approved
                     ResultSet user = dbf.get_from_table("users", claims.getString("mem_id"));
                     if (user != null) {
                         if (user.getString("status").equals(User.STATUS_APPROVED)) {
@@ -122,9 +124,90 @@ public class Turnover extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+//    @Override
+//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        processRequest(request, response);
+//    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        float totalClaims = totalAmountOfClaims();
+        float annualFee = totalClaims/totalNumberOfUsers();
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet userResult = dbf.get_from_table("users", "*");
+        if (userResult != null) {
+            try {
+                do {
+                    if (userResult.getString("status").equals(User.STATUS_APPROVED)) {
+                        User user = new User(
+                            userResult.getString("id"),
+                            userResult.getString("password"),
+                            userResult.getString("name"),
+                            userResult.getString("address"),
+                            userResult.getDate("dob"),
+                            userResult.getDate("dor"),
+                            userResult.getFloat("balance") - annualFee,
+                            userResult.getString("status")
+                        );
+                        if (!dbf.update(user)) {
+                        request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table"); 
+                        }
+                    }
+                } while (userResult.next());
+            } catch (SQLException ex) {
+                Logger.getLogger(Turnover.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        request.setAttribute(RECOUPED, totalClaims);
         processRequest(request, response);
+    }
+
+    private float totalAmountOfClaims() {
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet claimsResult = dbf.get_from_table("claims", "*");
+        float claimTotal = 0;
+        if (claimsResult == null) {
+            return claimTotal;
+        } else {
+            Calendar date1YearAgo = Calendar.getInstance();
+            date1YearAgo.add(Calendar.YEAR, -1);
+            try {
+                do {
+                    try {
+                        if (claimsResult.getString("status").equals(User.STATUS_APPROVED)) {
+                            // Check if claim is from the past year
+                            Date claimDate = claimsResult.getDate("date");
+                            if (claimDate.after(date1YearAgo.getTime())) {
+                                claimTotal = claimTotal + claimsResult.getFloat("amount");
+                            }
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Turnover.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } while (claimsResult.next());
+            } catch (SQLException ex) {
+                Logger.getLogger(Turnover.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return claimTotal;
+    }
+
+    private int totalNumberOfUsers() {
+        int userCount = 0;
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet userResult = dbf.get_from_table("users", "*");
+        if (userResult != null) {
+            try {
+                do {
+                    if (userResult.getString("status").equals(User.STATUS_APPROVED)) {
+                        userCount++;
+                    }
+                } while (userResult.next());
+            } catch (SQLException ex) {
+                Logger.getLogger(Turnover.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return userCount;
     }
 }

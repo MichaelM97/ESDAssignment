@@ -19,17 +19,25 @@
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
         </div>
-        <h1>Turnover</h1>    
-        <h4>Turnover:</h4>  
+        <h1>Turnover</h1>
+        <h4>Turnover:</h4>
         <%
-            if (request.getAttribute(Turnover.TURNOVER) != null) {
+            if (request.getAttribute(Turnover.TURNOVER) != null && request.getAttribute(Turnover.RECOUPED) != null){
+                Float turnover = (Float) request.getAttribute(Turnover.TURNOVER);
+                Float recouped = (Float) request.getAttribute(Turnover.RECOUPED);
+                out.println("£" + (turnover + recouped));
+            } else if (request.getAttribute(Turnover.TURNOVER) != null) {
                 out.println("£" + request.getAttribute(Turnover.TURNOVER));
             }
         %>
         <br>
         <h4>Outgoing Claims:</h4>
         <%
-            if (request.getAttribute(Turnover.OUTGOING) != null) {
+            if (request.getAttribute(Turnover.OUTGOING) != null && request.getAttribute(Turnover.RECOUPED) != null){
+                Float outgoing = (Float) request.getAttribute(Turnover.OUTGOING);
+                Float recouped = (Float) request.getAttribute(Turnover.RECOUPED);
+                out.println("£" + (outgoing - recouped));
+            } else if (request.getAttribute(Turnover.OUTGOING) != null) {
                 out.println("£" + request.getAttribute(Turnover.OUTGOING));
             }
         %>
@@ -41,6 +49,9 @@
                 }
             %>
         </p>
+        <form action ='Turnover' method='post'> 
+            <input name='annualCharge' type='submit'  value='Issue Annual Charge'/>
+        </form>
     </body>
 </html>
 

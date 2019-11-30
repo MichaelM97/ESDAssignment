@@ -24,10 +24,10 @@
             <%= new java.util.Date()%>
             <br>
             <!--
-            <h4>Type:</h4>
+            <h4>Reference:</h4>
             <select name="type" onchange="">
-                <option value="membership">Membership</option>
-                <option value="balance">Balance</option>
+                <option value="MEMBERSHIP">Membership Fee</option>
+                <option value="FUNDS">Add Funds</option>
             </select>
             -->
             <br>
