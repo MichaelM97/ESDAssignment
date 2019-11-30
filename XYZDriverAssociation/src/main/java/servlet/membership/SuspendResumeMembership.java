@@ -35,8 +35,6 @@ public class SuspendResumeMembership extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Get the current user from the session
-        User currentUser = SessionHelper.getUser(request);
         // Get all users from the DB
         DatabaseFactory dbf = new DatabaseFactory();
         ResultSet usersResult = dbf.get_from_table("users", "*");
@@ -92,46 +90,31 @@ public class SuspendResumeMembership extends HttpServlet {
         String userID = request.getParameter(USER_ID);
 
         // Update the users status in the DB
-        ResultSet userResult = new DatabaseFactory().get_from_table("users", "*");
+        ResultSet userResult = new DatabaseFactory().get_from_table("users", userID);
         try {
-            do {
-                if (userResult.getString("id").equals(userID)) {
-                    if (userResult.getString("status").equals(User.STATUS_APPROVED)) {
-                        User user = new User(
-                                userResult.getString("id"),
-                                userResult.getString("password"),
-                                userResult.getString("name"),
-                                userResult.getString("address"),
-                                userResult.getDate("dob"),
-                                userResult.getDate("dor"),
-                                userResult.getFloat("balance"),
-                                User.STATUS_SUSPENDED
-                        );
+            String newStatus;
+            if (userResult.getString("status").equals(User.STATUS_APPROVED)) {
+                newStatus = User.STATUS_SUSPENDED;
+            } else {
+                newStatus = User.STATUS_APPROVED;
+            }
 
-                        boolean updateSucessful = new DatabaseFactory().update(user);
-                        if (!updateSucessful) {
-                            request.setAttribute(ERROR_MESSAGE, "There was an issue suspending this user");
-                        }
-                        break;
-                    } else if (userResult.getString("status").equals(User.STATUS_SUSPENDED)) {
-                        User user = new User(
-                                userResult.getString("id"),
-                                userResult.getString("password"),
-                                userResult.getString("name"),
-                                userResult.getString("address"),
-                                userResult.getDate("dob"),
-                                userResult.getDate("dor"),
-                                userResult.getFloat("balance"),
-                                User.STATUS_APPROVED
-                        );
-                        boolean updateSucessful = new DatabaseFactory().update(user);
-                        if (!updateSucessful) {
-                            request.setAttribute(ERROR_MESSAGE, "There was an issue approving this user");
-                        }
-                        break;
-                    }
-                }
-            } while (userResult.next());
+            User user = new User(
+                    userResult.getString("id"),
+                    userResult.getString("password"),
+                    userResult.getString("name"),
+                    userResult.getString("address"),
+                    userResult.getDate("dob"),
+                    userResult.getDate("dor"),
+                    userResult.getFloat("balance"),
+                    newStatus
+            );
+
+            boolean updateSucessful = new DatabaseFactory().update(user);
+            if (!updateSucessful) {
+                request.setAttribute(ERROR_MESSAGE, "There was an issue suspending this user");
+            }
+
         } catch (SQLException ex) {
             request.setAttribute(ERROR_MESSAGE, "There was an issue approving the users membership");
             Logger.getLogger(SuspendResumeMembership.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,16 +122,6 @@ public class SuspendResumeMembership extends HttpServlet {
 
         // Re-show the JSP (and re-fetch the updated data)
         doGet(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Servlet for allowing admins to suspend or approve members";
     }
 
 }
