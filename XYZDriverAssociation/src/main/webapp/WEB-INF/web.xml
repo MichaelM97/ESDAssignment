@@ -23,6 +23,7 @@
         <servlet-name>ListClaims</servlet-name>
         <servlet-name>ListPayments</servlet-name>
         <servlet-name>Turnover</servlet-name>
+        <servlet-name>SuspendResumeMembership</servlet-name>
     </filter-mapping>
     <servlet>
         <servlet-name>Login</servlet-name>
