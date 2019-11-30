@@ -14,6 +14,7 @@
         <servlet-name>SubmitClaim</servlet-name>
         <servlet-name>ChangePassword</servlet-name>
         <servlet-name>MakePayment</servlet-name>
+        <servlet-name>WithdrawFunds</servlet-name>
     </filter-mapping>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
@@ -51,6 +52,10 @@
     <servlet>
         <servlet-name>MakePayment</servlet-name>
         <servlet-class>servlet.payments.MakePayment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WithdrawFunds</servlet-name>
+        <servlet-class>servlet.withdraw.WithdrawFunds</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListAllMembers</servlet-name>
@@ -103,6 +108,10 @@
     <servlet-mapping>
         <servlet-name>MakePayment</servlet-name>
         <url-pattern>/MakePayment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WithdrawFunds</servlet-name>
+        <url-pattern>/WithdrawFunds</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListAllMembers</servlet-name>

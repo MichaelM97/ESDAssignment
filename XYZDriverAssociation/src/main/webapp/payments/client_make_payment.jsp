@@ -1,3 +1,5 @@
+<%@page import="model.User"%>
+<%@page import="utils.SessionHelper"%>
 <%@page import="servlet.payments.MakePayment"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,8 +14,9 @@
             <ul>
                 <li><a href='ClientDashboard' type="submit" method='get'>Home</a></li>
                 <li><a class="active" href='MakePayment' type="submit" method='get'>Payments</a></li>
+                <li><a href='WithdrawFunds' type="submit" method='get'>Withdraw</a></li>
                 <li><a href='SubmitClaim' type="submit" method='get'>Claims</a></li>
-                <li><a href="">History</a></li>
+                <li><a href="">Activity</a></li>
                 <li><a href="ChangePassword" type="submit" method='get'>Account</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
@@ -24,10 +27,13 @@
             <%= new java.util.Date()%>
             <br>
             <h4>Reference:</h4>
-            <select name="reference">
-                <option value="MEMBERSHIP">Membership Fee</option>
-                <option value="FUNDS">Add Funds</option>
-            </select>
+            <%
+                if (SessionHelper.getUser(request).getStatus().equals(User.STATUS_APPROVED)){
+                    out.println("<select name='reference'><option value='FUNDS'>Add Funds</option></select>");
+                }else{
+                    out.println("<select name='reference'><option value='MEMBERSHIP'>Membership Fee</option><option value='FUNDS'>Add Funds</option></select>");
+                }
+            %>
             <br>
             <h4>Amount (£):</h4>
             <input type="number" min="0.01" step="0.01" max="100000" name="amount" placeholder="Enter the amount you are paying" required/>
@@ -43,7 +49,7 @@
                 }
             %>
         </p>
-        <p color="failure">
+        <p class="failure">
             <%
                 if (request.getAttribute(MakePayment.ERROR_MESSAGE) != null) {
                     out.println(request.getAttribute(MakePayment.ERROR_MESSAGE));

@@ -70,7 +70,7 @@ public class MakePayment extends HttpServlet {
                     request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
                 }
             } catch (SQLException ex) {
-                request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
+                request.setAttribute(ERROR_MESSAGE, "There was an issue approving the payment. Please try again.");
                 Logger.getLogger(MakePayment.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
