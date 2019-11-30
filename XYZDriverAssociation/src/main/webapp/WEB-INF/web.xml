@@ -23,6 +23,7 @@
         <servlet-name>ListClaims</servlet-name>
         <servlet-name>ListPayments</servlet-name>
         <servlet-name>Turnover</servlet-name>
+        <servlet-name>SuspendResumeMembership</servlet-name>
     </filter-mapping>
     <servlet>
         <servlet-name>Login</servlet-name>
@@ -71,6 +72,10 @@
     <servlet>
         <servlet-name>Turnover</servlet-name>
         <servlet-class>servlet.other.Turnover</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SuspendResumeMembership</servlet-name>
+        <servlet-class>servlet.membership.SuspendResumeMembership</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdminDashboard</servlet-name>
@@ -123,6 +128,10 @@
     <servlet-mapping>
         <servlet-name>Turnover</servlet-name>
         <url-pattern>/Turnover</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SuspendResumeMembership</servlet-name>
+        <url-pattern>/SuspendResumeMembership</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdminDashboard</servlet-name>

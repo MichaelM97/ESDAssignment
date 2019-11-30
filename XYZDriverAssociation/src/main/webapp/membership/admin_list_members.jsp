@@ -19,6 +19,7 @@
                 <li><a href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
                 <li><a href='ListPayments' type="submit" method='get' value='List all Payments'>Payments</a></li>
                 <li><a href="Turnover" type="submit" method='get' value='Generate Turnover'>Turnover</a></li>
+                <li><a href="SuspendResumeMembership" type="submit" method='get' value='Suspend/Resume Membership'>Suspend/Resume Membership</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
         </div>
