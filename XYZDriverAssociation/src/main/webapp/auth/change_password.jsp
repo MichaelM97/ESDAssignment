@@ -12,6 +12,7 @@
             <ul>
                 <li><a href='ClientDashboard' type="submit" method='get'>Home</a></li>
                 <li><a href='MakePayment' type="submit" method='get'>Payments</a></li>
+                <li><a href='WithdrawFunds' type="submit" method='get'>Withdraw</a></li>
                 <li><a href='SubmitClaim' type="submit" method='get'>Claims</a></li>
                 <li><a href="">History</a></li>
                 <li><a class="active" href="ChangePassword" type="submit" method='get'>Account</a></li>

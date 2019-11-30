@@ -18,6 +18,7 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Claim;
 
 public class Turnover extends HttpServlet {
 
@@ -73,17 +74,13 @@ public class Turnover extends HttpServlet {
         if (claims != null) {
             try {
                 do {
-                    ResultSet user = dbf.get_from_table("users", claims.getString("mem_id"));
-                    if (user != null) {
-                        if (user.getString("status").equals(User.STATUS_APPROVED)) {
-                            LocalDate claimDate = LocalDateTime.ofInstant(
-                                    Instant.ofEpochMilli(claims.getDate("date").getTime()),
-                                    ZoneId.systemDefault()
-                            ).toLocalDate();
-                            // Ensure it's for this year.
-                            if (claimDate.getYear() == LocalDate.now().getYear()) {
-                                outgoing += claims.getFloat("amount");
-                            }
+                    if (claims.getString("status").equals(Claim.STATUS_APPROVED)) {
+                        LocalDate claimDate = LocalDateTime.ofInstant(
+                                Instant.ofEpochMilli(claims.getDate("date").getTime()),
+                                ZoneId.systemDefault()
+                        ).toLocalDate();
+                        if (claimDate.getYear() == LocalDate.now().getYear()) {
+                            outgoing += claims.getFloat("amount");
                         }
                     }
                 } while (claims.next());
@@ -95,7 +92,6 @@ public class Turnover extends HttpServlet {
                         Level.SEVERE, null, ex);
             }
         }
-
         request.setAttribute(TURNOVER, turnover);
         request.setAttribute(OUTGOING, outgoing);
         RequestDispatcher view = request.getRequestDispatcher(JSP);
@@ -124,16 +120,11 @@ public class Turnover extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        processRequest(request, response);
-//    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         float totalClaims = totalAmountOfClaims();
-        float annualFee = totalClaims/totalNumberOfUsers();
+        float annualFee = totalClaims / totalNumberOfUsers();
         DatabaseFactory dbf = new DatabaseFactory();
         ResultSet userResult = dbf.get_from_table("users", "*");
         if (userResult != null) {
@@ -141,17 +132,17 @@ public class Turnover extends HttpServlet {
                 do {
                     if (userResult.getString("status").equals(User.STATUS_APPROVED)) {
                         User user = new User(
-                            userResult.getString("id"),
-                            userResult.getString("password"),
-                            userResult.getString("name"),
-                            userResult.getString("address"),
-                            userResult.getDate("dob"),
-                            userResult.getDate("dor"),
-                            userResult.getFloat("balance") - annualFee,
-                            userResult.getString("status")
+                                userResult.getString("id"),
+                                userResult.getString("password"),
+                                userResult.getString("name"),
+                                userResult.getString("address"),
+                                userResult.getDate("dob"),
+                                userResult.getDate("dor"),
+                                userResult.getFloat("balance") - annualFee,
+                                userResult.getString("status")
                         );
                         if (!dbf.update(user)) {
-                        request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table"); 
+                            request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
                         }
                     }
                 } while (userResult.next());

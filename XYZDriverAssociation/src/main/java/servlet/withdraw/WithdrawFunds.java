@@ -4,7 +4,6 @@ import db.DatabaseFactory;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -12,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Payment;
 import model.User;
 import servlet.dash.ClientDashboard;
 import utils.SessionHelper;
@@ -67,7 +65,7 @@ public class WithdrawFunds extends HttpServlet {
                     if (!dbf.update(user)) {
                         request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
                     } else {
-                        request.setAttribute(MADE_WITHDRAWAL, "true");
+                        request.setAttribute(MADE_WITHDRAWAL, amount);
                     }
                 } catch (SQLException ex) {
                     request.setAttribute(ERROR_MESSAGE, "There was an issue approving the withdrawal. Please try again.");
