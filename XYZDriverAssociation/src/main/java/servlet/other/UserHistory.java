@@ -28,7 +28,7 @@ public class UserHistory extends HttpServlet {
     private static final String JSP = "other/user_history.jsp";
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String PAYMENT_LIST = "paymentList";
-    public static final String CLAIMS_LIST = "paymentList";
+    public static final String CLAIMS_LIST = "claimList";
 
     /**
      * Handles the HTTP <code>GET</code> method.
