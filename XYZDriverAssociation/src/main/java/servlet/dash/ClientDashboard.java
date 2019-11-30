@@ -92,6 +92,7 @@ public class ClientDashboard extends HttpServlet {
             if (!paymentFound)
             {
                 user.setStatus(User.STATUS_SUSPENDED);
+                new DatabaseFactory().update(user);
             }
 
         }
