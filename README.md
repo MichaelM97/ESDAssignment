@@ -1,6 +1,7 @@
 # esd_assignment
-## Git Guide
-[Git Guide](https://rogerdudler.github.io/git-guide/)
+## Running Order
+1. Clean + build then run PasswordGeneratorService.
+2. Clean + build then run XYZDriverAssociation.
 ## Private Rest Service Setup
 Follow these steps in order.
 
@@ -16,3 +17,6 @@ For more about locating and modifying the netbeans.conf configuration file, see 
 3. Run PasswordGeneratorService (To deploy it).
 4. Close the pop up window.
 5. Clean and build XYZDriverAssociation.
+
+## Git Guide
+[Git Guide](https://rogerdudler.github.io/git-guide/)
