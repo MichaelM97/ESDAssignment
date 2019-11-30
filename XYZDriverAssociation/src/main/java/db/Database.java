@@ -26,7 +26,7 @@ public class Database {
         + "dob DATE DEFAULT NULL,\n"
         + "dor DATE DEFAULT NULL,\n"
         + "balance DECIMAL(8,2) NOT NULL,\n"
-        + "status VARCHAR(8) NOT NULL )",
+        + "status VARCHAR(10) NOT NULL )",
         "CREATE TABLE payments(\n"
         + "id INTEGER NOT NULL primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
         + "mem_id VARCHAR(50) NOT NULL,\n"
