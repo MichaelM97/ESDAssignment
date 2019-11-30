@@ -24,8 +24,9 @@ public final class Password {
             return (char) (min + (int) (rand * (max - min + 1)));
         };
 
-        if (length == 0) {
-            return null;
+        if (length <  1) {
+            this.password = null;
+            return this.password;
         }
 
         Random rand = new Random();
