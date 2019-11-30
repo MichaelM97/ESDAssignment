@@ -1,6 +1,7 @@
 package servlet.auth;
 
 import db.DatabaseFactory;
+import gen.Generator_Service;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.WebServiceRef;
 import model.User;
 import utils.HashHelper;
 import utils.SessionHelper;
@@ -21,7 +23,12 @@ import utils.SessionHelper;
  */
 public class Registration extends HttpServlet {
 
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/Generator/Generator.wsdl")
+    private Generator_Service service;
+
     public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String GEN_PASSWORD = "generatedPassword";
+
     private static final String JSP = "auth/registration.jsp";
 
     /**
@@ -35,6 +42,17 @@ public class Registration extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String passwordResponse = null;
+        // Try to generate a password using private password service.
+        try {
+            gen.Generator port = service.getGeneratorPort();
+            passwordResponse = port.generatePassword(12);
+        } catch (Exception ex) {
+            Logger.getLogger(Registration.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+
+        request.setAttribute(GEN_PASSWORD, passwordResponse);
         RequestDispatcher view = request.getRequestDispatcher(JSP);
         view.forward(request, response);
     }

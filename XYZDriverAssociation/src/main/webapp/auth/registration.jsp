@@ -16,7 +16,16 @@
             <input type="text" name="username" placeholder="Choose a username" required/>
             <br>
             <h4>Password:</h4>
-            <input type="password" name="password" placeholder="Choose a password" required/>
+            <%
+                String password = "<input type=\"text\" name=\"password\" ";
+                if (request.getAttribute(Registration.GEN_PASSWORD) != null) {
+                    password += "value =\"";
+                    password += request.getAttribute(Registration.GEN_PASSWORD);
+                    password += "\" ";
+                }
+                password += "required/>";
+                out.println(password);
+            %>
             <br>
             <br>
             <h3>Your details</h3>
