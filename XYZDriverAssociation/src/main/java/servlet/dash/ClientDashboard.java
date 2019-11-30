@@ -93,7 +93,7 @@ public class ClientDashboard extends HttpServlet {
                 user.setStatus(User.STATUS_SUSPENDED);
                 boolean updateSucessful = new DatabaseFactory().update(user);
                 if (!updateSucessful) {
-                    request.setAttribute(ERROR_MESSAGE, "There was an issue updating this users status");
+                    Logger.getLogger(ClientDashboard.class.getName()).log(Level.SEVERE, null, "Error updating this users status");
                 }
             }
 
