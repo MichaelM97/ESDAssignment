@@ -19,10 +19,6 @@ import model.Payment;
 import model.User;
 import utils.SessionHelper;
 
-/**
- *
- * @author jaked
- */
 public class UserHistory extends HttpServlet {
 
     private static final String JSP = "other/user_history.jsp";
@@ -49,7 +45,7 @@ public class UserHistory extends HttpServlet {
             List<Payment> paymentList = new ArrayList<>();
             try {
                 do {
-                    // Build the user object
+                    // Build the payment object
                     Payment payment = new Payment(
                             paymentsResult.getInt("id"),
                             paymentsResult.getString("mem_id"),
