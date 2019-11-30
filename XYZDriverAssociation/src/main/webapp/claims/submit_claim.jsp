@@ -23,7 +23,7 @@
         <h1>Submit a claim</h1>
         <form action='SubmitClaim' method="post">
             <h4>Amount (£):</h4>
-            <input type="number" min="0.01" step="0.01" max="100000" name="amount" placeholder="Enter the amount you are claiming for" required/>
+            <input type="number" min="5" step="0.01" max="100000" name="amount" placeholder="Enter the amount you are claiming for" required/>
             <br>
             <h4>Description</h4>
             <textarea cols="40" rows="5" name="description" placeholder="Please describe what you are claiming for" required></textarea>

@@ -9,7 +9,7 @@
     <body>
         <div id="navbar">
             <ul>
-                <li><a class="active" href='Home' type="submit" method='get'>Home</a></li>
+                <li><a class="active" href='AdminDashboard' type="submit" method='get'>Home</a></li>
                 <li><a href='ListMembershipApplications' type="submit" method='get' value='List all Membership Applications'>Applications</a></li>
                 <li><a href='ListAllMembers' type="submit" method='get' value='List all Members'>Members</a></li>
                 <li><a href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
@@ -17,7 +17,8 @@
                 <li><a href="Turnover" type="submit" method='get' value='Generate Turnover'>Turnover</a></li>
                 <li><a href="SuspendResumeMembership" type="submit" method='get' value='Suspend/Resume Membership'>Suspend/Resume Membership</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
-             </ul>
+
+            </ul>
         </div>
         <h1>Admin Dashboard</h1>
     </body>

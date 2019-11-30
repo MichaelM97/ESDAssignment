@@ -1,3 +1,4 @@
+
 <%@page import="java.util.List"%>
 <%@page import="servlet.claims.ListClaims"%>
 <%@page import="model.Claim"%>
@@ -35,6 +36,10 @@
                     out.println("<br>Status: " + claim.getStatus());
                     out.println("<br>Amount: £" + String.valueOf(claim.getAmount()));
                     out.println("<br>Description: " + claim.getDescription());
+                    if (claim.getStatus().equals(Claim.STATUS_PENDING)) {
+                        out.println("<br><b>This claim has yet to be approved, would you like to approve it?</b>");
+                        out.println("<form action ='ListClaims' method='post'> <input type='hidden' name='" + ListClaims.APPROVED_CLAIM_ID + "' value='" + claim.getId() + "'> <input name='claims' type='submit' value='Approve claim'/> </form>");
+                    }
                 }
             }
         %>

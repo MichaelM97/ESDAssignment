@@ -1,3 +1,5 @@
+
+
 package servlet.dash;
 
 import db.DatabaseFactory;
@@ -22,6 +24,7 @@ public class ClientDashboard extends HttpServlet {
 
     public static final String INFO_MESSAGE = "infoMessage";
     public static final String USER_OBJECT_ATT = "userObject";
+    public static final String ERROR_MESSAGE = "errorMessage";
     private static final String JSP = "dash/client_dash.jsp";
 
     /**
