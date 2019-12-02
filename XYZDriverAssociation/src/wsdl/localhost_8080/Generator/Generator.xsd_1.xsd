@@ -4,6 +4,22 @@
 
 <xs:element name="generate_passwordResponse" type="tns:generate_passwordResponse"/>
 
+<xs:element name="generate_username" type="tns:generate_username"/>
+
+<xs:element name="generate_usernameResponse" type="tns:generate_usernameResponse"/>
+
+<xs:complexType name="generate_username">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="generate_usernameResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="generate_password">
 <xs:sequence>
 <xs:element name="i" type="xs:int"/>

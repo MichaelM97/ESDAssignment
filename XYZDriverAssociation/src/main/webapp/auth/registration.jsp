@@ -12,16 +12,24 @@
         <h1>Registration portal</h1>
         <form action='Registration' method="post">
             <h3>Login details</h3>
-            <h4>Username:</h4>
-            <input type="text" name="username" placeholder="Choose a username" required/>
-            <br>
+            <%
+                if (request.getAttribute(Registration.GEN_PASSWORD) == null) {
+                    //Private service is not being run so behave as standard
+                    out.println("<h4>Username:</h4>");
+                    out.println(
+                            "<input type=\"text\" name=\"username\" placeholder=\"Choose a username\" required/>");
+                    out.println("<br>");
+                }
+            %>
             <h4>Password:</h4>
             <%
-                String password = "<input type=\"text\" name=\"password\" ";
+                String password;
                 if (request.getAttribute(Registration.GEN_PASSWORD) != null) {
-                    password += "value =\"";
+                    password = "<input type=\"text\" name=\"password\" value=\"";
                     password += request.getAttribute(Registration.GEN_PASSWORD);
                     password += "\" ";
+                } else {
+                    password = "<input type=\"password\" name=\"password\" placeholder=\"Choose a password\" ";
                 }
                 password += "required/>";
                 out.println(password);
@@ -29,8 +37,11 @@
             <br>
             <br>
             <h3>Your details</h3>
-            <h4>Name:</h4>
-            <input type="text" name="name" placeholder="Enter your name" required/>
+            <h4>First Name:</h4>
+            <input type="text" name="first_name" placeholder="First Name" required/>
+            <br>
+            <h4>Last Name:</h4>
+            <input type="text" name="last_name" placeholder="Last Name" required/>
             <br>
             <h4>Birthday:</h4>
             <input type="date" name="dob" required/>
