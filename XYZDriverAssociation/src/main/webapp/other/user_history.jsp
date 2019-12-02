@@ -35,7 +35,7 @@
             } else {
         %>
 
-        <table  border="0" align="center" width="50%">
+        <table align="center" width="50%">
             <tr>
                 <th>ID</th>
                 <th>Type</th>

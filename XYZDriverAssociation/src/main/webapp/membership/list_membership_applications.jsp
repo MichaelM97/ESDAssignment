@@ -25,21 +25,40 @@
         <h1>Membership applications</h1>
         <%
             if (request.getAttribute(ListMembershipApplications.MEMBERSHIP_APPLICATION_LIST) != null) {
+        %>
+
+        <table align="center" width="80%">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Date of Birth</th>
+                <th>Date of Registration</th>
+                <th>Balance</th>
+                <th>Status</th>
+            </tr>
+
+            <%
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 List<User> usersList = (List<User>) request.getAttribute(ListMembershipApplications.MEMBERSHIP_APPLICATION_LIST);
                 for (User user : usersList) {
-                    out.println("<br>");
-                    out.println("<h4>Member ID: " + user.getId() + "</h4>");
-                    out.println("Member name: " + user.getName());
-                    out.println("<br>Member address: " + user.getAddress());
-                    out.println("<br>Member birthday: " + formatter.format(user.getDob()));
-                    out.println("<br>Member date of Registration: " + formatter.format(user.getDor()));
-                    out.println("<br>Member balance: £" + String.valueOf(user.getBalance()));
-                    out.println("<br>Membership status " + user.getStatus());
+                    out.println("<tr>");
+                    out.println("<td>" + user.getId() + "</td>");
+                    out.println("<td>" + user.getName() + "</td>");
+                    out.println("<td>" + user.getAddress() + "</td>");
+                    out.println("<td>" + formatter.format(user.getDob()) + "</td>");
+                    out.println("<td>" + formatter.format(user.getDor()) + "</td>");
+                    out.println("<td>" + String.valueOf(user.getBalance()) + "</td>");
+                    out.println("<td>" + user.getStatus() + "</td>");
+                    out.println("</tr>");
                 }
+            %> 
+        </table>
+
+        <%
             }
         %>
-        <br>
+
         <p class="failure">
             <%
                 if (request.getAttribute(ListMembershipApplications.ERROR_MESSAGE) != null) {

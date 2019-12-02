@@ -23,34 +23,56 @@
             </ul>
         </div>
         <h1>Suspend/Resume Membership</h1>
-
         <%
             if (request.getAttribute(SuspendResumeMembership.USER_LIST) != null) {
+        %>
+
+        <table align="center" width="100%">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Date of Birth</th>
+                <th>Date of Registration</th>
+                <th>Balance</th>
+                <th>Status</th>
+                <th>Suspend/Resume</th>
+            </tr>
+
+            <%
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 List<User> usersList = (List<User>) request.getAttribute(SuspendResumeMembership.USER_LIST);
                 for (User user : usersList) {
-                    out.println("<br>");
-                    out.println("<b>Members username/ID: </b>" + user.getId() + "<br>");
-                    out.println("<b>Members name: </b>" + user.getName() + "<br>");
-                    out.println("<b>Members registration date: </b>" + formatter.format(user.getDor()) + "<br>");
-                    out.println("<b>Members current balance: </b>£" + String.valueOf(user.getBalance()) + "<br>");
-                    out.println("<b>Membership status: </b>" + user.getStatus() + "<br>");
+                    out.println("<tr>");
+                    out.println("<td>" + user.getId() + "</td>");
+                    out.println("<td>" + user.getName() + "</td>");
+                    out.println("<td>" + user.getAddress() + "</td>");
+                    out.println("<td>" + formatter.format(user.getDob()) + "</td>");
+                    out.println("<td>" + formatter.format(user.getDor()) + "</td>");
+                    out.println("<td>" + String.valueOf(user.getBalance()) + "</td>");
+                    out.println("<td>" + user.getStatus() + "</td>");
+                    out.println("</tr>");
+
                     if (user.getStatus().equals(User.STATUS_APPROVED)) {
-                        out.println("<form action ='SuspendResumeMembership' method='post'> <input type='hidden' name='" + SuspendResumeMembership.USER_ID + "' value='" + user.getId() + "'> <input name='suspend' type='submit' value='Suspend'/> </form>");
+                        out.println("<td>" + "<form action ='SuspendResumeMembership' method='post'> <input type='hidden' name='" + SuspendResumeMembership.USER_ID + "' value='" + user.getId() + "'> <input name='suspend' type='submit' value='Suspend'/> </form>" + "</td>");
                     } else if (user.getStatus().equals(User.STATUS_SUSPENDED)) {
-                        out.println("<form action ='SuspendResumeMembership' method='post'> <input type='hidden' name='" + SuspendResumeMembership.USER_ID + "' value='" + user.getId() + "'> <input name='resume' type='submit' value='Resume'/> </form>");
+                        out.println("<td>" + "<form action ='SuspendResumeMembership' method='post'> <input type='hidden' name='" + SuspendResumeMembership.USER_ID + "' value='" + user.getId() + "'> <input name='resume' type='submit' value='Resume'/> </form>" + "</td>");
                     }
                 }
+            %> 
+        </table>
+
+        <%
             }
         %>
 
         <br>
-        <font color="red">
-        <%
-            if (request.getAttribute(SuspendResumeMembership.ERROR_MESSAGE) != null) {
-                out.println(request.getAttribute(SuspendResumeMembership.ERROR_MESSAGE));
-            }
-        %>
-        </font>
+        <p class="failure">
+            <%
+                if (request.getAttribute(SuspendResumeMembership.ERROR_MESSAGE) != null) {
+                    out.println(request.getAttribute(SuspendResumeMembership.ERROR_MESSAGE));
+                }
+            %>
+        </p>
     </body>
 </html>
