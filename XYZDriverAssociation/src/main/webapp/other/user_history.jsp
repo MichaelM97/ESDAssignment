@@ -26,52 +26,78 @@
         </div>
 
         <h1>History</h1>
-        <table  border="0" align="left" width="30%">
+        <h2>Payments:</h2>
+        <%
+            if (request.getAttribute(UserHistory.PAYMENT_LIST) == null) {
+                out.println("<p class=\"failure\">");
+                out.println("You are yet to make any payments.");
+                out.println("</p>");
+            } else {
+        %>
+
+        <table  border="0" align="center" width="50%">
             <tr>
-                <td>
-                    <h2>Payments:</h2>
-                    <%
-                        if (request.getAttribute(UserHistory.PAYMENT_LIST) != null) {
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                            List<Payment> paymentsList = (List<Payment>) request.getAttribute(UserHistory.PAYMENT_LIST);
-                            for (Payment payment : paymentsList) {
-                                out.println("<br>");
-                                out.println("<h4>Payment ID: " + payment.getId() + "</h4>");
-                                out.println("<br>Payment type: " + payment.getType());
-                                out.println("<br>Amount: £" + String.valueOf(payment.getAmount()));
-                                out.println("<br>Payment made on: " + formatter.format(payment.getDate()));
-                            }
-                        } else {
-                            out.println("<p class=\"failure\">");
-                            out.println("You are yet to make any payments.");
-                            out.println("</p>");
-                        }
-                    %> 
-                </td>
-                <td>
-                    <h2>Claims:</h2>
-                    <%
-                        if (request.getAttribute(UserHistory.CLAIMS_LIST) != null) {
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                            List<Claim> claimsList = (List<Claim>) request.getAttribute(UserHistory.CLAIMS_LIST);
-                            for (Claim claim : claimsList) {
-                                out.println("<br>");
-                                out.println("<h4>Claim ID: " + claim.getId() + "</h4>");
-                                out.println("Claim created by: " + claim.getMem_id());
-                                out.println("<br>Date created: " + formatter.format(claim.getDate()));
-                                out.println("<br>Status: " + claim.getStatus());
-                                out.println("<br>Amount: £" + String.valueOf(claim.getAmount()));
-                                out.println("<br>Description: " + claim.getDescription());
-                            }
-                        } else {
-                            out.println("<p class=\"failure\">");
-                            out.println("You are yet to make any claims.");
-                            out.println("</p>");
-                        }
-                    %>
-                </td>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Amount (£)</th>
+                <th>Date made</th>
             </tr>
+
+            <%
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                List<Payment> paymentsList = (List<Payment>) request.getAttribute(UserHistory.PAYMENT_LIST);
+                for (Payment payment : paymentsList) {
+                    out.println("<tr>");
+                    out.println("<td>" + payment.getId() + "</td>");
+                    out.println("<td>" + payment.getType() + "</td>");
+                    out.println("<td>" + String.valueOf(payment.getAmount()) + "</td>");
+                    out.println("<td>" + formatter.format(payment.getDate()) + "</td>");
+                    out.println("</tr>");
+                }
+            %> 
         </table>
+
+        <%
+            }
+        %> 
+
+        <h2>Claims:</h2>
+        <%
+            if (request.getAttribute(UserHistory.CLAIMS_LIST) == null) {
+                out.println("<p class=\"failure\">");
+                out.println("You are yet to make any claims.");
+                out.println("</p>");
+            } else {
+        %> 
+
+        <table  border="0" align="center" width="50%">
+            <tr>
+                <th>ID</th>
+                <th>Date made</th>
+                <th>Status</th>
+                <th>Amount (£)</th>
+                <th>Description</th>
+            </tr>
+
+            <%
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                List<Claim> claimsList = (List<Claim>) request.getAttribute(UserHistory.CLAIMS_LIST);
+                for (Claim claim : claimsList) {
+                    out.println("<tr>");
+                    out.println("<td>" + claim.getId() + "</td>");
+                    out.println("<td>" + formatter.format(claim.getDate()) + "</td>");
+                    out.println("<td>" + claim.getStatus() + "</td>");
+                    out.println("<td>" + String.valueOf(claim.getAmount()) + "</td>");
+                    out.println("<td>" + claim.getDescription() + "</td>");
+                    out.println("</tr>");
+                }
+            %> 
+        </table>
+
+        <%
+            }
+        %>
+
         <p class="failure">
             <%
                 if (request.getAttribute(UserHistory.ERROR_MESSAGE) != null) {

@@ -41,6 +41,7 @@ public class SubmitClaimTest extends Mockito {
         // Given
         User user = new User(
                 "Mike123",
+                "pass",
                 "Michael",
                 "50 The Meadows",
                 new Date(),
@@ -65,6 +66,7 @@ public class SubmitClaimTest extends Mockito {
         // Given
         User user = new User(
                 "Mike123",
+                "pass",
                 "Michael",
                 "50 The Meadows",
                 new Date(),
@@ -94,6 +96,7 @@ public class SubmitClaimTest extends Mockito {
         // Given
         User user = new User(
                 "Mike123",
+                "pass",
                 "Michael",
                 "50 The Meadows",
                 new Date(),
@@ -118,6 +121,7 @@ public class SubmitClaimTest extends Mockito {
         // Given
         User user = new User(
                 "Mike123",
+                "pass",
                 "Michael",
                 "50 The Meadows",
                 new Date(),
@@ -141,6 +145,7 @@ public class SubmitClaimTest extends Mockito {
         // Given
         User user = new User(
                 "Mike123",
+                "pass",
                 "Michael",
                 "50 The Meadows",
                 new Date(),

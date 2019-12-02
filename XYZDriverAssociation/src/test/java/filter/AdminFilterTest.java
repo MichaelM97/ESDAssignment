@@ -44,6 +44,7 @@ public class AdminFilterTest {
                 "",
                 "",
                 "",
+                "",
                 new Date(),
                 new Date(),
                 0.0f,
@@ -66,6 +67,7 @@ public class AdminFilterTest {
     public void shouldBlockWhenUserIsPendingClient() throws IOException, ServletException {
         // Given
         User user = new User(
+                "",
                 "",
                 "",
                 "",
@@ -93,6 +95,7 @@ public class AdminFilterTest {
     public void shouldBlockWhenUserIsApprovedClient() throws IOException, ServletException {
         // Given
         User user = new User(
+                "",
                 "",
                 "",
                 "",

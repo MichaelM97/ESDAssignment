@@ -52,6 +52,7 @@ public class ListMembershipApplications extends HttpServlet {
                         // Build the user object
                         User user = new User(
                                 usersResult.getString("id"),
+                                usersResult.getString("password"),
                                 usersResult.getString("name"),
                                 usersResult.getString("address"),
                                 usersResult.getDate("dob"),

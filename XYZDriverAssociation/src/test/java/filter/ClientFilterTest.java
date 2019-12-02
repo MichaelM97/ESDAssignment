@@ -44,6 +44,7 @@ public class ClientFilterTest {
                 "",
                 "",
                 "",
+                "",
                 new Date(),
                 new Date(),
                 0.0f,
@@ -69,6 +70,7 @@ public class ClientFilterTest {
                 "",
                 "",
                 "",
+                "",
                 new Date(),
                 new Date(),
                 0.0f,
@@ -91,6 +93,7 @@ public class ClientFilterTest {
     public void shouldBlockWhenUserIsAdmin() throws IOException, ServletException {
         // Given
         User adminUser = new User(
+                "",
                 "",
                 "",
                 "",

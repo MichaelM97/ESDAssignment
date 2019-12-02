@@ -1,6 +1,4 @@
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="model.User"%>
-<%@page import="utils.SessionHelper"%>
 <%@page import="servlet.payments.MakePayment"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -32,16 +30,13 @@
             %>
             <br>
             <h4>Reference:</h4>
-            <%
-                if (SessionHelper.getUser(request).getStatus().equals(User.STATUS_APPROVED)){
-                    out.println("<select name='reference'><option value='FUNDS'>Add Funds</option></select>");
-                }else{
-                    out.println("<select name='reference'><option value='MEMBERSHIP'>Membership Fee</option><option value='FUNDS'>Add Funds</option></select>");
-                }
-            %>
+            <select name='reference' id="selectRef">
+                <option value='FEE'>Membership fee</option>
+                <option value='OTHER'>Other</option>
+            </select>
             <br>
             <h4>Amount (£):</h4>
-            <input type="number" min="0.01" step="0.01" max="100000" name="amount" placeholder="Enter the amount you are paying" required/>
+            <input type="number" min="0.01" step="0.01" max="100000" name="amount" id='amountRef' placeholder="Enter the amount you are paying" required/>
             <br>
             <br>
             <br>
@@ -50,7 +45,7 @@
         <p class="success">
             <%
                 if (request.getAttribute(MakePayment.CREATED_PAYMENT) != null) {
-                    out.println("Payment successfully made");
+                    out.println("Payment successfully made!<br>");
                 }
             %>
         </p>
@@ -62,4 +57,24 @@
             %>
         </p>
     </body>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>‌
+    <script>
+        $(document).ready(function () {
+            toggleFields();
+            $("#selectRef").change(function () {
+                toggleFields();
+            });
+
+        });
+        function toggleFields() {
+            if ($("#selectRef").val() === "FEE") {
+                document.getElementById("amountRef").value = "10";
+                document.getElementById("amountRef").readOnly = true;
+            } else {
+                document.getElementById("amountRef").value = "";
+                document.getElementById("amountRef").readOnly = false;
+            }
+        }
+    </script>
 </html>
