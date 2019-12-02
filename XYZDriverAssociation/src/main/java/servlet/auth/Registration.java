@@ -74,19 +74,28 @@ public class Registration extends HttpServlet {
         // Get users entry from JSP
         String username;
         String password = request.getParameter("password");
-        String name = request.getParameter("name");
+        String name = request.getParameter(
+                "first_name") + " " + request.getParameter("last_name");
         String address = request.getParameter("address");
-
+        DatabaseFactory dbf = new DatabaseFactory();
         // Try to get username otherwise fallback on previous method
         try {
+            int i = 1;
             gen.Generator port = service.getGeneratorPort();
             username = port.generateUsername(name);
+            while (dbf.get_from_table("users", username) != null) {
+                String temp_name = username + "_" + Integer.toString(i);
+                if (dbf.get_from_table("users", temp_name) == null) {
+                    // Unique user_name
+                    username = temp_name;
+                    break;
+                }
+            }
         } catch (Exception ex) {
             username = request.getParameter("username");
             Logger.getLogger(Registration.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
-
         Date dob = null;
         try {
             dob = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dob"));
@@ -113,7 +122,7 @@ public class Registration extends HttpServlet {
                 );
 
                 // Save the user in the DB
-                if (new DatabaseFactory().insert(user)) {
+                if (dbf.insert(user)) {
                     // Save the user in the current session
                     SessionHelper.setUser(request, user);
 
