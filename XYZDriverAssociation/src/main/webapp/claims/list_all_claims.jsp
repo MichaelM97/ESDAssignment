@@ -49,7 +49,10 @@
                     out.println("<td>" + String.valueOf(claim.getAmount()) + "</td>");
                     out.println("<td>" + claim.getDescription() + "</td>");
                     if (claim.getStatus().equals(Claim.STATUS_PENDING)) {
-                        out.println("<td>" + "<form action ='ListClaims' method='post'> <input type='hidden' name='" + ListClaims.APPROVED_CLAIM_ID + "' value='" + claim.getId() + "'> <input name='claims' type='submit' value='Approve claim'/> </form>" + "</td>");
+                        out.println("<td>" +
+                                "<form action ='ListClaims' method='post'> <input type='hidden' name='claimID' value='" + claim.getId() + "'> <input name='submitStatus' type='submit' value='Approve'/> </form>" +
+                                        "<form action ='ListClaims' method='post'> <input type='hidden' name='claimID' value='" + claim.getId() + "'> <input name='submitStatus' type='submit' value='Reject'/> </form>" +
+                                        "</td>");
                     } else {
                         out.println("<td>" + claim.getStatus() + "</td>");
                     }

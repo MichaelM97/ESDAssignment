@@ -11,6 +11,7 @@ public class Claim {
     
     public static final String STATUS_PENDING = "PENDING";
     public static final String STATUS_APPROVED = "APPROVED";
+    public static final String STATUS_REJECTED = "REJECTED";
 
     private int id;
     private String mem_id;
