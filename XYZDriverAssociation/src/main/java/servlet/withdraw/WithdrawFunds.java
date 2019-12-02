@@ -15,18 +15,22 @@ import model.User;
 import servlet.dash.ClientDashboard;
 import utils.SessionHelper;
 
+/**
+ * Servlet which allows the user to withdraw from their balance.
+ */
 public class WithdrawFunds extends HttpServlet {
 
-    private static final String JSP = "withdraw/client_withdraw_funds.jsp";
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String MADE_WITHDRAWAL = "madeWithdrawal";
+    
+    private static final String JSP = "withdraw/client_withdraw_funds.jsp";
     private static final String CLIENT_DASH_JSP = "dash/client_dash.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String getJSP = JSP;
-        // Check if user is eligible to make a withdrawal.
+        // Check if user is eligible to make a withdrawal
         User currentUser = SessionHelper.getUser(request);
         if (currentUser.getStatus().equals(User.STATUS_PENDING)) {
             getJSP = CLIENT_DASH_JSP;

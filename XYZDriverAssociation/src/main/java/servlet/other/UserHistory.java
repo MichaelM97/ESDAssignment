@@ -2,7 +2,6 @@ package servlet.other;
 
 import db.DatabaseFactory;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Claim;
 import model.Payment;
-import model.User;
 import utils.SessionHelper;
 
 public class UserHistory extends HttpServlet {

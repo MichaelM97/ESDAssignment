@@ -21,9 +21,10 @@ import utils.SessionHelper;
  */
 public class MakePayment extends HttpServlet {
 
-    private static final String JSP = "payments/client_make_payment.jsp";
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String CREATED_PAYMENT = "createdPayment";
+
+    private static final String JSP = "payments/client_make_payment.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +36,7 @@ public class MakePayment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // Get user object and field inputs from the JSP
         User user = SessionHelper.getUser(request);
         String reference = request.getParameter("reference");
         float amount = Float.parseFloat(request.getParameter("amount"));
@@ -45,38 +46,43 @@ public class MakePayment extends HttpServlet {
                 amount,
                 new Date()
         );
-        DatabaseFactory dbf = new DatabaseFactory();
-        boolean insertSuccessful = dbf.insert(payment);
-        if (insertSuccessful) {
-            request.setAttribute(CREATED_PAYMENT, payment);
-        } else {
-            request.setAttribute(ERROR_MESSAGE, "Failed to process payment. Please try again.");
-        }
 
+        // Check if the user has enouch balance to make the payment
+        DatabaseFactory dbf = new DatabaseFactory();
         ResultSet userResult = dbf.get_from_table("users", user.getId());
-        if (userResult != null) {
-            try {
-                user = new User(
+        try {
+            if (userResult.getFloat("balance") < amount) {
+                request.setAttribute(ERROR_MESSAGE, "You do not have enough balance to make this payment, please top up your account first.");
+            } else {
+                // Insert the payment into the DB
+                boolean insertSuccessful = dbf.insert(payment);
+                if (insertSuccessful) {
+                    request.setAttribute(CREATED_PAYMENT, payment);
+                } else {
+                    request.setAttribute(ERROR_MESSAGE, "Failed to process payment. Please try again.");
+                }
+
+                // Subtract the payment amount from the users balance
+                User updatedUser = new User(
                         userResult.getString("id"),
                         userResult.getString("password"),
                         userResult.getString("name"),
                         userResult.getString("address"),
                         userResult.getDate("dob"),
                         userResult.getDate("dor"),
-                        userResult.getFloat("balance") + amount,
+                        userResult.getFloat("balance") - amount,
                         userResult.getString("status")
                 );
-                if (!dbf.update(user)) {
+                if (!dbf.update(updatedUser)) {
                     request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
                 }
-            } catch (SQLException ex) {
-                request.setAttribute(ERROR_MESSAGE, "There was an issue approving the payment. Please try again.");
-                Logger.getLogger(MakePayment.class.getName()).log(Level.SEVERE, null, ex);
+                SessionHelper.setUser(request, updatedUser);
             }
-        } else {
-            request.setAttribute(ERROR_MESSAGE, "User not registered");
+        } catch (SQLException ex) {
+            request.setAttribute(ERROR_MESSAGE, "Failed to make payment.");
+            Logger.getLogger(MakePayment.class.getName()).log(Level.SEVERE, null, ex);
         }
-        SessionHelper.setUser(request, user);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
         dispatcher.forward(request, response);
     }

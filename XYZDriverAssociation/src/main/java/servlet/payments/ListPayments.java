@@ -106,7 +106,7 @@ public class ListPayments extends HttpServlet {
                             userResult.getString("address"),
                             userResult.getDate("dob"),
                             userResult.getDate("dor"),
-                            userResult.getFloat("balance") - MEMBERSHIP_FEE,
+                            userResult.getFloat("balance"),
                             User.STATUS_APPROVED
                     );
                     boolean updateSucessful = dbf.update(user);

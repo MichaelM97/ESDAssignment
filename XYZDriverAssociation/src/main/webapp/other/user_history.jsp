@@ -40,6 +40,10 @@
                                 out.println("<br>Amount: £" + String.valueOf(payment.getAmount()));
                                 out.println("<br>Payment made on: " + formatter.format(payment.getDate()));
                             }
+                        } else {
+                            out.println("<p class=\"failure\">");
+                            out.println("You are yet to make any payments.");
+                            out.println("</p>");
                         }
                     %> 
                 </td>
@@ -58,6 +62,10 @@
                                 out.println("<br>Amount: £" + String.valueOf(claim.getAmount()));
                                 out.println("<br>Description: " + claim.getDescription());
                             }
+                        } else {
+                            out.println("<p class=\"failure\">");
+                            out.println("You are yet to make any claims.");
+                            out.println("</p>");
                         }
                     %>
                 </td>
