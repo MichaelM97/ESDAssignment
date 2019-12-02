@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="model.User"%>
 <%@page import="utils.SessionHelper"%>
 <%@page import="servlet.payments.MakePayment"%>
@@ -16,7 +17,7 @@
                 <li><a class="active" href='MakePayment' type="submit" method='get'>Payments</a></li>
                 <li><a href='WithdrawFunds' type="submit" method='get'>Withdraw</a></li>
                 <li><a href='SubmitClaim' type="submit" method='get'>Claims</a></li>
-                <li><a href="">History</a></li>
+                <li><a href='UserHistory' type="submit" method='get'>History</a></li>
                 <li><a href="ChangePassword" type="submit" method='get'>Account</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
@@ -24,7 +25,10 @@
         <h1>Make A Payment</h1>
         <form action='MakePayment' method="post">
             <h4>Todays Date: </h4>
-            <%= new java.util.Date()%>
+            <%
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                out.println(formatter.format(new java.util.Date()));
+            %>
             <br>
             <h4>Reference:</h4>
             <%

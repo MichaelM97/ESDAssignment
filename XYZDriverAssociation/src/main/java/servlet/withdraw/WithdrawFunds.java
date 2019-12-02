@@ -26,7 +26,7 @@ public class WithdrawFunds extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String getJSP = JSP;
-        // Check if user is eligible to make a claim
+        // Check if user is eligible to make a withdrawal.
         User currentUser = SessionHelper.getUser(request);
         if (currentUser.getStatus().equals(User.STATUS_PENDING)) {
             getJSP = CLIENT_DASH_JSP;
@@ -73,6 +73,7 @@ public class WithdrawFunds extends HttpServlet {
                 }
             } else {
                 request.setAttribute(ERROR_MESSAGE, "User not registered");
+                Logger.getLogger(WithdrawFunds.class.getName()).log(Level.SEVERE, null, "Error retrieving users");
             }
         }
         SessionHelper.setUser(request, user);

@@ -12,6 +12,7 @@
         <filter-name>ClientFilter</filter-name>
         <servlet-name>ClientDashboard</servlet-name>
         <servlet-name>SubmitClaim</servlet-name>
+        <servlet-name>UserHistory</servlet-name>
         <servlet-name>ChangePassword</servlet-name>
         <servlet-name>MakePayment</servlet-name>
         <servlet-name>WithdrawFunds</servlet-name>
@@ -86,6 +87,10 @@
         <servlet-name>AdminDashboard</servlet-name>
         <servlet-class>servlet.dash.AdminDashboard</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserHistory</servlet-name>
+        <servlet-class>servlet.other.UserHistory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -145,6 +150,10 @@
     <servlet-mapping>
         <servlet-name>AdminDashboard</servlet-name>
         <url-pattern>/AdminDashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserHistory</servlet-name>
+        <url-pattern>/UserHistory</url-pattern>
     </servlet-mapping>
     <session-config>
         <!--This is the timeout for each given session in minutes-->

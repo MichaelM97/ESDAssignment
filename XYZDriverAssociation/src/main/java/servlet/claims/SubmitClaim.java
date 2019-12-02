@@ -111,16 +111,12 @@ public class SubmitClaim extends HttpServlet {
             date1YearAgo.add(Calendar.YEAR, -1);
             try {
                 do {
-                    try {
-                        if (claimsResult.getString("mem_id").equals(user.getId())) {
-                            // Check if claim is from the past year
-                            Date claimDate = claimsResult.getDate("date");
-                            if (claimDate.after(date1YearAgo.getTime())) {
-                                claimCount++;
-                            }
+                    if (claimsResult.getString("mem_id").equals(user.getId())) {
+                        // Check if claim is from the past year
+                        Date claimDate = claimsResult.getDate("date");
+                        if (claimDate.after(date1YearAgo.getTime())) {
+                            claimCount++;
                         }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(SubmitClaim.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } while (claimsResult.next());
             } catch (SQLException ex) {

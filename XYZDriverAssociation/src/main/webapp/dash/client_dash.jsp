@@ -16,7 +16,7 @@
                 <li><a href='MakePayment' type="submit" method='get'>Payments</a></li>
                 <li><a href='WithdrawFunds' type="submit" method='get'>Withdraw</a></li>
                 <li><a href='SubmitClaim' type="submit" method='get'>Claims</a></li>
-                <li><a href="">History</a></li>
+                <li><a href='UserHistory' type="submit" method='get'>History</a></li>
                 <li><a href="ChangePassword" type="submit" method='get'>Account</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>

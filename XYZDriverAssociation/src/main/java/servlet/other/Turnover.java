@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Claim;
+import model.Payment;
 
 public class Turnover extends HttpServlet {
 
@@ -27,6 +28,7 @@ public class Turnover extends HttpServlet {
     public static final String OUTGOING = "outgoing";
     public static final String RECOUPED = "recouped";
     public static final String JSP = "other/turnover.jsp";
+    public static float TOTAL_CLAIMS = 0;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -109,6 +111,7 @@ public class Turnover extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        TOTAL_CLAIMS = totalAmountOfClaims();
         processRequest(request, response);
     }
 
@@ -123,8 +126,11 @@ public class Turnover extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        float totalClaims = totalAmountOfClaims();
-        float annualFee = totalClaims / totalNumberOfUsers();
+        float totalUsers = totalNumberOfUsers();
+        float annualFee = 0;
+        if (totalUsers > 0) {
+            annualFee = TOTAL_CLAIMS / totalUsers;
+        }
         DatabaseFactory dbf = new DatabaseFactory();
         ResultSet userResult = dbf.get_from_table("users", "*");
         if (userResult != null) {
@@ -143,6 +149,16 @@ public class Turnover extends HttpServlet {
                         );
                         if (!dbf.update(user)) {
                             request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
+                        } else {
+                            Payment payment = new Payment(
+                                    userResult.getString("id"),
+                                    "ANNUAL FEE",
+                                    annualFee,
+                                    new java.util.Date()
+                            );
+                            if (!dbf.insert(payment)) {
+                                request.setAttribute(ERROR_MESSAGE, "Payment not logged in payment table.");
+                            }
                         }
                     }
                 } while (userResult.next());
@@ -150,7 +166,7 @@ public class Turnover extends HttpServlet {
                 Logger.getLogger(Turnover.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        request.setAttribute(RECOUPED, totalClaims);
+        request.setAttribute(RECOUPED, TOTAL_CLAIMS);
         processRequest(request, response);
     }
 
