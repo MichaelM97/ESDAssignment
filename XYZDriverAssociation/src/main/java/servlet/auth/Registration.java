@@ -72,10 +72,21 @@ public class Registration extends HttpServlet {
         boolean userWasCreated = false;
 
         // Get users entry from JSP
-        String username = request.getParameter("username");
+        String username;
         String password = request.getParameter("password");
         String name = request.getParameter("name");
         String address = request.getParameter("address");
+
+        // Try to get username otherwise fallback on previous method
+        try {
+            gen.Generator port = service.getGeneratorPort();
+            username = port.generateUsername(name);
+        } catch (Exception ex) {
+            username = request.getParameter("username");
+            Logger.getLogger(Registration.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+
         Date dob = null;
         try {
             dob = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dob"));

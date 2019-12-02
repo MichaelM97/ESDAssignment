@@ -12,7 +12,7 @@ public class PasswordTest {
     @Test
     public void test_construct_null_password() {
         System.out.println("test_construct_null_password");
-        for (int len = 0; len >= -10000; len--) {
+        for (int len = 0; len >= -100; len--) {
             String result = new Password(len).getPassword();
             System.out.println(result + " is null?");
             assertNull(result);
@@ -37,7 +37,7 @@ public class PasswordTest {
     @Test
     public void test_construct_password_length() {
         System.out.println("test_construct_password_length");
-        for (int len = 1; len <= 10000; len++) {
+        for (int len = 1; len <= 100; len++) {
             String result = new Password(len).getPassword();
             System.out.println(result);
             System.out.println("Len Expected = " + len);
@@ -53,7 +53,7 @@ public class PasswordTest {
     public void test_construct() {
         System.out.println("test_construct");
         String prev_password = " ";
-        for (int len = 1; len <= 10000; len++) {
+        for (int len = 1; len <= 100; len++) {
             String result = new Password(len).getPassword();
             System.out.println("Prev Password: " + prev_password);
             System.out.println("New Password: " + result);

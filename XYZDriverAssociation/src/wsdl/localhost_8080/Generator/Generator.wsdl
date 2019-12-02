@@ -4,6 +4,12 @@
 <xsd:import namespace="http://gen/" schemaLocation="http://localhost:8080/Generator/Generator?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="generate_username">
+<part name="parameters" element="tns:generate_username"/>
+</message>
+<message name="generate_usernameResponse">
+<part name="parameters" element="tns:generate_usernameResponse"/>
+</message>
 <message name="generate_password">
 <part name="parameters" element="tns:generate_password"/>
 </message>
@@ -11,6 +17,10 @@
 <part name="parameters" element="tns:generate_passwordResponse"/>
 </message>
 <portType name="Generator">
+<operation name="generate_username">
+<input wsam:Action="http://gen/Generator/generate_usernameRequest" message="tns:generate_username"/>
+<output wsam:Action="http://gen/Generator/generate_usernameResponse" message="tns:generate_usernameResponse"/>
+</operation>
 <operation name="generate_password">
 <input wsam:Action="http://gen/Generator/generate_passwordRequest" message="tns:generate_password"/>
 <output wsam:Action="http://gen/Generator/generate_passwordResponse" message="tns:generate_passwordResponse"/>
@@ -18,6 +28,15 @@
 </portType>
 <binding name="GeneratorPortBinding" type="tns:Generator">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="generate_username">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="generate_password">
 <soap:operation soapAction=""/>
 <input>
