@@ -24,44 +24,36 @@
         </div>
 
         <h1>History</h1>
-        <table  border="0" align="left" width="30%">
-            <tr>
-                <td>
-                    <h2>Payments:</h2>
-                    <%
-                        if (request.getAttribute(UserHistory.PAYMENT_LIST) != null) {
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                            List<Payment> paymentsList = (List<Payment>) request.getAttribute(UserHistory.PAYMENT_LIST);
-                            for (Payment payment : paymentsList) {
-                                out.println("<br>");
-                                out.println("<h4>Payment ID: " + payment.getId() + "</h4>");
-                                out.println("<br>Payment type: " + payment.getType());
-                                out.println("<br>Amount: £" + String.valueOf(payment.getAmount()));
-                                out.println("<br>Payment made on: " + formatter.format(payment.getDate()));
-                            }
-                        }
-                    %> 
-                </td>
-                <td>
-                    <h2>Claims:</h2>
-                    <%
-                        if (request.getAttribute(UserHistory.CLAIMS_LIST) != null) {
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                            List<Claim> claimsList = (List<Claim>) request.getAttribute(UserHistory.CLAIMS_LIST);
-                            for (Claim claim : claimsList) {
-                                out.println("<br>");
-                                out.println("<h4>Claim ID: " + claim.getId() + "</h4>");
-                                out.println("Claim created by: " + claim.getMem_id());
-                                out.println("<br>Date created: " + formatter.format(claim.getDate()));
-                                out.println("<br>Status: " + claim.getStatus());
-                                out.println("<br>Amount: £" + String.valueOf(claim.getAmount()));
-                                out.println("<br>Description: " + claim.getDescription());
-                            }
-                        }
-                    %>
-                </td>
-            </tr>
-        </table>
+        <h2>Payments:</h2>
+        <%
+            if (request.getAttribute(UserHistory.PAYMENT_LIST) != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                List<Payment> paymentsList = (List<Payment>) request.getAttribute(UserHistory.PAYMENT_LIST);
+                for (Payment payment : paymentsList) {
+                    out.println("<br>Payment ID: " + payment.getId() + "</br>");
+                    out.println("<br>Payment type: " + payment.getType());
+                    out.println("<br>Amount: £" + String.valueOf(payment.getAmount()));
+                    out.println("<br>Payment made on: " + formatter.format(payment.getDate()));
+                    out.println("<br>");
+                }
+            }
+        %> 
+        <h2>Claims:</h2>
+        <%
+            if (request.getAttribute(UserHistory.CLAIMS_LIST) != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                List<Claim> claimsList = (List<Claim>) request.getAttribute(UserHistory.CLAIMS_LIST);
+                for (Claim claim : claimsList) {
+                    out.println("<br>Claim ID: " + claim.getId() + "</br>");
+                    out.println("Claim created by: " + claim.getMem_id());
+                    out.println("<br>Date created: " + formatter.format(claim.getDate()));
+                    out.println("<br>Status: " + claim.getStatus());
+                    out.println("<br>Amount: £" + String.valueOf(claim.getAmount()));
+                    out.println("<br>Description: " + claim.getDescription());
+                    out.println("<br>");
+                }
+            }
+        %>
         <p class="failure">
             <%
                 if (request.getAttribute(UserHistory.ERROR_MESSAGE) != null) {
