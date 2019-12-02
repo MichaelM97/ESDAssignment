@@ -39,7 +39,7 @@
                     out.println("<br>Payment type: " + payment.getType());
                     out.println("<br>Amount: £" + String.valueOf(payment.getAmount()));
                     out.println("<br>Payment made on: " + formatter.format(payment.getDate()));
-                    if (pendingUserIDs.contains(payment.getMem_id())) {
+                    if (pendingUserIDs.contains(payment.getMem_id()) && payment.getType().equals("FEE")) {
                         out.println("<br><b>This users membership has yet to be approved, would you like to approve it?</b>");
                         out.println("<form action ='ListPayments' method='post'> <input type='hidden' name='" + ListPayments.APPROVED_USER_ID + "' value='" + payment.getMem_id() + "'> <input name='payments' type='submit' value='Approve membership'/> </form>");
                     }
