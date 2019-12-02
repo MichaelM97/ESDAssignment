@@ -50,8 +50,13 @@ p.info {
 input[type=submit] {
     background-color: #555555;
     color: white;
+    min-width: 10em;
     height: 3em;
     border: none;
     font-size: 12px;
     margin: 10px;
+}
+
+table, th, td {
+  border: 1px solid black;
 }

@@ -19,11 +19,11 @@
                 <li><a href='ListAllMembers' type="submit" method='get' value='List all Members'>Members</a></li>
                 <li><a href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
                 <li><a class="active" href='ListPayments' type="submit" method='get' value='List all Payments'>Payments</a></li>
-                <li><a href="Turnover" type="submit" method='get' value='Generate Turnover'>Turnover</a></li>
                 <li><a href="SuspendResumeMembership" type="submit" method='get' value='Suspend/Resume Membership'>Suspend/Resume Membership</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
         </div>
+        <h1>All Payments</h1>
         <%
             if (request.getAttribute(ListPayments.PAYMENT_LIST) != null) {
                 List<String> pendingUserIDs = new ArrayList<String>();

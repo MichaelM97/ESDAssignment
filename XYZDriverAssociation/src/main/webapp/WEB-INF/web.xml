@@ -76,10 +76,6 @@
         <servlet-class>servlet.payments.ListPayments</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Turnover</servlet-name>
-        <servlet-class>servlet.other.Turnover</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SuspendResumeMembership</servlet-name>
         <servlet-class>servlet.membership.SuspendResumeMembership</servlet-class>
     </servlet>
@@ -138,10 +134,6 @@
     <servlet-mapping>
         <servlet-name>ListPayments</servlet-name>
         <url-pattern>/ListPayments</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Turnover</servlet-name>
-        <url-pattern>/Turnover</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SuspendResumeMembership</servlet-name>
