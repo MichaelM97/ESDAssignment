@@ -76,6 +76,7 @@ public class Login extends HttpServlet {
                                     // Save the user in the current session
                                     User user = new User(
                                             username,
+                                            hashedPassword,
                                             userResult.getString("name"),
                                             userResult.getString("address"),
                                             userResult.getDate("dob"),

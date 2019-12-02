@@ -41,24 +41,6 @@ public class User {
         this.status = status;
     }
 
-    public User(
-            String id,
-            String name,
-            String address,
-            Date dob,
-            Date dor,
-            float balance,
-            String status
-    ) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.dob = dob;
-        this.dor = dor;
-        this.balance = balance;
-        this.status = status;
-    }
-
     public String getId() {
         return id;
     }

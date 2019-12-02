@@ -1,11 +1,7 @@
-package servlet.withdraw;
+package servlet.balance;
 
 import db.DatabaseFactory;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,10 +16,10 @@ import utils.SessionHelper;
  */
 public class WithdrawFunds extends HttpServlet {
 
+    public static final String SUCCESS_MESSAGE = "successMessage";
     public static final String ERROR_MESSAGE = "errorMessage";
-    public static final String MADE_WITHDRAWAL = "madeWithdrawal";
-    
-    private static final String JSP = "withdraw/client_withdraw_funds.jsp";
+
+    private static final String JSP = "balance/client_withdraw_funds.jsp";
     private static final String CLIENT_DASH_JSP = "dash/client_dash.jsp";
 
     @Override
@@ -46,41 +42,25 @@ public class WithdrawFunds extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // Get the current user and their entered params
         User user = SessionHelper.getUser(request);
         float amount = Float.parseFloat(request.getParameter("amount"));
+
         if (amount > user.getBalance()) {
             request.setAttribute(ERROR_MESSAGE, "Insufficient funds.");
         } else {
+            // Update the users balance in the DB
             DatabaseFactory dbf = new DatabaseFactory();
-            ResultSet userResult = dbf.get_from_table("users", user.getId());
-            if (userResult != null) {
-                try {
-                    user = new User(
-                            userResult.getString("id"),
-                            userResult.getString("password"),
-                            userResult.getString("name"),
-                            userResult.getString("address"),
-                            userResult.getDate("dob"),
-                            userResult.getDate("dor"),
-                            userResult.getFloat("balance") - amount,
-                            userResult.getString("status")
-                    );
-                    if (!dbf.update(user)) {
-                        request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
-                    } else {
-                        request.setAttribute(MADE_WITHDRAWAL, amount);
-                    }
-                } catch (SQLException ex) {
-                    request.setAttribute(ERROR_MESSAGE, "There was an issue approving the withdrawal. Please try again.");
-                    Logger.getLogger(WithdrawFunds.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            user.setBalance(user.getBalance() - amount);
+            if (!dbf.update(user)) {
+                request.setAttribute(ERROR_MESSAGE, "There was an issue placing your withdrawal.");
             } else {
-                request.setAttribute(ERROR_MESSAGE, "User not registered");
-                Logger.getLogger(WithdrawFunds.class.getName()).log(Level.SEVERE, null, "Error retrieving users");
+                request.setAttribute(SUCCESS_MESSAGE, "£" + amount + " successfully withdrawn.");
+                SessionHelper.setUser(request, user);
             }
         }
-        SessionHelper.setUser(request, user);
+
+        // Re-show the JSP
         RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
         dispatcher.forward(request, response);
     }

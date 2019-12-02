@@ -1,8 +1,6 @@
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="model.User"%>
-<%@page import="utils.SessionHelper"%>
-<%@page import="servlet.withdraw.WithdrawFunds"%>
+<%@page import="servlet.balance.WithdrawFunds"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,6 +14,7 @@
             <ul>
                 <li><a href='ClientDashboard' type="submit" method='get'>Home</a></li>
                 <li><a href='MakePayment' type="submit" method='get'>Payments</a></li>
+                <li><a href='Topup' type="submit" method='get'>Top-up</a></li>
                 <li><a class="active" href='WithdrawFunds' type="submit" method='get'>Withdraw</a></li>
                 <li><a href='SubmitClaim' type="submit" method='get'>Claims</a></li>
                 <li><a href='UserHistory' type="submit" method='get'>History</a></li>
@@ -32,7 +31,7 @@
             %>
             <br>
             <h4>Amount (£):</h4>
-            <input type="number" min="0.01" step="0.01" max="100000" name="amount" placeholder="Enter the amount you want to withdraw" required/>
+            <input type="number" min="5" step="0.01" max="100000" name="amount" placeholder="Enter the amount you want to withdraw" required/>
             <br>
             <br>
             <br>
@@ -41,8 +40,8 @@
         <br>
         <p class="success">
             <%
-                if (request.getAttribute(WithdrawFunds.MADE_WITHDRAWAL) != null) {
-                    out.println("Withdraw successfully made.");
+                if (request.getAttribute(WithdrawFunds.SUCCESS_MESSAGE) != null) {
+                    out.println(request.getAttribute(WithdrawFunds.SUCCESS_MESSAGE));
                 }
             %>
         </p>
