@@ -37,8 +37,11 @@
             <br>
             <br>
             <h3>Your details</h3>
-            <h4>Name:</h4>
-            <input type="text" name="name" placeholder="Enter your name" required/>
+            <h4>First Name:</h4>
+            <input type="text" name="first_name" placeholder="First Name" required/>
+            <br>
+            <h4>Last Name:</h4>
+            <input type="text" name="last_name" placeholder="Last Name" required/>
             <br>
             <h4>Birthday:</h4>
             <input type="date" name="dob" required/>
