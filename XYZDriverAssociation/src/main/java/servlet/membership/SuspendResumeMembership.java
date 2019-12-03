@@ -40,7 +40,8 @@ public class SuspendResumeMembership extends HttpServlet {
         List<User> userList = new ArrayList<>();
         try {
             do {
-                if (usersResult.getString("status").equals(User.STATUS_APPROVED) || usersResult.getString("status").equals(User.STATUS_SUSPENDED)) {
+                String usersStatus = usersResult.getString("status");
+                if (usersStatus.equals(User.STATUS_APPROVED) || usersStatus.equals(User.STATUS_SUSPENDED)) {
 
                     // Build the user object
                     User user = new User(
@@ -51,20 +52,20 @@ public class SuspendResumeMembership extends HttpServlet {
                             usersResult.getDate("dob"),
                             usersResult.getDate("dor"),
                             usersResult.getFloat("balance"),
-                            usersResult.getString("status")
+                            usersStatus
                     );
                     // Add the user to the list
                     userList.add(user);
                 }
             } while (usersResult.next());
         } catch (SQLException ex) {
-            request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the members");
+            request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the members.");
             Logger.getLogger(ListMembershipApplications.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Check if any appropriate members were found
         if (userList.isEmpty()) {
-            request.setAttribute(ERROR_MESSAGE, "There are no members");
+            request.setAttribute(ERROR_MESSAGE, "There are no approved/suspended members.");
         } // Save the list of users in the request
         else {
             request.setAttribute(USER_LIST, userList);

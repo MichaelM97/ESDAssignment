@@ -65,8 +65,7 @@
         <%
             }
         %>
-
-        <br>
+        
         <p class="failure">
             <%
                 if (request.getAttribute(SuspendResumeMembership.ERROR_MESSAGE) != null) {
