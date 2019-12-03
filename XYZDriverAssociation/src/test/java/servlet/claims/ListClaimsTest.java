@@ -68,7 +68,7 @@ public class ListClaimsTest {
     }
 
     @Test
-    public void shouldUpdateCorrectClaim() throws Exception {
+    public void shouldApproveCorrectClaim() throws Exception {
         // Given
         List<Claim> claims = getListOfClaims();
         List<User> users = getListOfUsers();
@@ -80,7 +80,8 @@ public class ListClaimsTest {
         for (User user : users) {
             dbf.insert(user);
         }
-        when(request.getParameter("approvedClaimID")).thenReturn("3");
+        when(request.getParameter("claimID")).thenReturn("3");
+        when(request.getParameter("submitStatus")).thenReturn("Approve");
         when(request.getRequestDispatcher(JSP)).thenReturn(requestDispatcher);
 
         // When
@@ -91,6 +92,33 @@ public class ListClaimsTest {
         verify(request, times(1)).setAttribute(eq("claimsList"), captor.capture());
         List<Claim> captorClaims = captor.getValue();
         assertTrue(captorClaims.get(2).getStatus().equals(Claim.STATUS_APPROVED));
+    }
+
+    @Test
+    public void shouldRejctCorrectClaim() throws Exception {
+        // Given
+        List<Claim> claims = getListOfClaims();
+        List<User> users = getListOfUsers();
+
+        DatabaseFactory dbf = new DatabaseFactory();
+        for (Claim claim : claims) {
+            dbf.insert(claim);
+        }
+        for (User user : users) {
+            dbf.insert(user);
+        }
+        when(request.getParameter("claimID")).thenReturn("5");
+        when(request.getParameter("submitStatus")).thenReturn("Reject");
+        when(request.getRequestDispatcher(JSP)).thenReturn(requestDispatcher);
+
+        // When
+        ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
+        new ListClaims().doPost(request, response);
+
+        // Then
+        verify(request, times(1)).setAttribute(eq("claimsList"), captor.capture());
+        List<Claim> captorClaims = captor.getValue();
+        assertTrue(captorClaims.get(4).getStatus().equals(Claim.STATUS_REJECTED));
     }
 
     @After
