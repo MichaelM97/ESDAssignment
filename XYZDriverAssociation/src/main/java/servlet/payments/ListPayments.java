@@ -26,8 +26,8 @@ public class ListPayments extends HttpServlet {
     public static final String PENDING_USERS_LIST = "pendingUsersList";
     public static final String APPROVED_USER_ID = "approvedUserID";
     public static final String ERROR_MESSAGE = "errorMessage";
-    
     private static final String JSP = "payments/list_all_payments.jsp";
+    public static final float MEMBERSHIP_FEE = 50;
 
     /**
      * Handles the HTTP <code>GET</code> method.

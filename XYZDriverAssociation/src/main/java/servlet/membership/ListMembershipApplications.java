@@ -41,7 +41,7 @@ public class ListMembershipApplications extends HttpServlet {
 
         // Check if table has results
         if (usersResult == null) {
-            request.setAttribute(ERROR_MESSAGE, "No membership applications have been filed yet");
+            request.setAttribute(ERROR_MESSAGE, "No membership applications have been filed yet.");
         } else {
             // Loop through the results and pull out any PENDING users
             List<User> userList = new ArrayList<>();
@@ -52,6 +52,7 @@ public class ListMembershipApplications extends HttpServlet {
                         // Build the user object
                         User user = new User(
                                 usersResult.getString("id"),
+                                usersResult.getString("password"),
                                 usersResult.getString("name"),
                                 usersResult.getString("address"),
                                 usersResult.getDate("dob"),
@@ -64,13 +65,13 @@ public class ListMembershipApplications extends HttpServlet {
                     }
                 } while (usersResult.next());
             } catch (SQLException ex) {
-                request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the members");
+                request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the members.");
                 Logger.getLogger(ListMembershipApplications.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             // Check if any PENDING members were found
             if (userList.isEmpty()) {
-                request.setAttribute(ERROR_MESSAGE, "There are no new pending membership applications");
+                request.setAttribute(ERROR_MESSAGE, "There are no new pending membership applications.");
             } // Save the list of users in the request
             else {
                 request.setAttribute(MEMBERSHIP_APPLICATION_LIST, userList);

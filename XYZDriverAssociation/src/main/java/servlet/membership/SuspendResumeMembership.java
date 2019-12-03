@@ -2,7 +2,6 @@ package servlet.membership;
 
 import db.DatabaseFactory;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.User;
-import utils.SessionHelper;
 
 public class SuspendResumeMembership extends HttpServlet {
 
@@ -36,36 +34,34 @@ public class SuspendResumeMembership extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Get all users from the DB
-        DatabaseFactory dbf = new DatabaseFactory();
-        ResultSet usersResult = dbf.get_from_table("users", "*");
+        ResultSet usersResult = new DatabaseFactory().get_from_table("users", "*");
 
         List<User> userList = new ArrayList<>();
         try {
             do {
-                if (usersResult.getString("status").equals(User.STATUS_APPROVED) || usersResult.getString("status").equals(User.STATUS_SUSPENDED)) {
-
-                    // Build the user object
+                String usersStatus = usersResult.getString("status");
+                if (usersStatus.equals(User.STATUS_APPROVED) || usersStatus.equals(User.STATUS_SUSPENDED)) {
                     User user = new User(
                             usersResult.getString("id"),
+                            usersResult.getString("password"),
                             usersResult.getString("name"),
                             usersResult.getString("address"),
                             usersResult.getDate("dob"),
                             usersResult.getDate("dor"),
                             usersResult.getFloat("balance"),
-                            usersResult.getString("status")
+                            usersStatus
                     );
-                    // Add the user to the list
                     userList.add(user);
                 }
             } while (usersResult.next());
         } catch (SQLException ex) {
-            request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the members");
+            request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the members.");
             Logger.getLogger(ListMembershipApplications.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Check if any appropriate members were found
         if (userList.isEmpty()) {
-            request.setAttribute(ERROR_MESSAGE, "There are no members");
+            request.setAttribute(ERROR_MESSAGE, "There are no approved/suspended members.");
         } // Save the list of users in the request
         else {
             request.setAttribute(USER_LIST, userList);
@@ -90,7 +86,8 @@ public class SuspendResumeMembership extends HttpServlet {
         String userID = request.getParameter(USER_ID);
 
         // Update the users status in the DB
-        ResultSet userResult = new DatabaseFactory().get_from_table("users", userID);
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet userResult = dbf.get_from_table("users", userID);
         try {
             String newStatus;
             if (userResult.getString("status").equals(User.STATUS_APPROVED)) {
@@ -110,7 +107,7 @@ public class SuspendResumeMembership extends HttpServlet {
                     newStatus
             );
 
-            boolean updateSucessful = new DatabaseFactory().update(user);
+            boolean updateSucessful = dbf.update(user);
             if (!updateSucessful) {
                 request.setAttribute(ERROR_MESSAGE, "There was an issue suspending this user");
             }

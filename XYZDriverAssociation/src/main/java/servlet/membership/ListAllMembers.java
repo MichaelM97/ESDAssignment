@@ -41,7 +41,7 @@ public class ListAllMembers extends HttpServlet {
 
         // Check if table has results
         if (usersResult == null) {
-            request.setAttribute(ERROR_MESSAGE, "There are no APPROVED members yet");
+            request.setAttribute(ERROR_MESSAGE, "There are no approved members yet.");
         } else {
             // Loop through the results and pull out any APPROVED users
             List<User> userList = new ArrayList<>();
@@ -52,6 +52,7 @@ public class ListAllMembers extends HttpServlet {
                         // Build the user object
                         User user = new User(
                                 usersResult.getString("id"),
+                                usersResult.getString("password"),
                                 usersResult.getString("name"),
                                 usersResult.getString("address"),
                                 usersResult.getDate("dob"),
@@ -64,13 +65,13 @@ public class ListAllMembers extends HttpServlet {
                     }
                 } while (usersResult.next());
             } catch (SQLException ex) {
-                request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the members");
+                request.setAttribute(ERROR_MESSAGE, "There was an issue retrieving the members.");
                 Logger.getLogger(ListMembershipApplications.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             // Check if any APPROVED members were found
             if (userList.isEmpty()) {
-                request.setAttribute(ERROR_MESSAGE, "There are no APPROVED members");
+                request.setAttribute(ERROR_MESSAGE, "There are no approved members yet.");
             } // Save the list of users in the request
             else {
                 request.setAttribute(USER_LIST, userList);

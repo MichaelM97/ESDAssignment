@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Claim;
+import model.User;
 
 /**
  * Lists all claims that the current user has filed.
@@ -21,7 +22,6 @@ import model.Claim;
 public class ListClaims extends HttpServlet {
 
     public static final String CLAIMS_LIST = "claimsList";
-    public static final String APPROVED_CLAIM_ID = "approvedClaimID";
     public static final String ERROR_MESSAGE = "errorMessage";
 
     private static final String JSP = "claims/list_all_claims.jsp";
@@ -40,7 +40,6 @@ public class ListClaims extends HttpServlet {
         // Get the claims from the DB
         DatabaseFactory dbf = new DatabaseFactory();
         ResultSet claimsResult = dbf.get_from_table("claims", "*");
-
         // Check if table has results
         if (claimsResult == null) {
             request.setAttribute(ERROR_MESSAGE, "No claims have been filed yet");
@@ -87,24 +86,48 @@ public class ListClaims extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Get the approved claims ID
-        String claimID = request.getParameter(APPROVED_CLAIM_ID);
+        // Get the updated claims ID
+        String claimID = request.getParameter("claimID");
 
         // Update the claims status in the DB
         DatabaseFactory dbf = new DatabaseFactory();
         ResultSet claimResult = dbf.get_from_table("claims", claimID);
         try {
+            String newStatus;
+            if (request.getParameter("submitStatus").equals("Approve")) {
+                newStatus = Claim.STATUS_APPROVED;
+            } else {
+                newStatus = Claim.STATUS_REJECTED;
+            }
             Claim claim = new Claim(
                     claimResult.getInt("id"),
                     claimResult.getString("mem_id"),
                     claimResult.getDate("date"),
                     claimResult.getString("description"),
-                    Claim.STATUS_APPROVED,
+                    newStatus,
                     claimResult.getFloat("amount")
             );
             boolean updateSucessful = dbf.update(claim);
             if (!updateSucessful) {
                 request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
+            } else {
+                // Add the claim amount to the users balance (if approved)
+                if (newStatus.equals(Claim.STATUS_APPROVED)) {
+                    ResultSet userResult = dbf.get_from_table("users", claim.getMem_id());
+                    User user = new User(
+                            userResult.getString("id"),
+                            userResult.getString("password"),
+                            userResult.getString("name"),
+                            userResult.getString("address"),
+                            userResult.getDate("dob"),
+                            userResult.getDate("dor"),
+                            userResult.getFloat("balance") + claim.getAmount(),
+                            userResult.getString("status")
+                    );
+                    if (!dbf.update(user)) {
+                        request.setAttribute(ERROR_MESSAGE, "Funds not allocated to user");
+                    }
+                }
             }
         } catch (SQLException ex) {
             request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");

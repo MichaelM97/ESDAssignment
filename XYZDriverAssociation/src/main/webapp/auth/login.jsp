@@ -21,11 +21,11 @@
         </form>
         <br>
         <p class="failure">
-        <%
-            if (request.getAttribute(Login.ERROR_MESSAGE) != null) {
-                out.println(request.getAttribute(Login.ERROR_MESSAGE));
-            }
-        %>
+            <%
+                if (request.getAttribute(Login.ERROR_MESSAGE) != null) {
+                    out.println(request.getAttribute(Login.ERROR_MESSAGE));
+                }
+            %>
         </p>
     </body>
 </html>

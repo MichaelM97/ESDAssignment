@@ -16,6 +16,8 @@
             <ul>
                 <li><a href='ClientDashboard' type="submit" method='get'>Home</a></li>
                 <li><a href='MakePayment' type="submit" method='get'>Payments</a></li>
+                <li><a href='Topup' type="submit" method='get'>Top-up</a></li>
+                <li><a href='WithdrawFunds' type="submit" method='get'>Withdraw</a></li>
                 <li><a href='SubmitClaim' type="submit" method='get'>Claims</a></li>
                 <li><a class="active" href='UserHistory' type="submit" method='get'>History</a></li>
                 <li><a href="ChangePassword" type="submit" method='get'>Account</a></li>
@@ -26,34 +28,76 @@
         <h1>History</h1>
         <h2>Payments:</h2>
         <%
-            if (request.getAttribute(UserHistory.PAYMENT_LIST) != null) {
+            if (request.getAttribute(UserHistory.PAYMENT_LIST) == null) {
+                out.println("<p class=\"failure\">");
+                out.println("You are yet to make any payments.");
+                out.println("</p>");
+            } else {
+        %>
+
+        <table align="center" width="50%">
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Amount (£)</th>
+                <th>Date made</th>
+            </tr>
+
+            <%
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 List<Payment> paymentsList = (List<Payment>) request.getAttribute(UserHistory.PAYMENT_LIST);
                 for (Payment payment : paymentsList) {
-                    out.println("<br>Payment ID: " + payment.getId() + "</br>");
-                    out.println("<br>Payment type: " + payment.getType());
-                    out.println("<br>Amount: £" + String.valueOf(payment.getAmount()));
-                    out.println("<br>Payment made on: " + formatter.format(payment.getDate()));
-                    out.println("<br>");
+                    out.println("<tr>");
+                    out.println("<td>" + payment.getId() + "</td>");
+                    out.println("<td>" + payment.getType() + "</td>");
+                    out.println("<td>" + String.valueOf(payment.getAmount()) + "</td>");
+                    out.println("<td>" + formatter.format(payment.getDate()) + "</td>");
+                    out.println("</tr>");
                 }
+            %> 
+        </table>
+
+        <%
             }
         %> 
+
         <h2>Claims:</h2>
         <%
-            if (request.getAttribute(UserHistory.CLAIMS_LIST) != null) {
+            if (request.getAttribute(UserHistory.CLAIMS_LIST) == null) {
+                out.println("<p class=\"failure\">");
+                out.println("You are yet to make any claims.");
+                out.println("</p>");
+            } else {
+        %> 
+
+        <table  border="0" align="center" width="50%">
+            <tr>
+                <th>ID</th>
+                <th>Date made</th>
+                <th>Status</th>
+                <th>Amount (£)</th>
+                <th>Description</th>
+            </tr>
+
+            <%
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 List<Claim> claimsList = (List<Claim>) request.getAttribute(UserHistory.CLAIMS_LIST);
                 for (Claim claim : claimsList) {
-                    out.println("<br>Claim ID: " + claim.getId() + "</br>");
-                    out.println("Claim created by: " + claim.getMem_id());
-                    out.println("<br>Date created: " + formatter.format(claim.getDate()));
-                    out.println("<br>Status: " + claim.getStatus());
-                    out.println("<br>Amount: £" + String.valueOf(claim.getAmount()));
-                    out.println("<br>Description: " + claim.getDescription());
-                    out.println("<br>");
+                    out.println("<tr>");
+                    out.println("<td>" + claim.getId() + "</td>");
+                    out.println("<td>" + formatter.format(claim.getDate()) + "</td>");
+                    out.println("<td>" + claim.getStatus() + "</td>");
+                    out.println("<td>" + String.valueOf(claim.getAmount()) + "</td>");
+                    out.println("<td>" + claim.getDescription() + "</td>");
+                    out.println("</tr>");
                 }
+            %> 
+        </table>
+
+        <%
             }
         %>
+
         <p class="failure">
             <%
                 if (request.getAttribute(UserHistory.ERROR_MESSAGE) != null) {

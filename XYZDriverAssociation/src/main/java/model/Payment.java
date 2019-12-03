@@ -8,6 +8,8 @@ import java.util.Date;
 * within the DB.
 */
 public class Payment {
+    
+    public static final String ANNUAL_FEE = "Annual membership fee";
 
     private int id;
     private String mem_id;

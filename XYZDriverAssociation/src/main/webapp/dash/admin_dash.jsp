@@ -1,3 +1,4 @@
+<%@page import="servlet.dash.AdminDashboard"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,12 +15,53 @@
                 <li><a href='ListAllMembers' type="submit" method='get' value='List all Members'>Members</a></li>
                 <li><a href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
                 <li><a href='ListPayments' type="submit" method='get' value='List all Payments'>Payments</a></li>
-                <li><a href="Turnover" type="submit" method='get' value='Generate Turnover'>Turnover</a></li>
                 <li><a href="SuspendResumeMembership" type="submit" method='get' value='Suspend/Resume Membership'>Suspend/Resume Membership</a></li>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
 
             </ul>
         </div>
         <h1>Admin Dashboard</h1>
+        <h3>Business metrics (year-to-date) -</h3>
+        <table style="width:30%">
+            <tr>
+                <td>Turnover (payments-to-date)</td>
+                <%
+                    Float turnover = (Float) request.getAttribute(AdminDashboard.TURNOVER);
+                    out.println("<td>£" + turnover + "</td>");
+                %>
+            </tr>
+            <tr>
+                <td>Pay-outs (claims-to-date)</td>
+                <%
+                    Float payouts = (Float) request.getAttribute(AdminDashboard.PAY_OUTS);
+                    out.println("<td>£" + payouts + "</td>");
+                %>
+            </tr>
+            <tr>
+                <td>Profit (turnover - pay-outs)</td>
+                <%
+                    Float profit = (Float) request.getAttribute(AdminDashboard.PROFIT);
+                    out.println("<td>£" + profit + "</td>");
+                %>
+            </tr>
+        </table>
+        <br>
+        <form action ='AdminDashboard' method='post'>
+            <input name='annualCharge' type='submit'  value='Issue annual charge to all members'/>
+        </form>
+        <p class="success">
+            <%
+                if (request.getAttribute(AdminDashboard.SUCCESS_MESSAGE) != null) {
+                    out.println(request.getAttribute(AdminDashboard.SUCCESS_MESSAGE));
+                }
+            %>
+        </p>
+        <p class="failure">
+            <%
+                if (request.getAttribute(AdminDashboard.ERROR_MESSAGE) != null) {
+                    out.println(request.getAttribute(AdminDashboard.ERROR_MESSAGE));
+                }
+            %>
+        </p>
     </body>
 </html>
