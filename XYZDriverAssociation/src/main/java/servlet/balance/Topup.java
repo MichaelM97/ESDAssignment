@@ -51,9 +51,8 @@ public class Topup extends HttpServlet {
         float amount = Float.parseFloat(request.getParameter("amount"));
 
         // Update the users balance in the DB
-        DatabaseFactory dbf = new DatabaseFactory();
         user.setBalance(user.getBalance() + amount);
-        if (!dbf.update(user)) {
+        if (!new DatabaseFactory().update(user)) {
             request.setAttribute(ERROR_MESSAGE, "There was an issue updating your balance.");
         } else {
             request.setAttribute(SUCCESS_MESSAGE, "Balance successfully topped up by £" + amount);

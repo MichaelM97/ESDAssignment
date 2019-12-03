@@ -34,16 +34,13 @@ public class SuspendResumeMembership extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Get all users from the DB
-        DatabaseFactory dbf = new DatabaseFactory();
-        ResultSet usersResult = dbf.get_from_table("users", "*");
+        ResultSet usersResult = new DatabaseFactory().get_from_table("users", "*");
 
         List<User> userList = new ArrayList<>();
         try {
             do {
                 String usersStatus = usersResult.getString("status");
                 if (usersStatus.equals(User.STATUS_APPROVED) || usersStatus.equals(User.STATUS_SUSPENDED)) {
-
-                    // Build the user object
                     User user = new User(
                             usersResult.getString("id"),
                             usersResult.getString("password"),
@@ -54,7 +51,6 @@ public class SuspendResumeMembership extends HttpServlet {
                             usersResult.getFloat("balance"),
                             usersStatus
                     );
-                    // Add the user to the list
                     userList.add(user);
                 }
             } while (usersResult.next());
@@ -90,7 +86,8 @@ public class SuspendResumeMembership extends HttpServlet {
         String userID = request.getParameter(USER_ID);
 
         // Update the users status in the DB
-        ResultSet userResult = new DatabaseFactory().get_from_table("users", userID);
+        DatabaseFactory dbf = new DatabaseFactory();
+        ResultSet userResult = dbf.get_from_table("users", userID);
         try {
             String newStatus;
             if (userResult.getString("status").equals(User.STATUS_APPROVED)) {
@@ -110,7 +107,7 @@ public class SuspendResumeMembership extends HttpServlet {
                     newStatus
             );
 
-            boolean updateSucessful = new DatabaseFactory().update(user);
+            boolean updateSucessful = dbf.update(user);
             if (!updateSucessful) {
                 request.setAttribute(ERROR_MESSAGE, "There was an issue suspending this user");
             }

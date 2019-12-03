@@ -74,7 +74,7 @@ public class MakePayment extends HttpServlet {
                         userResult.getString("status")
                 );
                 if (!dbf.update(updatedUser)) {
-                    request.setAttribute(ERROR_MESSAGE, "User balance not updated in users table");
+                    request.setAttribute(ERROR_MESSAGE, "User balance failed to update.");
                 }
                 SessionHelper.setUser(request, updatedUser);
             }

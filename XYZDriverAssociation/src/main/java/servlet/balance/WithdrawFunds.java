@@ -50,9 +50,8 @@ public class WithdrawFunds extends HttpServlet {
             request.setAttribute(ERROR_MESSAGE, "Insufficient funds.");
         } else {
             // Update the users balance in the DB
-            DatabaseFactory dbf = new DatabaseFactory();
             user.setBalance(user.getBalance() - amount);
-            if (!dbf.update(user)) {
+            if (!new DatabaseFactory().update(user)) {
                 request.setAttribute(ERROR_MESSAGE, "There was an issue placing your withdrawal.");
             } else {
                 request.setAttribute(SUCCESS_MESSAGE, "£" + amount + " successfully withdrawn.");

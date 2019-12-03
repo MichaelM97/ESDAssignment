@@ -110,23 +110,23 @@ public class ListClaims extends HttpServlet {
             boolean updateSucessful = dbf.update(claim);
             if (!updateSucessful) {
                 request.setAttribute(ERROR_MESSAGE, "There was an issue approving the claim. Please try again.");
-            }
-
-            // Add the claim amount to the users balance (if approved)
-            if (newStatus.equals(Claim.STATUS_APPROVED)) {
-                ResultSet userResult = dbf.get_from_table("users", claim.getMem_id());
-                User user = new User(
-                        userResult.getString("id"),
-                        userResult.getString("password"),
-                        userResult.getString("name"),
-                        userResult.getString("address"),
-                        userResult.getDate("dob"),
-                        userResult.getDate("dor"),
-                        userResult.getFloat("balance") + claim.getAmount(),
-                        userResult.getString("status")
-                );
-                if (!dbf.update(user)) {
-                    request.setAttribute(ERROR_MESSAGE, "Funds not allocated to user");
+            } else {
+                // Add the claim amount to the users balance (if approved)
+                if (newStatus.equals(Claim.STATUS_APPROVED)) {
+                    ResultSet userResult = dbf.get_from_table("users", claim.getMem_id());
+                    User user = new User(
+                            userResult.getString("id"),
+                            userResult.getString("password"),
+                            userResult.getString("name"),
+                            userResult.getString("address"),
+                            userResult.getDate("dob"),
+                            userResult.getDate("dor"),
+                            userResult.getFloat("balance") + claim.getAmount(),
+                            userResult.getString("status")
+                    );
+                    if (!dbf.update(user)) {
+                        request.setAttribute(ERROR_MESSAGE, "Funds not allocated to user");
+                    }
                 }
             }
         } catch (SQLException ex) {

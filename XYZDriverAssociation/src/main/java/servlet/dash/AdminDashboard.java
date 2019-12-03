@@ -105,6 +105,11 @@ public class AdminDashboard extends HttpServlet {
         doGet(request, response);
     }
 
+    /**
+     * Loops through all payments made and returns the total amount.
+     * @param dbf Instance of DatabaseFactory
+     * @return turnover
+     */
     private float getTurnover(DatabaseFactory dbf) {
         float turnover = 0;
         ResultSet payments = dbf.get_from_table("payments", "*");
@@ -136,6 +141,12 @@ public class AdminDashboard extends HttpServlet {
         return turnover;
     }
 
+    /**
+     * Loops through all claims made and returns the total amount that
+     * has been paid out.
+     * @param dbf Instance of DatabaseFactory
+     * @return total pay-outs
+     */
     private float getPayouts(DatabaseFactory dbf) {
         float totalOutgoing = 0;
         ResultSet claims = dbf.get_from_table("claims", "*");
@@ -165,6 +176,11 @@ public class AdminDashboard extends HttpServlet {
         return totalOutgoing;
     }
 
+    /**
+     * Returns a list of all of the approved users in the system.
+     * @param dbf Instance of DatabaseFactory
+     * @return list of approved users
+     */
     private List<User> getApprovedUsers(DatabaseFactory dbf) {
         List<User> users = new ArrayList<>();
         ResultSet usersReults = dbf.get_from_table("users", "*");
