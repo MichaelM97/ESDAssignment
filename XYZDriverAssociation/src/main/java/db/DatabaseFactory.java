@@ -117,7 +117,7 @@ public class DatabaseFactory {
      * @param entry (String) - The search string.
      * @return Search results
      */
-    public ResultSet search(String entry) {
+    public ResultSet user_search(String entry) {
         return db.search(entry);
     }
 }

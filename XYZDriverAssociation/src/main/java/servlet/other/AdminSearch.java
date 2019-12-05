@@ -39,7 +39,7 @@ public class AdminSearch extends HttpServlet {
         String searchEntry = request.getParameter("adminSearchField");
         searchEntry = searchEntry.toLowerCase();
 
-        ResultSet searchResults = new DatabaseFactory().search(searchEntry);
+        ResultSet searchResults = new DatabaseFactory().user_search(searchEntry);
 
         if (searchResults == null) {
             request.setAttribute(ERROR_MESSAGE, "There was an issue searching for users.");
