@@ -55,57 +55,48 @@ public class Login extends HttpServlet {
 
         // Query the DB for users
         DatabaseFactory dbf = new DatabaseFactory();
-        ResultSet userResult = dbf.get_from_table("users", "*");
-        boolean userFound = false;
+        ResultSet userResult = dbf.get_from_table("users", username);
         boolean userLoggedIn = false;
 
         // Hash the entered password
         String hashedPassword = HashHelper.hashString(password);
         if (hashedPassword == null) {
-            request.setAttribute(ERROR_MESSAGE, "Error with your password");
+            request.setAttribute(ERROR_MESSAGE, "There is an issue with your password.");
         } else {
-            // Search for the user in the query results
             if (userResult != null) {
                 try {
-                    do {
-                        try {
-                            if (userResult.getString("id").equals(username)) {
-                                userFound = true;
-                                // Check if the password hashes match
-                                if (userResult.getString("password").equals(hashedPassword)) {
-                                    // Save the user in the current session
-                                    User user = new User(
-                                            username,
-                                            hashedPassword,
-                                            userResult.getString("name"),
-                                            userResult.getString("address"),
-                                            userResult.getDate("dob"),
-                                            userResult.getDate("dor"),
-                                            userResult.getFloat("balance"),
-                                            userResult.getString("status")
-                                    );
-                                    SessionHelper.setUser(request, user);
+                    if (userResult.getString("id").equals(username)) {
+                        // Check if the password hashes match
+                        if (userResult.getString("password").equals(hashedPassword)) {
+                            // Save the user in the current session
+                            User user = new User(
+                                    username,
+                                    hashedPassword,
+                                    userResult.getString("name"),
+                                    userResult.getString("address"),
+                                    userResult.getDate("dob"),
+                                    userResult.getDate("dor"),
+                                    userResult.getFloat("balance"),
+                                    userResult.getString("status")
+                            );
+                            SessionHelper.setUser(request, user);
 
-                                    // Navigate to relevant dashboard
-                                    if (user.getStatus().equals(User.ADMIN)) {
-                                        response.sendRedirect("AdminDashboard");
-                                    } else {
-                                        response.sendRedirect("ClientDashboard");
-                                    }
-                                    userLoggedIn = true;
-                                } else {
-                                    request.setAttribute(ERROR_MESSAGE, "Incorrect password");
-                                }
+                            // Navigate to relevant dashboard
+                            if (user.getStatus().equals(User.ADMIN)) {
+                                response.sendRedirect("AdminDashboard");
+                            } else {
+                                response.sendRedirect("ClientDashboard");
                             }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                            userLoggedIn = true;
+                        } else {
+                            request.setAttribute(ERROR_MESSAGE, "Incorrect password.");
                         }
-                    } while (userResult.next());
+                    }
                 } catch (SQLException ex) {
+                    request.setAttribute(ERROR_MESSAGE, "There was an issue logging you in.");
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            if (userResult == null || userFound == false) {
+            } else {
                 request.setAttribute(ERROR_MESSAGE, "No user found with that username");
             }
         }
