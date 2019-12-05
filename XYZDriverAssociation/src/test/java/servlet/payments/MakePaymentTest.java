@@ -42,17 +42,19 @@ public class MakePaymentTest extends Mockito {
                 100.0f,
                 User.STATUS_PENDING
         );
+        new DatabaseFactory().insert(user);
         when(session.getAttribute("user")).thenReturn(user);
         when(request.getSession(false)).thenReturn(session);
+        when(request.getSession()).thenReturn(session);
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
         when(request.getParameter("reference")).thenReturn("FEE");
-        when(request.getParameter("amount")).thenReturn("50.0");
+        when(request.getParameter("amount")).thenReturn("50.00");
 
         // When
         new MakePayment().doPost(request, response);
 
         // Then
-        verify(request).getParameter("description");
+        verify(request).getParameter("reference");
         verify(request).getParameter("amount");
         verify(request).setAttribute(eq("createdPayment"), any(Payment.class));
     }
