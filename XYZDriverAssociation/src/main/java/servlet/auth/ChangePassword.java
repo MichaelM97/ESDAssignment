@@ -47,42 +47,34 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // Get user and the new password
         User user = SessionHelper.getUser(request);
-        String uid = user.getId();
         String password = request.getParameter("password");
         String newPassword = request.getParameter("newPassword");
+
+        // Update the users password in the DB
         DatabaseFactory dbf = new DatabaseFactory();
-        ResultSet userResult = dbf.get_from_table("users", "*");
+        ResultSet userResult = dbf.get_from_table("users", user.getId());
         String hashedPassword = HashHelper.hashString(password);
         if (hashedPassword != null) {
             try {
-                do {
-                    try {
-                        if (userResult.getString("id").equals(uid)) {
-                            if (userResult.getString("password").equals(hashedPassword)) {
-                                hashedPassword = HashHelper.hashString(newPassword);
-                                user.setPassword(hashedPassword);
-                                if (!dbf.update(user)) {
-                                    request.setAttribute(ERROR_MESSAGE, "Password not updated");
-                                }
-                                SessionHelper.setUser(request, user);
-                                request.setAttribute(INFO_MESSAGE, "Password changed");
-                            } else {
-                                request.setAttribute(ERROR_MESSAGE, "Incorrect password");
-                            }
-                        }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
-                        request.setAttribute(ERROR_MESSAGE, "Username error");
+                if (userResult.getString("password").equals(hashedPassword)) {
+                    hashedPassword = HashHelper.hashString(newPassword);
+                    user.setPassword(hashedPassword);
+                    if (!dbf.update(user)) {
+                        request.setAttribute(ERROR_MESSAGE, "There was an error updating your password.");
                     }
-                } while (userResult.next());
+                    SessionHelper.setUser(request, user);
+                    request.setAttribute(INFO_MESSAGE, "Password changed!");
+                } else {
+                    request.setAttribute(ERROR_MESSAGE, "Incorrect password.");
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
-                request.setAttribute(ERROR_MESSAGE, "Password error");
+                request.setAttribute(ERROR_MESSAGE, "There was an error updating your password.");
             }
         } else {
-            request.setAttribute(ERROR_MESSAGE, "Error with your password");
+            request.setAttribute(ERROR_MESSAGE, "There was an error with your password.");
         }
         RequestDispatcher dispatcher = request.getRequestDispatcher(JSP);
         dispatcher.forward(request, response);
