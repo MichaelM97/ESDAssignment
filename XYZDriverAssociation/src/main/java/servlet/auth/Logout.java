@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.SessionHelper;
 
 public class Logout extends HttpServlet {
 
@@ -15,7 +16,11 @@ public class Logout extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Reset the session
+        SessionHelper.setUser(request, null);
         request.getSession(true);
+
+        // Return to the home screen
         request.setAttribute(LOGOUT_MESSAGE, "You were successfully logged out");
         RequestDispatcher view = request.getRequestDispatcher(JSP);
         view.forward(request, response);
