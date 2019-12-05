@@ -19,8 +19,9 @@ public class SuspendResumeMembership extends HttpServlet {
 
     public static final String USER_LIST = "userList";
     public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String USER_ID = "userID";
+
     private static final String JSP = "membership/suspend_resume_membership.jsp";
-    public static final String USER_ID = "UserID";
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -109,11 +110,11 @@ public class SuspendResumeMembership extends HttpServlet {
 
             boolean updateSucessful = dbf.update(user);
             if (!updateSucessful) {
-                request.setAttribute(ERROR_MESSAGE, "There was an issue suspending this user");
+                request.setAttribute(ERROR_MESSAGE, "There was an issue altering the users membership status.");
             }
 
         } catch (SQLException ex) {
-            request.setAttribute(ERROR_MESSAGE, "There was an issue approving the users membership");
+            request.setAttribute(ERROR_MESSAGE, "There was an issue altering the users membership status.");
             Logger.getLogger(SuspendResumeMembership.class.getName()).log(Level.SEVERE, null, ex);
         }
 

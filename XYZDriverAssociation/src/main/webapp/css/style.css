@@ -27,6 +27,24 @@ li a {
     text-decoration: none;
 }
 
+li input[type=text] {
+    display: block;
+    color: white;
+    background-color: #111;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li button {
+    display: inline-block;
+    color: white;
+    background-color: #111;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
 li a:hover:not(.active) {
     background-color: #111;
 }

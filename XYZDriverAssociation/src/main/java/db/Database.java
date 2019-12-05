@@ -450,4 +450,28 @@ public class Database {
         }
         return false;
     }
+
+    /**
+     * Searches for a user 
+     *
+     * @param entry (String) the search string
+     * @return ResultSet - The search results, null if no results or error
+     */
+    protected ResultSet search(String entry) {
+        try {
+            String sql = "SELECT * FROM users WHERE id LIKE ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + entry + "%");
+            
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(
+                    Database.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
