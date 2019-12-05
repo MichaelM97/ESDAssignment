@@ -26,6 +26,7 @@
         <servlet-name>ListClaims</servlet-name>
         <servlet-name>ListPayments</servlet-name>
         <servlet-name>SuspendResumeMembership</servlet-name>
+        <servlet-name>AdminSearch</servlet-name>
     </filter-mapping>
     <servlet>
         <servlet-name>Login</servlet-name>
@@ -91,6 +92,10 @@
         <servlet-name>Topup</servlet-name>
         <servlet-class>servlet.balance.Topup</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminSearch</servlet-name>
+        <servlet-class>servlet.other.AdminSearch</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -154,6 +159,10 @@
     <servlet-mapping>
         <servlet-name>Topup</servlet-name>
         <url-pattern>/Topup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminSearch</servlet-name>
+        <url-pattern>/AdminSearch</url-pattern>
     </servlet-mapping>
     <session-config>
         <!--This is the timeout for each given session in minutes-->

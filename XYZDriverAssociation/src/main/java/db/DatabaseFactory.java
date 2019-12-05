@@ -110,4 +110,14 @@ public class DatabaseFactory {
         }
         return false;
     }
+
+    /**
+     * Interface for carrying out a search.
+     *
+     * @param entry (String) - The search string.
+     * @return Search results
+     */
+    public ResultSet search(String entry) {
+        return db.search(entry);
+    }
 }

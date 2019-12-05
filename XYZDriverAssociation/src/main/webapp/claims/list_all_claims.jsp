@@ -9,6 +9,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="./css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>All claims</title>
     </head>
     <body>
@@ -20,6 +21,10 @@
                 <li><a class="active" href='ListClaims' type="submit" method='get' value='List all Claims'>Claims</a></li>
                 <li><a href='ListPayments' type="submit" method='get' value='List all Payments'>Payments</a></li>
                 <li><a href="SuspendResumeMembership" type="submit" method='get' value='Suspend/Resume Membership'>Suspend/Resume Membership</a></li>
+                <form action="AdminSearch">
+                    <li><input type="text" placeholder="Search users..." name="adminSearchField" required></li>
+                    <li><button type="submit"><i class="fa fa-search"></i></button></li>
+                </form>
                 <li style="float:right"><a href="Logout" type="submit" method='get'>Logout</a></li>
             </ul>
         </div>
@@ -49,10 +54,10 @@
                     out.println("<td>" + String.valueOf(claim.getAmount()) + "</td>");
                     out.println("<td>" + claim.getDescription() + "</td>");
                     if (claim.getStatus().equals(Claim.STATUS_PENDING)) {
-                        out.println("<td>" +
-                                "<form action ='ListClaims' method='post'> <input type='hidden' name='claimID' value='" + claim.getId() + "'> <input name='submitStatus' type='submit' value='Approve'/> </form>" +
-                                        "<form action ='ListClaims' method='post'> <input type='hidden' name='claimID' value='" + claim.getId() + "'> <input name='submitStatus' type='submit' value='Reject'/> </form>" +
-                                        "</td>");
+                        out.println("<td>"
+                                + "<form action ='ListClaims' method='post'> <input type='hidden' name='claimID' value='" + claim.getId() + "'> <input name='submitStatus' type='submit' value='Approve'/> </form>"
+                                + "<form action ='ListClaims' method='post'> <input type='hidden' name='claimID' value='" + claim.getId() + "'> <input name='submitStatus' type='submit' value='Reject'/> </form>"
+                                + "</td>");
                     } else {
                         out.println("<td>" + claim.getStatus() + "</td>");
                     }
